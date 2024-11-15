@@ -37,6 +37,8 @@ Route::delete("fast-shipping-city/delete-selected", "FastShippingCityController@
 Route::get("fast-shipping-city/restore-selected", "FastShippingCityController@restoreSelected");
 Route::get("fast-shipping-city/restore/{fastCity}", "FastShippingCityController@restore");
 Route::delete("packageCategories/delete-selected", "PackageCategoryController@deleteSelected");
+Route::delete("packages/delete-selected", "PackagesController@deleteSelected");
+Route::delete("car_prices/delete-selected", "CarPriceController@deleteSelected");
 
 /** begin resources routes **/
 Route::resource('order-reasons', 'OrderReasonController')->except(['create', 'edit']);
@@ -47,6 +49,7 @@ Route::resource('brands', 'BrandController')->except(['create', 'edit']);
 Route::resource('blogs', 'blogsController')->except(['create', 'edit']);
 Route::resource('packageCategories', 'PackageCategoryController')->except(['create', 'edit']);
 Route::resource('packages', 'PackagesController')->except(['create', 'edit']);
+Route::resource('car_prices', 'CarPriceController')->except(['create', 'edit']);
 
 Route::resource('cities', 'CityController')->except(['create', 'edit']);
 Route::resource('categories', 'CategoryController')->except(['create', 'edit']);
@@ -82,6 +85,7 @@ Route::get("products/{product}/images", "ProductController@images");
 Route::resource('products', 'ProductController')->except(['store', 'update']);
 
 Route::resource('cars', 'CarsController')->except(['store', 'update']);
+
 Route::post("cars/{step?}", "CarsController@store")->name('cars.store');
 Route::put("cars/{car}/{step?}", "CarsController@update")->name('cars.update');
 
@@ -111,6 +115,10 @@ Route::prefix('settings')->name('settings.')->group(function () {
     Route::match(['get', 'post'], 'home-content/terms', 'HomeController@terms')->name('home.terms');
     Route::match(['get', 'post'], 'home-content/privacy-policy', 'HomeController@privacyPolicy')->name('home.privacy-policy');
     Route::match(['get', 'post'], 'home-content/return-policy', 'HomeController@returnPolicy')->name('home.return-policy');
+   
+    Route::match(['get', 'post'], 'payment-way', 'PaymentController@paymentways')->name('payment.paymentways');
+
+
 });
 
 Route::get('trash/{modelName}/{id}/restore', 'TrashController@restore')->name('trash.restore');

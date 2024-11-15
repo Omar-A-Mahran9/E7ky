@@ -11,36 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('packages', function (Blueprint $table) {
+        Schema::create('car_prices', function (Blueprint $table) {
             $table->id();
-            $table->string('name_ar')->unique();
-            $table->string('name_en')->unique();
-            $table->string('price');
-
-            $table->string('image')->unique();
-            $table->unsignedBigInteger('package_categories_id')->nullable();
-            $table->foreign('package_categories_id')->references('id')->on('package_categories');
-            // Cities table relations
-
+            $table->enum('type',['per_hour','per_trip']);
             $table->unsignedBigInteger('car_id')->nullable();
             $table->foreign('car_id')->references('id')->on('cars');
-          
+       
+            $table->string('price');
+
+            $table->unsignedBigInteger('city')->nullable();
+            $table->foreign('city')->references('id')->on('cities');
+            
             $table->unsignedBigInteger('from')->nullable();
             $table->foreign('from')->references('id')->on('cities');
             
             $table->unsignedBigInteger('to')->nullable();
             $table->foreign('to')->references('id')->on('cities');
-
-            $table->date('from_time');
-            $table->date('to_time');
-
             $table->boolean('statue')->default(0);
 
-
-
-
-
-            
             $table->timestamps();
         });
     }
@@ -50,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('packages');
+        Schema::dropIfExists('car_prices');
     }
 };

@@ -59,6 +59,7 @@ class SettingController extends Controller
     public function contact(UpdateSettingsRequest $request)
     {
         if ($request->isMethod('post')) {
+
             setting($request->validated())->save();
         } else {
 

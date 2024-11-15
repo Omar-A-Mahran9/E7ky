@@ -4,7 +4,7 @@
 var datatable;
 // Class definition
 var KTDatatablesServerSide = (function () {
-    let dbTable = "packageCategories";
+    let dbTable = "packages";
     // Private functions
     var initDatatable = function () {
         datatable = $("#kt_datatable").DataTable({
@@ -25,6 +25,7 @@ var KTDatatablesServerSide = (function () {
             columns: [
                 { data: "id" },
                 { data: "name" },
+                { data: "car" },
                 { data: "created_at" },
                 { data: null },
             ],
@@ -53,9 +54,114 @@ var KTDatatablesServerSide = (function () {
                         `;
                     },
                 },
-
                 {
                     targets: 2,
+                    render: function (data, type, row) {
+                        return `
+                            <div>
+                                <!--begin::Info-->
+                                <div class="d-flex flex-column justify-content-center">
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.cars.name}</a>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                        `;
+                    },
+                },
+                {
+                    targets: 3,
+                    render: function (data, type, row) {
+                        return `
+                            <div>
+                                <!--begin::Info-->
+                                <div class="d-flex flex-column justify-content-center">
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.price}</a>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                        `;
+                    },
+                },
+                {
+                    targets: 4,
+                    render: function (data, type, row) {
+                        return `
+                            <div>
+                                <!--begin::Info-->
+                                <div class="d-flex flex-column justify-content-center">
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.from.name}</a>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                        `;
+                    },
+                },
+                {
+                    targets: 5,
+                    render: function (data, type, row) {
+                        return `
+                            <div>
+                                <!--begin::Info-->
+                                <div class="d-flex flex-column justify-content-center">
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.to.name}</a>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                        `;
+                    },
+                },
+                {
+                    targets: 6,
+                    render: function (data, type, row) {
+                        return `
+                            <div>
+                                <!--begin::Info-->
+                                <div class="d-flex flex-column justify-content-center">
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.from_time}</a>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                        `;
+                    },
+                },
+                {
+                    targets: 7,
+                    render: function (data, type, row) {
+                        return `
+                            <div>
+                                <!--begin::Info-->
+                                <div class="d-flex flex-column justify-content-center">
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.to_time}</a>
+                                </div>
+                                <!--end::Info-->
+                            </div>
+                        `;
+                    },
+                },
+
+                {
+                    targets: 8,
+                    render: function (data, type, row) {
+                        return `
+                        <div>
+                            <!--begin::Info-->
+                            <div class="d-flex flex-column justify-content-center">
+                                <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">
+                                    ${
+                                        row.statue == 1
+                                            ? `<span class="badge bg-success text-white">Active</span>` // Green badge for active
+                                            : `<span class="badge bg-danger text-white">Inactive</span>` // Red badge for inactive
+                                    }
+                                </a>
+                            </div>
+                            <!--end::Info-->
+                        </div>
+                    `;
+                    },
+                },
+
+                {
+                    targets: 9,
                     render: function (data, type, row) {
                         return `
                             <div>
@@ -69,7 +175,7 @@ var KTDatatablesServerSide = (function () {
                     },
                 },
                 {
-                    targets: -1,
+                    targets: 10,
                     data: null,
                     orderable: false,
                     render: function (data, type, row) {
@@ -141,15 +247,20 @@ var KTDatatablesServerSide = (function () {
                 let currentBtnIndex = $(editButtons).index(d);
                 let data = datatable.row(currentBtnIndex).data();
 
-                $("#form_title").text(__("Edit packageCategories"));
+                $("#form_title").text(__("Edit package"));
                 $(".image-input-wrapper").css(
                     "background-image",
                     `url('${data.full_image_path}')`
                 );
                 $("#name_ar_inp").val(data.name_ar);
                 $("#name_en_inp").val(data.name_en);
-                $("#description_ar_inp").val(data.description_ar);
-                $("#description_en_inp").val(data.description_en);
+                $("#price_inp").val(data.price);
+                $("#to_time_inp").val(data.to_time);
+                $("#from_time_inp").val(data.from_time);
+                $("#from_inp").val(data.from);
+                $("#to_inp").val(data.from_time);
+                $("#statue_inp").val(data.statue);
+
                 $("#crud_form").attr(
                     "action",
                     `/dashboard/${dbTable}/${data.id}`

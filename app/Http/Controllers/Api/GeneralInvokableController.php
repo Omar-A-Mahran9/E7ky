@@ -14,17 +14,10 @@ class GeneralInvokableController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $fastShippingCities = City::whereHas('vendors', function ($query) {
-            // $query->where('vendor_has_fast_shipping', TRUE);
-        })->select('id', 'name_ar', 'name_en')->get();
-        $normalCities       = City::whereHas('vendors', function ($query) {
-            // $query->where('vendor_has_fast_shipping', FALSE);
-        })->select('id', 'name_ar', 'name_en')->get();
         $allCities          = City::select('id', 'name_ar', 'name_en')->get();
 
         return $this->success('', [
-            'fastShippingCities' => CityResource::collection($fastShippingCities),
-            'normalCities' => CityResource::collection($normalCities),
+          
             'allCities' => CityResource::collection($allCities),
             'instagram_link' => setting('instagram_link'),
             'privacy_policy' => setting('privacy_policy_' . request()->header('Content-language')),
@@ -34,6 +27,10 @@ class GeneralInvokableController extends Controller
             'twitter_link' => setting('twitter_link'),
             'whatsapp_number' => setting('whatsapp_number'),
             'sms_number' => setting('sms_number'),
+            'email' => setting('email'),
+            'address_ar' => setting('address_ar'),
+            'address_en' => setting('address_en'),
+
             'about_us' => [
                 'label' => setting('label_' . request()->header('Content-language')),
                 'description' => setting('about_us_' . request()->header('Content-language'))

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StorePackageRequest;
+use App\Http\Requests\Dashboard\UpdatePackageRequest;
 use App\Models\Cars;
 use App\Models\City;
 use App\Models\PackageCategory;
@@ -24,8 +25,15 @@ class PackagesController extends Controller
 
          $visited_site=10000;
          if ($request->ajax())
-            return response(getModelData(model: new Packages()));
-        else
+         return response(getModelData(
+            model: new Packages(),
+            relations: [
+                'cars' => ['id', 'name_ar', 'description_ar'],  // Eager load 'cars' with specific columns
+                'from' => ['id', 'name_ar', 'name_en'],         // Eager load 'from' city with specific columns
+                'to' => ['id', 'name_ar', 'name_en']            // Eager load 'to' city with specific columns
+            ]
+        ));
+         else
             return view('dashboard.packages.index',compact('count_Category','visited_site','cities','cars','categoriesPackage'));
     }
 
@@ -70,16 +78,34 @@ class PackagesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Packages $packages)
+    public function update(UpdatePackageRequest $request, Packages $package)
     {
-        //
+ 
+        $this->authorize('update_packages');
+
+         $data = $request->validated();
+         $package->update($data);
+
+        return response(["Package updated successfully"]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Packages $packages)
+    public function destroy(Packages $package)
     {
-        //
+         $this->authorize('delete_packages');
+
+        $package->delete();
+        return response(["package deleted successfully"]);
+    }
+
+    public function deleteSelected(Request $request)
+    {
+         $this->authorize('delete_packages');
+
+        Packages::whereIn('id', $request->selected_items_ids)->delete();
+
+        return response(["selected package deleted successfully"]);
     }
 }

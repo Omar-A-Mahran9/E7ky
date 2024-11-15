@@ -37,8 +37,8 @@
             data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
             data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px">
             <!--begin::Menu-->
-            <div class="menu menu-column menu-rounded menu-sub-indention fw-bold px-6" id="#kt_app_sidebar_menu"
-                data-kt-menu="true" data-kt-menu-expand="false">
+            <div class="menu menu-column menu-rounded menu-sub-indention fw-bold px-6 bg-transparent"
+                id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
                 <!--begin:Menu item-->
                 <x-dashboard.aside-item :slug="'/'" :route="route('dashboard.index')" :title="__('Dashboard')">
                     <i class="ki-outline ki-category fs-2"></i>
@@ -82,11 +82,16 @@
                     </x-dashboard.aside-item>
                 @endcan
 
-                @can('view_products')
+                @can('view_carPrices')
+                    <x-dashboard.aside-item :slug="'car_prices'" :route="route('dashboard.car_prices.index')" :title="__('car prices')">
+                        <i class="ki-outline ki-car-3 fs-1"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+                {{-- @can('view_products')
                     <x-dashboard.aside-item :slug="'products'" :route="route('dashboard.products.index')" :title="__('Products')">
                         <i class="ki-outline ki-delivery-2 fs-1"></i>
                     </x-dashboard.aside-item>
-                @endcan
+                @endcan --}}
 
                 <!--begin:Menu item-->
                 @can('view_cities')
@@ -110,48 +115,51 @@
                     </x-dashboard.aside-item>
                 @endcan
                 <!--end:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item here menu-accordion">
-                    <!--begin:Menu link-->
-                    <span class="menu-link">
-                        <span class="menu-icon">
-                            <i class="ki-outline ki-category fs-2"></i>
+                @can('view_packages')
+
+                    <div data-kt-menu-trigger="click" class="menu-item here menu-accordion">
+                        <!--begin:Menu link-->
+                        <span class="menu-link bg-transparent ">
+                            <span class="menu-icon text-black">
+                                <i class="ki-outline ki-data fs-2 text-black"></i>
+                            </span>
+                            <span class="menu-title text-black">{{ __('Books Data') }}</span>
+                            <span class="menu-arrow"></span>
                         </span>
-                        <span class="menu-title">{{ __('Books Data') }}</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-                    <!--end:Menu link-->
-                    <!--begin:Menu sub-->
-                    <div class="menu-sub menu-sub-accordion" style="display: none; overflow: hidden;">
-                        <!--begin:Menu item-->
-                        <div class="menu-item">
-                            <!--begin:Menu link-->
+                        <!--end:Menu link-->
+                        <!--begin:Menu sub-->
+                        <div class="menu-sub menu-sub-accordion" style="display: none; overflow: hidden;">
+                            <!--begin:Menu item-->
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
 
-                            @can('view_packageCategories')
-                                <x-dashboard.aside-item :slug="'packageCategories'" :route="route('dashboard.packageCategories.index')" :title="__('Packages Categories')">
-                                    <i class="ki-outline ki-chart fs-2"></i>
-                                </x-dashboard.aside-item>
-                            @endcan
+                                @can('view_packageCategories')
+                                    <x-dashboard.aside-item :slug="'packageCategories'" :route="route('dashboard.packageCategories.index')" :title="__('Packages Categories')">
+                                        <i class="ki-outline ki-chart fs-2"></i>
+                                    </x-dashboard.aside-item>
+                                @endcan
 
-                            <!--end:Menu link-->
-                            <!--begin:Menu link-->
+                                <!--end:Menu link-->
+                                <!--begin:Menu link-->
 
-                            @can('view_packages')
-                                <x-dashboard.aside-item :slug="'packages'" :route="route('dashboard.packages.index')" :title="__('Packages')">
-                                    <i class="ki-outline ki-package fs-2"></i>
-                                </x-dashboard.aside-item>
-                            @endcan
+                                @can('view_packages')
+                                    <x-dashboard.aside-item :slug="'packages'" :route="route('dashboard.packages.index')" :title="__('Packages')">
+                                        <i class="ki-outline ki-package fs-2"></i>
+                                    </x-dashboard.aside-item>
+                                @endcan
 
-                            <!--end:Menu link-->
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+
+
                         </div>
-                        <!--end:Menu item-->
-
-
+                        <!--end:Menu sub-->
                     </div>
-                    <!--end:Menu sub-->
-                </div>
+                @endcan
 
 
-                <hr>
+                {{-- <hr>
 
                 <!--begin:Menu item-->
                 @can('view_vendors')
@@ -246,7 +254,7 @@
                     </x-dashboard.aside-item>
                 @endcan
                 <!--end:Menu item-->
-                <hr>
+                <hr> --}}
                 <!--begin:Menu item-->
                 @can('view_ads')
                     <x-dashboard.aside-item :slug="'ads'" :route="route('dashboard.ads.index')" :title="__('Ads')">

@@ -13,6 +13,8 @@ let translations = {
         "Edit packageCategories": "تعديل فئة الباقة",
         "Add package category": "أضف فئة باقة جديدة",
         "Add package": "أضف باقة جديدة",
+        "Add Car Price": "أضف سعر سيارة",
+        "Edit car price": "تعديل سعر السيارة",
 
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",
@@ -28,6 +30,8 @@ let translations = {
         "Vendor approved successfully": "تم قبول التاجر بنجاح",
         "Vendor rejected": "تم رفض التاجر",
         Edit: "تعديل",
+        per_hour: "رحلة بالساعة",
+        per_trip: "رحلة",
         Show: "التفاصيل",
         admin: "الموظف",
         Delete: "حذف",

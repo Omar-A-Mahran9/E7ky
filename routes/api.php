@@ -67,11 +67,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('vendors/{vendor}', 'VendorController@show');
     Route::get('vendors-products/{vendor}', 'VendorController@vendorProducts');
     Route::post('vendors', 'VendorController@store');
-    Route::post('contact_us', 'ContactUsController@store');
 
     Route::get('categories-products/{category}', 'CategoryController@categoryProducts');
-    Route::get('general', 'GeneralInvokableController');
     Route::get('categories-search', 'HomeController@categoriesSearch');
     Route::post('news-letter', 'HomeController@newsLetter');
     Route::get('sliders', 'HomeController@getSliders');
+
+
+
+//--------------------------------------------------------------------------
+
+    Route::get('general', 'GeneralInvokableController');
+    Route::post('contact_us', 'ContactUsController@store');
+
+
 });

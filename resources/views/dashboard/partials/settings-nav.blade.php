@@ -27,6 +27,26 @@
                 <!--end::Nav item-->
             @endcan
 
+            <!--end::Nav item-->
+            @can('view_payment_ways')
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a class="nav-link text-active-primary ms-0 me-10 py-5 {{ getClassIfUrlContains('active', 'payment-way') }}"
+                        href="{{ route('dashboard.settings.payment.paymentways') }}">{{ __('Payment ways') }}</a>
+                </li>
+                <!--end::Nav item-->
+            @endcan
+
+            <!--end::Nav item-->
+            @can('view_payment_partener')
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a class="nav-link text-active-primary ms-0 me-10 py-5 {{ getClassIfUrlContains('active', 'home-content') }}"
+                        href="{{ route('dashboard.settings.home.about-us') }}">{{ __('Home page settings') }}</a>
+                </li>
+                <!--end::Nav item-->
+            @endcan
+
 
         </ul>
         <!--begin::Navs-->
