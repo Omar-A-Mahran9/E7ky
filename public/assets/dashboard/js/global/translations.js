@@ -15,6 +15,8 @@ let translations = {
         "Add package": "أضف باقة جديدة",
         "Add Car Price": "أضف سعر سيارة",
         "Edit car price": "تعديل سعر السيارة",
+        "Add new Common Question": "اضافة سؤال ",
+        "Edit Question": "تعديل السوال",
 
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",

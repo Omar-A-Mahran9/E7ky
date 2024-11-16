@@ -31,6 +31,11 @@ class GeneralInvokableController extends Controller
             'address_ar' => setting('address_ar'),
             'address_en' => setting('address_en'),
 
+            'whatsapp_message_time' => setting('delay_time_seconds'),
+            'whatsapp_message' => setting('whatsapp_message'),
+            'whatsapp_show' => setting('whatsapp_notification_enabled'),
+
+
             'about_us' => [
                 'label' => setting('label_' . request()->header('Content-language')),
                 'description' => setting('about_us_' . request()->header('Content-language'))

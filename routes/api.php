@@ -79,6 +79,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::get('general', 'GeneralInvokableController');
     Route::post('contact_us', 'ContactUsController@store');
+    Route::get('blogs', 'HomeController@getblogs');
+    Route::get('questions', 'HomeController@getQuestions');
 
 
 });

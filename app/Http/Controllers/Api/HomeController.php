@@ -7,6 +7,7 @@ use App\Http\Resources\Api\AdResource;
 use App\Http\Resources\Api\BrandResource;
 use App\Http\Resources\Api\CategoryResource;
 use App\Http\Resources\Api\ProductResource;
+use App\Http\Resources\Api\QuestionResource;
 use App\Http\Resources\Api\SliderResource;
 use App\Http\Resources\Api\SubcategoryResource;
 use App\Http\Resources\Api\TagResource;
@@ -14,6 +15,7 @@ use App\Models\Ad;
 use App\Models\blogs;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\CommonQuestion;
 use App\Models\NewsLetter;
 use App\Models\Product;
 use App\Models\Slider;
@@ -37,6 +39,13 @@ class HomeController extends Controller
         return $this->success('', BrandResource::collection($blogs));
     }
 
+    public function getQuestions()
+    {
+        $CommonQuestion = CommonQuestion::get();
+
+        return $this->success('', QuestionResource::collection($CommonQuestion));
+    }
+    
     public function getCategories()
     {
         $categories = Category::whereNull('parent_id')->withCount('products')->with('subcategories')->get();

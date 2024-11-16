@@ -25,10 +25,11 @@ class StoreCommonQuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            "name_ar" => ["required", "string:255",  new NotNumbersOnly()],
-            "name_en" => ["required", "string:255", new NotNumbersOnly()],
-            "description_ar" => ["required", "string:255", new NotNumbersOnly()],
-            "description_en" => ["required", "string:255", new NotNumbersOnly()],
+            "question_ar" => ["required", "string", "max:255", new NotNumbersOnly()],
+            "question_en" => ["required", "string", "max:255", new NotNumbersOnly()],
+            "answer_ar" => ["required", "string", "max:255", new NotNumbersOnly()],
+            "answer_en" => ["required", "string", "max:255", new NotNumbersOnly()],
         ];
+        
     }
 }

@@ -58,7 +58,15 @@
                         <i class="ki-outline ki-abstract-29 fs-2"></i>
                     </x-dashboard.aside-item>
                 @endcan
+
+
                 <!--end:Menu item-->
+
+                @can('view_CommonQuestion')
+                    <x-dashboard.aside-item :slug="'CommonQuestion'" :route="route('dashboard.CommonQuestion.index')" :title="__('Common Question')">
+                        <i class="ki-outline ki-question fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
 
                 <!--begin:Menu item-->
                 @can('view_categories')
