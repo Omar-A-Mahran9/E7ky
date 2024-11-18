@@ -81,6 +81,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('contact_us', 'ContactUsController@store');
     Route::get('blogs', 'HomeController@getblogs');
     Route::get('questions', 'HomeController@getQuestions');
+    Route::post('bepartener/{step}', 'BepartenerController@store');
+
 
 
 });

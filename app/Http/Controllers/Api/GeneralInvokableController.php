@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\BrandResource;
 use App\Http\Resources\Api\CityResource;
+use App\Http\Resources\Api\SkinColorResource;
+use App\Models\Brand;
 use App\Models\City;
+use App\Models\SkinColor;
 use Illuminate\Http\Request;
 
 class GeneralInvokableController extends Controller
@@ -15,10 +19,15 @@ class GeneralInvokableController extends Controller
     public function __invoke(Request $request)
     {
         $allCities          = City::select('id', 'name_ar', 'name_en')->get();
+        $brands         = Brand::select('id', 'name_ar', 'name_en','description_en','description_ar')->get();
+        $colors         = SkinColor::select('id', 'name_ar', 'name_en')->get();
 
         return $this->success('', [
           
             'allCities' => CityResource::collection($allCities),
+            'brands' => BrandResource::collection( $brands),
+            'colors' => SkinColorResource::collection( $colors),
+
             'instagram_link' => setting('instagram_link'),
             'privacy_policy' => setting('privacy_policy_' . request()->header('Content-language')),
             'facebook_link' => setting('facebook_link'),

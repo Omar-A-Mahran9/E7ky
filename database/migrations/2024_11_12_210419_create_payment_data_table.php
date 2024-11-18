@@ -15,22 +15,24 @@ return new class extends Migration
             $table->id();
 
             // User and payment details
-             $table->decimal('amount', 10, 2); // Payment amount
-            $table->string('payment_method'); // Payment method (e.g., Credit Card, PayPal)
-            $table->string('payment_status'); // Payment status (e.g., Pending, Completed)
-            $table->string('transaction_id')->unique(); // Unique transaction ID
-            $table->timestamp('payment_date'); // Date of payment
+             $table->decimal('amount', 10, 2)->nullable(); // Payment amount
+            $table->string('payment_method')->nullable(); // Payment method (e.g., Credit Card, PayPal)
+            $table->string('payment_status')->nullable(); // Payment status (e.g., Pending, Completed)
+            $table->string('transaction_id')->unique()->nullable(); // Unique transaction ID
+            $table->timestamp('payment_date')->nullable(); // Date of payment
 
             // Card details
-            $table->string('card_number'); // Card number
-            $table->string('security_code'); // Card security code (CVV)
-            $table->string('first_name'); // Cardholder's first name
-            $table->string('last_name'); // Cardholder's last name
+            $table->string('card_number')->nullable(); // Card number
+            $table->string('security_code')->nullable(); // Card security code (CVV)
+            $table->string('first_name')->nullable(); // Cardholder's first name
+            $table->string('last_name')->nullable(); // Cardholder's last name
 
-            // Optional: If the payment is related to an order
-            $table->unsignedBigInteger('booking_id')->nullable(); // Foreign key to orders table, if applicable
-            $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('set null');
 
+            $table->string('bank_owner_name')->nullable();
+            $table->longText('iban_number')->unique()->nullable();
+            $table->longText('address')->nullable();
+            $table->longText('BIC/Swift')->unique()->nullable();
+            
             // Timestamps for created_at and updated_at
             $table->timestamps();
         });

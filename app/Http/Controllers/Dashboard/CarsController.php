@@ -55,7 +55,6 @@ class CarsController extends Controller
      */
     public function store(StoreCarRequest $request, $step = null)
     {
-
         $this->authorize('create_cars');
         if (!isset($step) ) {
 

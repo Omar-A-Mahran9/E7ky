@@ -140,7 +140,7 @@ let translations = {
         "Edit subcategory": "تعديل القسم الفرعي",
         "Add new tag": "أضف كلمة مفتاحية جديدة",
         "Edit Tag": "تعديل الكلمة المفتاحية",
-        "Add new skin color": "أضف لون بشرة جديد",
+        "Add new skin color": "أضف لون جديد",
         "Add new ad": "أضف اعلان جديد",
         "Show 1 to": "عرض 1 إلى",
         "from total": "من اجمالي",

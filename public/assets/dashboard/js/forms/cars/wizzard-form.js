@@ -162,10 +162,10 @@ var KTCreateAccount = (function () {
                 type: "get",
                 url: $(this).attr("href"),
                 success: function (data) {
-                    showToast("تم استعادة الطبيب بنجاح");
+                    showToast("تم استعادة السيارة بنجاح");
 
                     setTimeout(function () {
-                        window.location = "/dashboard/doctors";
+                        window.location = "/dashboard/cars";
                     }, 1000);
                 },
             });

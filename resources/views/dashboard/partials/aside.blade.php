@@ -82,6 +82,12 @@
                     </x-dashboard.aside-item>
                 @endcan
 
+                @can('view_colors')
+                    <x-dashboard.aside-item :slug="'skin-colors'" :route="route('dashboard.skin-colors.index')" :title="__('Skin Colors')">
+                        <i class="ki-outline ki-color-swatch fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+
 
 
                 @can('view_cars')
@@ -167,6 +173,8 @@
                 @endcan
 
 
+
+
                 {{-- <hr>
 
                 <!--begin:Menu item-->
@@ -210,11 +218,7 @@
                 @endcan
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                @can('view_skin_colors')
-                    <x-dashboard.aside-item :slug="'skin-colors'" :route="route('dashboard.skin-colors.index')" :title="__('Skin Colors')">
-                        <i class="ki-outline ki-color-swatch fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
+
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->

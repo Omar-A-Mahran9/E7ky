@@ -12,7 +12,7 @@ class SkinColorController extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('view_skin_colors');
+        $this->authorize('view_colors');
 
         if ($request->ajax())
         {
@@ -40,7 +40,7 @@ class SkinColorController extends Controller
 
     public function destroy(SkinColor $skinColor)
     {
-        $this->authorize('delete_skin_colors');
+        $this->authorize('delete_colors');
 
         $skinColor->delete();
 
@@ -49,7 +49,7 @@ class SkinColorController extends Controller
 
     public function deleteSelected(Request $request)
     {
-        $this->authorize('delete_skin_colors');
+        $this->authorize('delete_colors');
 
         SkinColor::whereIn('id', $request->selected_items_ids)->delete();
 
@@ -58,7 +58,7 @@ class SkinColorController extends Controller
 
     public function restoreSelected(Request $request)
     {
-        $this->authorize('delete_skin_colors');
+        $this->authorize('delete_colors');
 
         SkinColor::withTrashed()->whereIn('id', $request->selected_items_ids)->restore();
 

@@ -28,6 +28,7 @@ class Role extends Model
         'customers',
         'customersRate',
         'vendors',
+        'colors',
         'roles',
         'brands',
         'categories',

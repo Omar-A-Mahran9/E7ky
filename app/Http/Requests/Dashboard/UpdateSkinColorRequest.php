@@ -14,7 +14,7 @@ class UpdateSkinColorRequest extends FormRequest
      */
     public function authorize()
     {
-        return abilities()->contains('update_skin_colors');
+        return abilities()->contains('update_colors');
     }
 
     /**

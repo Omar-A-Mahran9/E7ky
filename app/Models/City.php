@@ -46,6 +46,12 @@ class City extends Model
         return $this->hasOne(FastCity::class, 'city_id', 'id')->withoutGlobalScope(SortingScope::class);
     }
 
+    public function bepartners()
+    {
+        return $this->belongsToMany(Bepartener::class, 'bepartner_city');
+    }
+
+  
 
     public function getNameAttribute()
     {

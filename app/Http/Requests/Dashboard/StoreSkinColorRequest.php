@@ -14,7 +14,7 @@ class StoreSkinColorRequest extends FormRequest
      */
     public function authorize()
     {
-        return abilities()->contains('create_skin_colors');
+        return abilities()->contains('create_colors');
     }
 
     /**
