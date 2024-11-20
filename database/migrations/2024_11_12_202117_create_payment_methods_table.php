@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('common_questions', function (Blueprint $table) {
+        Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->longText('question_ar');
-            $table->longText('question_en');
-            $table->longText('answer_ar');
-            $table->longText('answer_en');
+            $table->string('name_ar')->unique();
+            $table->string('name_en')->unique();
+            $table->string('image');
+            $table->enum('statue', ['active', 'inactive', 'pending'])->default('pending');
+
+     
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('common_questions');
+        Schema::dropIfExists('payment_methods');
     }
 };

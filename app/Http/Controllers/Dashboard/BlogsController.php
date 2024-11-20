@@ -41,7 +41,7 @@ class BlogsController extends Controller
 
         $brand = blogs::create($data);
 
-        return response(["brand created successfully"]);
+        return response(["blog created successfully"]);
     }
     /**
      * Display the specified resource.

@@ -17,7 +17,8 @@ let translations = {
         "Edit car price": "تعديل سعر السيارة",
         "Add new Common Question": "اضافة سؤال ",
         "Edit Question": "تعديل السوال",
-
+        "Add Payment ways": "أضف خيارات الدفع",
+        "Add Payment parteners": "أضف شريك",
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",
         "something went wrong": "حدث خطأ ما",

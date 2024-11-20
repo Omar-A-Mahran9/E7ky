@@ -24,6 +24,8 @@
     "from time": "بداية الباقة",
     "to time": "بداية الباقة",
     "statue": "الحالة",
+    "Statue": "الحالة",
+
     "Question en": "السؤال بالانجليزية",
     "Question ar": "السؤال بالعربية",
     "Answer en": "الإجابة بالإنجليزية",
@@ -229,6 +231,9 @@
     "Type": "النوع",
     "type": "النوع",
     "Payment ways": "خيارات الدفع",
+    "Payment parteners": "شركاء المدفوعات",
+    "Add Payment ways": "أضف خيارات الدفع",
+    "Add Payment parteners": "أضف شريك",
 
     "Choose the color": "اختر اللون",
     "Choose the type": "اختر النوع",
@@ -418,6 +423,10 @@
     "Tag name in arabic": "الكلمة المفتاحية بالعربي",
     "Tag name in english": "الكلمة المفتاحية بالانجليزي",
     "Has Fast Shipping Option ?": "لديها خاصية الشحن السريع ؟",
+    "loyalty and rewards program": "برنامج الولاء و المكافات",
+    "loyalty and rewards program in arabic": "برنامج الولاء و المكافات بالعربية",
+    "loyalty and rewards program in english": "برنامج الولاء و المكافات بالانجليزية",
+
     "Add city": "أضف مدينة",
     "Fast shipping": "شحن سريع",
     "Skin Colors list": "قائمة الوان ",

@@ -83,6 +83,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('questions', 'HomeController@getQuestions');
     Route::post('bepartener/{step}', 'BepartenerController@store');
 
+    Route::get('booking', 'GeneralInvokableController');
+
 
 
 });

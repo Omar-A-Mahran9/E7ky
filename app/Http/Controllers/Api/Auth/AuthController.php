@@ -79,12 +79,14 @@ class AuthController extends Controller
     {
         $data                        = $request->validate([
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
-            'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-            'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
+            'full_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
+
+            // 'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
+            // 'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
             'email' => 'required|string|email|unique:customers',
-            'password' => ['required', 'string', 'min:8', 'max:255', 'confirmed', new PasswordNumberAndLetter()],
-            'password_confirmation' => 'required|same:password',
+            'password' => ['required', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
+            // 'password_confirmation' => 'required|same:password',
             'privacy_flag' => [
                 'required',
                 function ($attribute, $value, $fail) {
@@ -95,19 +97,25 @@ class AuthController extends Controller
                     }
                 }
             ],
-            'power_attorney_flag' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    if ($value == 0 || $value == false || $value == "false")
-                    {
-                        $fail(__('Must be approved first'));
+            // 'power_attorney_flag' => [
+            //     'required',
+            //     function ($attribute, $value, $fail) {
+            //         if ($value == 0 || $value == false || $value == "false")
+            //         {
+            //             $fail(__('Must be approved first'));
 
-                    }
-                }
-            ],
+            //         }
+            //     }
+            // ],
         ]);
+         $data['password_confirmation'] = $data['password']; // Remaining words as last_name or empty string if not provided
+
+        $names = explode(' ', trim($data['full_name']), 2);
+        $data['first_name'] = $names[0]; // First word as first_name
+        $data['last_name'] = isset($names[1]) ? $names[1] : ''; // Remaining words as last_name or empty string if not provided
+
         $data['privacy_flag']        = $data['privacy_flag'] ? 1 : 0;
-        $data['power_attorney_flag'] = $data['power_attorney_flag'] ? 1 : 0;
+        $data['power_attorney_flag'] = 1;
         if ($request->image)
             $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
         $data['block_flag']       = 0;

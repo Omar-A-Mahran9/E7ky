@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreCarPriceRequest;
+use App\Http\Requests\Dashboard\UpdateCarPriceRequest;
 use App\Models\CarPrice;
 use App\Models\Cars;
 use App\Models\City;
@@ -48,10 +49,19 @@ class CarPriceController extends Controller
      */
     public function store(StoreCarPriceRequest $request)
     {
-        $this->authorize('create_carPrices');
+    
+         $this->authorize('create_carPrices');
 
         $data          = $request->validated();
-        $brand = CarPrice::create($data);
+
+        if($data->type =='per_trip'){
+            $data['city']=null;
+        }else{
+            $data['from']=null;
+            $data['to']=null;
+
+        }
+         $brand = CarPrice::create($data);
 
         return response(["Car price created successfully"]);
     }
@@ -75,11 +85,31 @@ class CarPriceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CarPrice $carPrice)
+    public function update(UpdateCarPriceRequest $request, CarPrice $carPrice)
     {
-        //
+        // Authorize the update action
+        $this->authorize('update_carPrices');
+    
+        // Validate the incoming data
+        $data = $request->validated();
+    
+        // Check the type and modify the data accordingly
+        if ($data['type'] == 'per_trip') {
+            // If type is per_trip, set city to null
+            $data['city'] = null;
+        } else {
+            // Otherwise, set from and to to null
+            $data['from'] = null;
+            $data['to'] = null;
+        }
+    
+        // Update the CarPrice instance with validated data
+        $carPrice->update($data);
+    
+        // Return a success response
+        return response()->json(["message" => "Car price updated successfully"]);
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */

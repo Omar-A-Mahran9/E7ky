@@ -360,11 +360,11 @@
                                     <label class="fs-6 fw-semibold">{{ __('Status') }}</label>
                                 </div>
                                 <label class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" name="status" type="checkbox" value="1"
+                                    <input class="form-check-input" name="statue" type="checkbox" value="1"
                                         id="status_inp">
                                 </label>
                             </div>
-                            <div class="fv-plugins-message-container invalid-feedback" id="status"></div>
+                            <div class="fv-plugins-message-container invalid-feedback" id="statue"></div>
                         </div>
                     </div>
 

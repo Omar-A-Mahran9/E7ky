@@ -43,13 +43,13 @@ class UpdateCommonQuestionRequest extends FormRequest
             "answer_ar" => [
                 "required", 
                 "string", 
-                "max:255", 
+               
                 new NotNumbersOnly()
             ],
             "answer_en" => [
                 "required", 
                 "string", 
-                "max:255", 
+               
                 new NotNumbersOnly()
             ],
         ];

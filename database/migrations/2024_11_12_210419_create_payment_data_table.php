@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             // User and payment details
-             $table->decimal('amount', 10, 2)->nullable(); // Payment amount
+            $table->decimal('amount', 10, 2)->nullable(); // Payment amount
             $table->string('payment_method')->nullable(); // Payment method (e.g., Credit Card, PayPal)
             $table->string('payment_status')->nullable(); // Payment status (e.g., Pending, Completed)
             $table->string('transaction_id')->unique()->nullable(); // Unique transaction ID

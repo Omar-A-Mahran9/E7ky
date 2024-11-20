@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->string('email')->unique();
             $table->string('phone')->unique();
-            $table->enum('gender', ['male', 'female']); // Define enum and make it unique
+            $table->enum('gender', ['male', 'female'])->nullable(); // Define enum and make it unique
 
             $table->string('otp')->nullable();
             $table->string('password')->nullable();

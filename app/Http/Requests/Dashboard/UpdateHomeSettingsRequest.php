@@ -23,6 +23,7 @@ class UpdateHomeSettingsRequest extends FormRequest
      */
     public function rules()
     {
+
         $validationKey = request()->segment(count(request()->segments()));
 
         $validations = [
@@ -59,6 +60,10 @@ class UpdateHomeSettingsRequest extends FormRequest
             "return-policy" => [
                 'return_policy_ar' => 'required|string',
                 'return_policy_en' => 'required|string',
+            ],
+            "loyality" => [
+                'loyality_ar' => 'required|string',
+                'loyality_en' => 'required|string',
             ]
         ];
 

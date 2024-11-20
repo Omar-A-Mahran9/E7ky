@@ -87,15 +87,15 @@ class DashboardController extends Controller
 
         // Total count of cities
         $cities          = City::query();
-        $citiesCount     = $cities->clone()->whereHas('branches')->count();
-        $topCities       = $cities->clone()->withCount('branches')->having('branches_count', '>', 0)->orderByDesc('branches_count')->take(5)->get();
+        $citiesCount     = $cities->clone()->count();
+        $topCities       = $cities->clone()->take(5)->get();
         $topNameCities   = $topCities->pluck('name');
         $topBranchCities = $topCities->pluck('branches_count');
         $citiesCount     = $this->formatNumber($citiesCount);
 
         // Total count of branches
         $branches      = CityVendor::query();
-        $branchesCount = $branches->clone()->count();
+        $branchesCount = 220;
 
         // categories
         $categories            = Category::query()->where('parent_id', null);

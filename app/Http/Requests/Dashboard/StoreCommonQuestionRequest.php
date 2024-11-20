@@ -27,8 +27,8 @@ class StoreCommonQuestionRequest extends FormRequest
         return [
             "question_ar" => ["required", "string", "max:255", new NotNumbersOnly()],
             "question_en" => ["required", "string", "max:255", new NotNumbersOnly()],
-            "answer_ar" => ["required", "string", "max:255", new NotNumbersOnly()],
-            "answer_en" => ["required", "string", "max:255", new NotNumbersOnly()],
+            "answer_ar" => ["required", "string", new NotNumbersOnly()],
+            "answer_en" => ["required", "string", new NotNumbersOnly()],
         ];
         
     }

@@ -4,8 +4,9 @@ namespace App\Http\Requests\Dashboard;
 
 use App\Rules\NotNumbersOnly;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreCarPriceRequest extends FormRequest
+class UpdateCarPriceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,7 @@ class StoreCarPriceRequest extends FormRequest
      */
     public function authorize()
     {
-        return abilities()->contains('create_carPrices');
+        return abilities()->contains('update_carPrices');
     }
 
     /**
@@ -24,6 +25,7 @@ class StoreCarPriceRequest extends FormRequest
      */
     public function rules()
     {
+        $category = request()->route('carPrices');
         return [
             "type" => ["required"],
             "from" => ["required_if:type,per_trip"],
@@ -32,7 +34,6 @@ class StoreCarPriceRequest extends FormRequest
             "car_id" => ["required"],
             "price" => ["required"],
             "statue" => ["required"],
-
         ];
     }
 }

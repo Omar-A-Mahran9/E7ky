@@ -49,8 +49,10 @@ class GeneralInvokableController extends Controller
                 'label' => setting('label_' . request()->header('Content-language')),
                 'description' => setting('about_us_' . request()->header('Content-language'))
             ],
-            'terms' => setting('terms_' . request()->header('Content-language')),
+            'terms_and_condition' => setting('terms_' . request()->header('Content-language')),
             'return_policy' => setting('return_policy_' . request()->header('Content-language')),
+            'loyality' => setting('loyality_' . request()->header('Content-language')),
+
             'tax' => (setting('tax') / 100),
 
         ]);
