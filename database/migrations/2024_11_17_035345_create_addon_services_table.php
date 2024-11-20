@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->longText('name_ar')->unique();
             $table->longText('name_en')->unique();
-            $table->string('price')->unique();
+            $table->string('price');
             $table->timestamps();
         });
     }

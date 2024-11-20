@@ -19,6 +19,9 @@ let translations = {
         "Edit Question": "تعديل السوال",
         "Add Payment ways": "أضف خيارات الدفع",
         "Add Payment parteners": "أضف شريك",
+        "Add new Addon": " أضف خدمة ",
+        "Edit addon": "تعديل الخدمة",
+
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",
         "something went wrong": "حدث خطأ ما",

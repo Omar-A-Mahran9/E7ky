@@ -59,6 +59,11 @@
                     </x-dashboard.aside-item>
                 @endcan
 
+                @can('view_addonService')
+                    <x-dashboard.aside-item :slug="'addonService'" :route="route('dashboard.addon.index')" :title="__('Add new Service')">
+                        <i class="ki-outline ki-plus fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
 
                 <!--end:Menu item-->
 
@@ -268,11 +273,11 @@
                 <!--end:Menu item-->
                 <hr> --}}
                 <!--begin:Menu item-->
-                @can('view_ads')
+                {{-- @can('view_ads')
                     <x-dashboard.aside-item :slug="'ads'" :route="route('dashboard.ads.index')" :title="__('Ads')">
                         <i class="ki-outline ki-medal-star fs-2"></i>
                     </x-dashboard.aside-item>
-                @endcan
+                @endcan --}}
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 @can('view_admins')

@@ -30,6 +30,7 @@ class Role extends Model
         'vendors',
         'colors',
         'roles',
+        'addonService',
         'brands',
         'categories',
         'cars',

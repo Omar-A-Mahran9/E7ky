@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('image');
             $table->string('name_ar')->unique();
             $table->string('name_en')->unique();
-            $table->string('description_ar');
-            $table->string('description_en');
+            $table->longText('description_ar');
+            $table->longText('description_en');
  
             $table->timestamps();
             $table->softDeletes();
