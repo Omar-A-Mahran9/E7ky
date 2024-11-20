@@ -29,6 +29,7 @@ class ForgetPasswordController extends Controller
             return $this->failure(__("Your account is blocked. Please contact support."));
         }
         $customer->sendOTP();
+        
         return $this->success("Send otp is successfully", ["customer" => new CustomerResource($customer)]);
     }
 
@@ -63,9 +64,10 @@ class ForgetPasswordController extends Controller
         $customer->update([
             "otp" => null
         ]);
+        $token = $customer->createToken('Personal access token to apis')->plainTextToken;
 
-        return $this->success("verified successfully", new CustomerResource($customer));
-    }
+        return $this->success("verified successfully", ['token' => $token, "customer" => new CustomerResource($customer)]);
+     }
 
     public function changePassword(Request $request, Customer $customer)
     {
