@@ -47,7 +47,7 @@ class HomeController extends Controller
             'statue' => 'required|in:pending,inactive,active',
         ]);
 
-        $data['image'] = uploadImageToDirectory($request->file('image'), "Brands");
+        $data['image'] = uploadImageToDirectory($request->file('image'), "paymentway");
 
         PaymentWay::create($data);
 
@@ -64,7 +64,7 @@ class HomeController extends Controller
             'statue' => 'required|in:pending,inactive,active',
         ]);
 
-        $data['image'] = uploadImageToDirectory($request->file('image'), "Brands");
+        $data['image'] = uploadImageToDirectory($request->file('image'), "PaymentPartener");
 
         PaymentMethod::create($data);
 

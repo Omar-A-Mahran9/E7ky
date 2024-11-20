@@ -48,9 +48,6 @@ class UpdateSettingsRequest extends FormRequest
                 'email' => ['required','email'],
                 'address_ar' => ['required'],
                 'address_en' => ['required'],
-
-
-
             ],
             "tax" => [
                 'tax' => ['required', 'numeric'],
