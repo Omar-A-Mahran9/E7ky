@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('login', 'Auth\AuthController@loginByEmail');
     Route::post('login-otp/{customer:phone}', 'Auth\AuthController@loginOTP');
@@ -30,8 +32,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::middleware(['auth:api'])->group(function () {
         Route::post('products/{product}/rate', 'ProductController@rate');
-        Route::post('/customers/update-info', 'ProfileController@updateInfo');
+        Route::post('/customers/update-info', [ProfileController::class, 'updateInfo']);
         Route::post('/customers/update-password', 'ProfileController@updatePassword');
+        Route::get('/customers/profile-info', [ProfileController::class, 'profileInfo'])->name('profile-info');
+
         Route::get('orders', 'OrderController@orderBy');
         Route::get('/current', function (Request $request) {
             return auth()->user();
@@ -80,6 +84,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('general', 'GeneralInvokableController');
     Route::post('contact_us', 'ContactUsController@store');
     Route::get('blogs', 'HomeController@getblogs');
+    Route::get('blog/{id}', 'HomeController@getblog');
+
     Route::get('questions', 'HomeController@getQuestions');
     Route::post('bepartener/{step}', 'BepartenerController@store');
 

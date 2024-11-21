@@ -63,7 +63,7 @@ Route::resource('design-types', 'DesignTypeController')->except(['create', 'edit
 Route::get('/parent-categories', 'CategoryController@parentCategories');
 Route::resource('contact-requests', 'ContactRequestController')->except(['create', 'edit', 'store', 'update']);
 Route::resource('customers', 'CustomerController')->except(['create', 'edit']);
-Route::resource('customers_rates', 'CustomerRatesController')->except(['create', 'edit']);
+Route::resource('customers_rates', 'CustomersRatesController')->except(['create', 'edit']);
 
 Route::get('customers/blocking/{customer}', 'CustomerController@blocked')->name('customers.blocked');
 Route::get('customers/blocked-selected', 'CustomerController@blockedSelected');

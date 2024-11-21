@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\BrandResource;
+use App\Http\Resources\Api\CategoryResource;
 use App\Http\Resources\Api\CityResource;
+use App\Http\Resources\Api\CustomerRateResource;
+use App\Http\Resources\Api\Rate;
+use App\Http\Resources\Api\RateResource;
 use App\Http\Resources\Api\SkinColorResource;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\City;
+use App\Models\customers_rates;
 use App\Models\SkinColor;
 use Illuminate\Http\Request;
 
@@ -21,12 +27,18 @@ class GeneralInvokableController extends Controller
         $allCities          = City::select('id', 'name_ar', 'name_en')->get();
         $brands         = Brand::select('id', 'name_ar', 'name_en','description_en','description_ar')->get();
         $colors         = SkinColor::select('id', 'name_ar', 'name_en')->get();
+        $rate         = customers_rates::select('id', 'customer_id','comment','rate','status')->get();
+        $category         = Category::get();
 
-        return $this->success('', [
+         return $this->success('', [
           
             'allCities' => CityResource::collection($allCities),
             'brands' => BrandResource::collection( $brands),
             'colors' => SkinColorResource::collection( $colors),
+            'Rate' => RateResource::collection( $rate),
+
+            'Categories' => CategoryResource::collection(   $category ),
+
 
             'instagram_link' => setting('instagram_link'),
             'privacy_policy' => setting('privacy_policy_' . request()->header('Content-language')),

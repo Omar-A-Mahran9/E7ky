@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->integer('rate')->default(5); // Set default to 5
+            $table->longText('comment'); // Set default to 5
              $table->enum('status', ['approve', 'reject','pending'])->default('pending'); // Define enum with a default value
             $table->timestamps();
         });

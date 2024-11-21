@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\AdResource;
+use App\Http\Resources\Api\BlogResource;
 use App\Http\Resources\Api\BrandResource;
 use App\Http\Resources\Api\CategoryResource;
 use App\Http\Resources\Api\ProductResource;
@@ -36,7 +37,21 @@ class HomeController extends Controller
     {
         $blogs = blogs::get();
 
-        return $this->success('', BrandResource::collection($blogs));
+        return $this->success('', BlogResource::collection($blogs));
+    }
+
+    public function getblog($id)
+    {
+        $blog = blogs::find($id);
+
+        $relatedBlogs = blogs::where('id', '!=', $id)
+        ->inRandomOrder()
+        ->take(5)
+        ->get();
+
+        $blog['relatedBlogs']= $relatedBlogs;
+ 
+        return $this->success('', $blog);
     }
 
     public function getQuestions()

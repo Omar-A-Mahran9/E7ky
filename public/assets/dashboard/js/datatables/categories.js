@@ -342,10 +342,11 @@ var KTDatatablesServerSide = (function () {
                 $("#description_ar_inp").val(data.description_ar);
                 $("#description_en_inp").val(data.description_en);
                 $("#meta_tag_key_words_inp").val(data.meta_tag_key_words);
+
                 $("#meta_tag_key_description_inp").val(
                     data.meta_tag_key_description
                 );
-                if (data.size_applicable == 1) {
+                if (data.show_in_home == 1) {
                     $("#kt_modal_update_address_billing").prop("checked", true);
                 } else {
                     $("#kt_modal_update_address_billing").prop(

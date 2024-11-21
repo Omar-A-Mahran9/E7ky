@@ -37,15 +37,12 @@ class Category extends Model
     {
         return $this->belongsToMany(SubCategory::class, CategorySubCategory::class);
     }
-    public function offers()
+    public function cars()
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Cars::class);
     }
 
-    public function products()
-    {
-        return $this->belongsToMany(Product::class)->withoutGlobalScope(SortingScope::class);
-    }
+
 
     public function subcategoryProducts()
     {

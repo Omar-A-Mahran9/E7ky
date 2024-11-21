@@ -21,6 +21,7 @@ let translations = {
         "Add Payment parteners": "أضف شريك",
         "Add new Addon": " أضف خدمة ",
         "Edit addon": "تعديل الخدمة",
+        "Add new rate": "اضافة تقييم",
 
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",

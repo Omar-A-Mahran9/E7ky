@@ -20,9 +20,9 @@ class RateResource extends JsonResource
             "customer_image" => $this->customer->full_image_path,
             "rate"=> $this->rate,
             "comment" => $this->comment,
-            "showFullText" => False,
-            "truncatedText" => "",
-            'created_at' => $this->created_at->diffForHumans()
+            "status" => $this->status,
+            // "truncatedText" => "",
+            // 'created_at' => $this->created_at->diffForHumans()
         ];
     }
 }
