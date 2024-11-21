@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -89,7 +90,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('questions', 'HomeController@getQuestions');
     Route::post('bepartener/{step}', 'BepartenerController@store');
 
-    Route::get('booking', 'GeneralInvokableController');
+    Route::get('booking',[BookingController::class,'index']);
+    Route::post('booking',[BookingController::class,'store']);
 
 
 

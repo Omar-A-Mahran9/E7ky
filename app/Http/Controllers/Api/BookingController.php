@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\StoreBookingRequest;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 
@@ -13,15 +14,10 @@ class BookingController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('view_booking');
+        // $this->authorize('view_booking');
 
-        if ($request->ajax())
-        {
-            $data = getModelData(model: new Booking());
-            return response()->json($data);
-        }
-
-        return view('dashboard.booking.index');
+        $data=Booking::get();
+        return $this->success('', Booking::collection($data));
     }
 
     /**
@@ -35,9 +31,9 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookingRequest $request)
     {
-       dd('fddfdfdf');
+       dd($request);
     }
 
     /**
