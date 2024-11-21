@@ -100,19 +100,9 @@ class DashboardController extends Controller
         // categories
         $categories            = Category::query()->where('parent_id', null);
         $allCategories         = $categories->clone()->get();
-        $categoryCountProducts = $categories->clone()->withCount('products')->get();
+        $categoryCountProducts = $categories->get();
         $categoryCount         = $categoryCountProducts->pluck('products_count');
-        $categoryCountOrders   = $categories->clone()->with('products', function ($query) {
-            $query->withCount([
-                'orderItems as order_count' => function ($query) {
-                    $query->join('orders', 'order_items.order_id', '=', 'orders.id')
-                        ->selectRaw('count(distinct orders.id)');
-                }
-            ]);
-        })->get();
-        $categoryCountOrders   = $categoryCountOrders->pluck('products')->map(function ($productCollection) {
-            return $productCollection->sum('order_count');
-        });
+        $categoryCountOrders   = [];
 
         // Products
         $products                  = Product::query();
