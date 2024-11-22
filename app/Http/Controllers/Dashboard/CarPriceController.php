@@ -54,13 +54,14 @@ class CarPriceController extends Controller
 
         $data          = $request->validated();
 
-        if($data->type =='per_trip'){
-            $data['city']=null;
-        }else{
-            $data['from']=null;
-            $data['to']=null;
-
+        if ($data['type'] === 'per_trip') {
+            $data['city'] = null;
+        } else {
+            $data['from'] = null;
+            $data['to'] = null;
         }
+    
+
          $brand = CarPrice::create($data);
 
         return response(["Car price created successfully"]);

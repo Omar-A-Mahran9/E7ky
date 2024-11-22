@@ -93,6 +93,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('booking',[BookingController::class,'index']);
     Route::post('booking',[BookingController::class,'store']);
 
+    Route::post('filter_car_prices',[BookingController::class,'filterPertrip']);
 
 
 });

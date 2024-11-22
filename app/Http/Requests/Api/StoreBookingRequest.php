@@ -23,10 +23,55 @@ class StoreBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
-            'phone' => ['required', new PhoneNumber()],
-            'email' => ['required', 'email'],
-            'message' => ['required']
+              // Correct field validation rules
+              'type' => ['required', 'in:per_trip,per_hour,per_package,booking_start'],
+
+              'name' => ['required', 'string', 'max:255'],
+              'email' => ['required', 'email'],
+              'phone' => ['required', 'string', 'min:10', 'max:15', new PhoneNumber()],
+
+            //   'ticket_image' => ['required_if:type,per_trip', 'required_if:type,per_hour','nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+
+              'ticket_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+              'addon_services' => ['required_if:type,per_trip', 'required_if:type,per_hour', 'array'],
+           
+              'car_prices_id' => [
+                'required_if:type,per_trip', 
+                'exists:car_prices,id', // Ensure that car_prices_id exists in the car_prices table
+            ],
+            'payment_method_id' => [
+                'required_if:type,per_trip,per_package', 
+                'exists:payment_methods,id', // Ensure that payment_method_id exists in the payment_methods table
+            ],
+            'payment_way_id' => [
+                'required_if:type,per_trip,per_package', 
+                'exists:payment_ways,id', // Ensure that payment_way_id exists in the payment_ways table
+            ],
+              
+
+              'card_number' => ['required', 'string', 'min:13', 'max:19'], // Ensure it is numeric and 13 to 19 digits long
+              'security_code' => ['required', 'numeric', 'digits_between:3,4'], // CVV should be 3 or 4 digits
+              'end_date_month' => ['required', 'integer', 'between:1,12'], // Month should be between 1 and 12
+              'end_date_year' => ['required', 'integer', 'digits:4', 'min:' . date('Y')], // Year should be a 4-digit number and should not be in the past
+              'first_name' => ['required', 'string', 'max:255'], // Ensure first name is a string and not too long
+              'last_name' => ['required', 'string', 'max:255'], // Ensure last name is a string and not too long
+       
+
+            'go_only' => ['sometimes', 'boolean'],
+            'go_and_return' => ['sometimes', 'boolean'],
+           
+        
+
+            // 'from_time' => ['required'],
+            // 'to_time' => ['required'],
+            'time' => ['required_if:type,per_trip'],
+            'date' => ['required_if:type,per_trip'],
+            'time_hours' => ['required_if:type,per_hour'],
+
+            'package_id' => ['required_if:type,per_package'],
+            // 'email' => ['required', 'email'],
+            // 'message' => ['required']
         ];
+        
     }
 }

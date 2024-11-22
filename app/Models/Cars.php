@@ -32,6 +32,12 @@ class Cars extends Model
         return $this->belongsTo(Brand::class,'car_id');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id');
+    }
+
+
     public function categories()
     {
         return $this->belongsToMany(Category::class)->whereNull('parent_id')->withoutGlobalScope(SortingScope::class);

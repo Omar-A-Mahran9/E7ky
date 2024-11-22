@@ -54,6 +54,7 @@ class AdController extends Controller
 
         $data = $request->validated();
         if ($request->has('image'))
+        
             $data['image'] = uploadImageToDirectory($request->file('image'), "Ads");
         $ad->update($data);
 
