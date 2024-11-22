@@ -85,7 +85,7 @@ Route::resource('sliders', 'SliderController');
 Route::post('change-order-status/{id}', 'OrderController@changeOrderStatus')->name('change-order-status');
 Route::post("products/{step?}", "ProductController@store")->name('products.store');
 Route::put("products/{product}/{step?}", "ProductController@update")->name('products.update');
-Route::get("products/{product}/images", "ProductController@images");
+Route::get("cars/{car}/images", "CarsController@images");
 Route::resource('products', 'ProductController')->except(['store', 'update']);
 
 Route::resource('cars', 'CarsController')->except(['store', 'update']);

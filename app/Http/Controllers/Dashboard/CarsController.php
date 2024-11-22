@@ -104,71 +104,18 @@ class CarsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCarRequest $request, Product $product, $step = null)
+    public function update(UpdateCarRequest $request, Cars $car, $step = null)
     {
         $this->authorize('update_products');
 
         if (!isset($step)) {
             $allData                 = $request->toArray();
             $dataAttachedWithProduct = $request->toArray();
-            $keysToRemove            = ['variations', 'deletedVariations', 'tags', 'cities', 'images', 'categories', 'subcategories', 'deleted_images'];
-            $dataAttachedWithProduct = Arr::except($dataAttachedWithProduct, $keysToRemove);
-            $cities                  = $allData['cities'];
-            $tags                    = $allData['tags'];
-            $categories              = $allData['categories'];
-            $specifications          = $allData['variations'];
-            $deleteVariations        = explode(',', $request->deletedVariations[0]);
-            $deletedIdsArray         = array_map('intval', $deleteVariations);
-            if ($request->subcategories) {
-                $subcategories = $allData['subcategories'];
-            }
-            if (!$request->price_change) {
-                $dataAttachedWithProduct['price_change'] = 0;
-            }
-            $product->update($dataAttachedWithProduct);
-            $product->cities()->detach();
-            foreach ($cities as $city) {
-                $product->cities()->attach(['city_id' => $city]);
-            }
-
-            foreach ($specifications as $specification) {
-                $variation = ProductSpecification::find($specification['id'] ?? null);
-
-                if ($variation) {
-                    $variation->update($specification);
-                } else {
-                    $product->specifications()->create([
-                        'size' => $specification['size'],
-                        'weight' => $specification['weight'],
-                        'price' => $specification['price'],
-                        'stock' => $specification['stock'],
-                        'discount_price' => $specification['discount_price'] ?? null,
-                        'discount_from' => $specification['discount_from'] ?? null,
-                        'discount_to' => $specification['discount_to'] ?? null,
-                    ]);
-                }
-            }
-
-            if ($deletedIdsArray && $deletedIdsArray[0]) {
-                foreach ($deletedIdsArray as $id) {
-                    $variation = ProductSpecification::findOrFail($id);
-                    $variation->delete();
-                }
-            }
-            $product->tags()->sync($tags);
-            // $product->categories()->detach();
-            $categoriesWithSubcategory = [];
-            foreach ($categories as $categoryId) {
-                $categoriesWithSubcategory[$categoryId] = ['sub_category_id' => $subcategories[0]];
-            }
-            $product->categories()->sync($categoriesWithSubcategory);
-            // $product->categories()->attach($categories);
-
-            // if ($request->subcategories) {
-            //     $product->subcategories()->detach($subcategories);
-            //     $product->subcategories()->attach($subcategories);
-            // }
-            Image::handleProductImages($product->id);
+            $keysToRemove            = ['images', 'deleted_images'];
+            $dataAttachedWithProduct = Arr::except($dataAttachedWithProduct, $keysToRemove);  
+       
+            $car->update($dataAttachedWithProduct);  
+            Image::handleProductImages($car->id);
 
             return response(["Product update successfully"]);
         }
@@ -182,4 +129,25 @@ class CarsController extends Controller
 
         $car->forceDelete();
          return response(["Car deleted successfully"]);    }
+
+
+    public function images(Cars $car)
+    {
+        $productImages = $car->images->toArray();
+        $images        = scandir(public_path('/storage/Images/CarImages'));
+
+        foreach ($productImages as $imageName) {
+            $imageName = $imageName['name'];
+
+            if (in_array($imageName, $images)) {
+                $image['name'] = $imageName;
+                $filePath      = public_path("/storage/Images/CarImages/$imageName");
+                $image['size'] = filesize($filePath);
+                $image['path'] = asset("/storage/Images/CarImages/$imageName");
+                $data[]        = $image;
+            }
+        }
+
+        return response()->json($data);
+    }
 }
