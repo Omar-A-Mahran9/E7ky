@@ -46,7 +46,7 @@ Route::resource('admins', 'AdminController')->except(['create', 'edit']);
 Route::resource('booking', 'BookingController')->except(['create', 'edit']);
 Route::resource('brands', 'BrandController')->except(['create', 'edit']);
  
-Route::resource('blogs', 'blogsController')->except(['create', 'edit']);
+Route::resource('blogs', 'BlogsController')->except(['create', 'edit']);
 Route::resource('CommonQuestion', 'CommonQuestionController')->except(['create', 'edit']);
 
 Route::resource('addon', 'AddonServiceController')->except(['create', 'edit']);
