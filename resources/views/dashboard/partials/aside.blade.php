@@ -177,6 +177,13 @@
                     </div>
                 @endcan
 
+                @can('view_contact_us')
+                    <x-dashboard.aside-item :slug="'contact_us'" :route="route('dashboard.contact-requests.index')" :title="__('Contact us')">
+                        <i class="ki-outline ki-phone fs-1"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+
+
 
 
 
