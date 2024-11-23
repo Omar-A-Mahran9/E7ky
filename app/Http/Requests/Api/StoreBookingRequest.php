@@ -37,14 +37,22 @@ class StoreBookingRequest extends FormRequest
            
               'car_prices_id' => [
                 'required_if:type,per_trip', 
+                'required_if:type,per_hour',
                 'exists:car_prices,id', // Ensure that car_prices_id exists in the car_prices table
+            ],
+            'note' => [
+                'required_if:type,per_trip', 
+                'required_if:type,per_hour',
             ],
             'payment_method_id' => [
                 'required_if:type,per_trip,per_package', 
+                'required_if:type,per_hour',
                 'exists:payment_methods,id', // Ensure that payment_method_id exists in the payment_methods table
             ],
             'payment_way_id' => [
                 'required_if:type,per_trip,per_package', 
+                'required_if:type,per_hour',
+
                 'exists:payment_ways,id', // Ensure that payment_way_id exists in the payment_ways table
             ],
               
@@ -64,8 +72,8 @@ class StoreBookingRequest extends FormRequest
 
             // 'from_time' => ['required'],
             // 'to_time' => ['required'],
-            'time' => ['required_if:type,per_trip'],
-            'date' => ['required_if:type,per_trip'],
+            'time' => ['required_if:type,per_trip','required_if:type,per_hour'],
+            'date' => ['required_if:type,per_trip','required_if:type,per_hour'],
             'time_hours' => ['required_if:type,per_hour'],
 
             'package_id' => ['required_if:type,per_package'],

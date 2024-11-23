@@ -2,8 +2,8 @@
 
 var datatable;
 // Class definition
-var KTDatatablesServerSide = function () {
-    let dbTable = 'contact-requests';
+var KTDatatablesServerSide = (function () {
+    let dbTable = "contact-requests";
     // Private functions
     var initDatatable = function () {
         datatable = $("#kt_datatable").DataTable({
@@ -14,20 +14,21 @@ var KTDatatablesServerSide = function () {
             order: [],
             stateSave: saveState,
             select: {
-                style: 'multi',
+                style: "multi",
                 selector: 'td:first-child input[type="checkbox"]',
-                className: 'row-selected'
+                className: "row-selected",
             },
             ajax: {
                 url: `/dashboard/${dbTable}`,
             },
             columns: [
-                { data: 'id' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'description' },
-                { data: 'reply' },
-                { data: 'created_at' },
+                { data: "id" },
+                { data: "name" },
+                { data: "phone" },
+                { data: "email" },
+                { data: "message" },
+                // { data: "reply" },
+                { data: "created_at" },
                 { data: null },
             ],
             columnDefs: [
@@ -39,7 +40,7 @@ var KTDatatablesServerSide = function () {
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                 <input class="form-check-input" type="checkbox" value="${data}" />
                             </div>`;
-                    }
+                    },
                 },
                 {
                     targets: 1,
@@ -49,12 +50,11 @@ var KTDatatablesServerSide = function () {
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
                                     <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.name}</a>
-                                    <div class="fw-semibold fs-6 text-gray-400">${row.phone}</div>
                                 </div>
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
                 {
                     targets: 2,
@@ -63,12 +63,13 @@ var KTDatatablesServerSide = function () {
                             <div class="d-flex align-items-center">
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
+ 
                                     <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.email}</a>
                                 </div>
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
                 {
                     targets: 3,
@@ -77,12 +78,12 @@ var KTDatatablesServerSide = function () {
                             <div class="d-flex align-items-center">
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.description}</a>
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.phone}</a>
                                 </div>
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
                 {
                     targets: 4,
@@ -91,13 +92,29 @@ var KTDatatablesServerSide = function () {
                             <div class="d-flex align-items-center">
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.reply}</a>
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.message}</a>
                                 </div>
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
+                // {
+                //     targets: 5,
+                //     render: function (data, type, row) {
+                //         return `
+                //             <div class="d-flex align-items-center">
+                //                 <!--begin::Info-->
+                //                 <div class="d-flex flex-column justify-content-center  text-center">
+                //                     <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary  text-center">${
+                //                         row.reply ?? "-"
+                //                     }</a>
+                //                 </div>
+                //                 <!--end::Info-->
+                //             </div>
+                //         `;
+                //     },
+                // },
                 {
                     targets: 5,
                     render: function (data, type, row) {
@@ -110,7 +127,7 @@ var KTDatatablesServerSide = function () {
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
                 {
                     targets: -1,
@@ -128,18 +145,18 @@ var KTDatatablesServerSide = function () {
                             </a>
                             <!--begin::Menu-->
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-                                    <a href="javascript:;" class="menu-link px-3" data-kt-docs-table-filter="edit_row">
-                                        ${__('تعديل')}
-                                    </a>
-                                </div>
-                                <!--end::Menu item-->
+                         <!--begin::Menu item 
+                              <div class="menu-item px-3">
+                               <a href="javascript:;" class="menu-link px-3" data-kt-docs-table-filter="edit_row">
+                               ${__("تعديل")}
+                               </a>
+                           </div>
+   end::Menu item-->
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
-                                        ${__('حذف')}
+                                        ${__("حذف")}
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
@@ -153,21 +170,21 @@ var KTDatatablesServerSide = function () {
             // Add data-filter attribute
             createdRow: function (row, data, dataIndex) {
                 // $(row).find('td:eq(4)').attr('data-filter', data.CreditCardType);
-            }
+            },
         });
 
         // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
-        datatable.on('draw', function () {
+        datatable.on("draw", function () {
             initToggleToolbar();
             toggleToolbars();
             deleteRowWithURL(`/dashboard/${dbTable}/`);
             deleteSelectedRowsWithURL({
                 url: `/dashboard/${dbTable}/delete-selected`,
-                restoreUrl: null
+                restoreUrl: null,
             });
             KTMenu.createInstances();
         });
-    }
+    };
 
     // Public methods
     return {
@@ -178,11 +195,11 @@ var KTDatatablesServerSide = function () {
             deleteRowWithURL(`/dashboard/${dbTable}/`);
             deleteSelectedRowsWithURL({
                 url: `/dashboard/${dbTable}/delete-selected`,
-                restoreUrl: null
+                restoreUrl: null,
             });
-        }
-    }
-}();
+        },
+    };
+})();
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {

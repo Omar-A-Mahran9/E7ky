@@ -21,10 +21,10 @@ class ContactRequestController extends Controller
             return view('dashboard.contact-requests.index');
     }
 
-    public function destroy(ContactRequest $contactRequest)
+    public function destroy(Contact_us $contactRequest)
     {
-        $this->authorize('delete_contact_us');
-
+        $this->authorize('view_contact_us');
+ 
         $contactRequest->delete();
 
         return response(["Contact request deleted successfully"]);
@@ -32,9 +32,9 @@ class ContactRequestController extends Controller
 
     public function deleteSelected(Request $request)
     {
-        $this->authorize('delete_contact_us');
+        $this->authorize('view_contact_us');
 
-        ContactRequest::whereIn('id', $request->selected_items_ids)->delete();
+        Contact_us::whereIn('id', $request->selected_items_ids)->delete();
 
         return response(["selected contact requests deleted successfully"]);
     }

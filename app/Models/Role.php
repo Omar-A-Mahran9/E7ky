@@ -39,6 +39,7 @@ class Role extends Model
         'payment_partener',
         'payment_ways',
         'packageCategories',
+        'packagesubCategories',
         'packages',
         'tags',
         'cities',

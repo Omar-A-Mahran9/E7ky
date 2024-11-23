@@ -161,6 +161,15 @@
                                 <!--end:Menu link-->
                                 <!--begin:Menu link-->
 
+                                @can('view_packagesubCategories')
+                                    <x-dashboard.aside-item :slug="'packagesubCategories'" :route="route('dashboard.packageCategories.index')" :title="__('Packages Sub Categories')">
+                                        <i class="ki-outline ki-chart fs-2"></i>
+                                    </x-dashboard.aside-item>
+                                @endcan
+
+                                <!--end:Menu link-->
+                                <!--begin:Menu link-->
+
                                 @can('view_packages')
                                     <x-dashboard.aside-item :slug="'packages'" :route="route('dashboard.packages.index')" :title="__('Packages')">
                                         <i class="ki-outline ki-package fs-2"></i>
