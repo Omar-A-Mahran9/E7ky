@@ -94,6 +94,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('booking',[BookingController::class,'store']);
 
     Route::post('filter_car_prices',[BookingController::class,'filterPertrip']);
+    Route::post('filter_Packages',[BookingController::class,'filterPackages']);
+
 
 
 });

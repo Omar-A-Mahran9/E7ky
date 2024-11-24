@@ -29,7 +29,8 @@ class AuthController extends Controller
                 'exists:customers,email',
                 function ($attribute, $value, $fail) {
                     $customer = Customer::whereEmail($value)->first();
-                    if ($customer->block_flag === 1)
+                     
+                    if ($customer && $customer->block_flag === 1 )
                     {
                         $fail(__("Your account is blocked. Please contact support."));
                     }

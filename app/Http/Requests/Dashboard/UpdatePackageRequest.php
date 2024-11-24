@@ -36,6 +36,8 @@ class UpdatePackageRequest extends FormRequest
             "from_time" => ["required"],
             "to_time" => ["required"],
              "package_categories_id" => ["required"],
+             'cities' => 'required|array',       // Ensure cities is an array
+             'cities.*' => 'exists:cities,id',  // Validate each city ID exists in cities table
         ];
     }
 }

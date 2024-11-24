@@ -9,6 +9,7 @@ use App\Models\Cars;
 use App\Models\City;
 use App\Models\PackageCategory;
 use App\Models\Packages;
+use App\Models\PackagesubCategory;
 use Illuminate\Http\Request;
 
 class PackagesController extends Controller
@@ -22,6 +23,7 @@ class PackagesController extends Controller
          $cities = City::get();
          $cars = Cars::get();
          $categoriesPackage = PackageCategory::get();
+         $subcategoriesPackage = PackagesubCategory::get();
 
          $visited_site=10000;
          if ($request->ajax())
@@ -34,7 +36,7 @@ class PackagesController extends Controller
             ]
         ));
          else
-            return view('dashboard.packages.index',compact('count_Category','visited_site','cities','cars','categoriesPackage'));
+            return view('dashboard.packages.index',compact('count_Category','visited_site','cities','cars','categoriesPackage','subcategoriesPackage'));
     }
 
 
@@ -51,12 +53,15 @@ class PackagesController extends Controller
      */
     public function store(StorePackageRequest $request)
     {
+
         $this->authorize('create_packages');
 
         $data          = $request->validated();
-        $brand = Packages::create($data);
+        $data = collect($data)->except('cities')->toArray();
 
-        return response(["Package created successfully"]);
+        $package = Packages::create($data);
+        $package->cities()->sync($request->cities);
+         return response(["Package created successfully"]);
     }
 
     /**
@@ -85,6 +90,8 @@ class PackagesController extends Controller
 
          $data = $request->validated();
          $package->update($data);
+         $package->cities()->sync($request->cities);
+
 
         return response(["Package updated successfully"]);
     }

@@ -23,6 +23,7 @@ class Packages extends Model
     {
         static::addGlobalScope(new SortingScope);
     }
+ 
 
     public function getNameAttribute()
     {
@@ -46,6 +47,11 @@ class Packages extends Model
     public function to()
     {
         return $this->belongsTo(City::class,'to');
+    }
+
+    public function cities()
+    {
+        return $this->belongsToMany(City::class, 'city_package','package_id');
     }
     
 

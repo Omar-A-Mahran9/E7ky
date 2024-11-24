@@ -34,7 +34,10 @@ class StorePackageRequest extends FormRequest
             "price" => ["required"],
             "from_time" => ["required"],
             "to_time" => ["required"],
-             "package_categories_id" => ["required"],
+            "package_categories_id" => ["required"],
+            "packagesub_categories_id" => ["nullable"],
+            'cities' => 'required|array',       // Ensure cities is an array
+            'cities.*' => 'exists:cities,id',  // Validate each city ID exists in cities table
 
 
           

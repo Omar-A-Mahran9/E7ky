@@ -25,6 +25,11 @@
     "to time": "بداية الباقة",
     "statue": "الحالة",
     "Statue": "الحالة",
+    "Contact requests list": "طلبات التواصل",
+    "Search for contact requests": "طلبات التواصل البحث",
+    "Add package sub category": "اضافة فئة فرعية الباقة",
+
+    "Packages Sub Categories": "فئات فرعية للباقات",
 
     "Question en": "السؤال بالانجليزية",
     "Question ar": "السؤال بالعربية",
@@ -49,9 +54,12 @@
     "From": "من",
     "To": "إلى",
     "To city": "إلى مدينة",
+    "Cannot delete category with existing sub-categories": "لا يمكن حذف فئة مربوطة بفئة فرعية",
 
     "Packages Categories": "فئات الباقات",
     "Packages Categories list": "قائمة فئات الباقات",
+    "Packages sub Categories list": "قائمة فئات الفرعية الباقات",
+
     "Add new package category": "اضافة فئة باقة جديدة",
     "Search for package categories": "البحث عن فئة باقة",
     "Add package category": "اضافة فئة باقة",

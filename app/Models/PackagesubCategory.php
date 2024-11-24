@@ -6,11 +6,13 @@ use App\Models\Scopes\SortingScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PackageCategory extends Model
+class PackagesubCategory extends Model
 {
     use HasFactory;
+    protected $table = 'packagesub_categories'; // Replace with your actual table name
+
     protected $guarded = [];
-    protected $appends = ['name', 'description'];
+    protected $appends = ['name'];
     protected $casts   = [
         'created_at' => 'date:Y-m-d',
         'updated_at' => 'date:Y-m-d',
@@ -28,16 +30,5 @@ class PackageCategory extends Model
     {
         return $this->attributes['name_' . app()->getLocale()];
     }
-
-    public function getDescriptionAttribute()
-    {
-        return $this->attributes['description_' . app()->getLocale()];
-    }
-
-    public function packagesubCategories()
-{
-    return $this->hasMany(PackageSubCategory::class, 'package_categories_id');
-}
-
 
 }

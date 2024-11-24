@@ -79,11 +79,15 @@ class PackageCategoryController extends Controller
      */
     public function destroy(PackageCategory $packageCategory)
     {
-         $this->authorize('delete_packageCategories');
+        $this->authorize('delete_packageCategories');
+       // Delete related rows
+       $packageCategory->packagesubCategories()->delete();
 
-        $packageCategory->delete();
-        return response(["packageCategories deleted successfully"]);
-    }
+       // Delete the package category
+       $packageCategory->delete();
+   
+       return response(["packageCategories deleted successfully"]);
+     }
 
     public function deleteSelected(Request $request)
     {

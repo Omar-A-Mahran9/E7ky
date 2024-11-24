@@ -283,18 +283,53 @@
                                 <div class="fv-plugins-message-container invalid-feedback" id="name_en"></div>
                             </div>
                         </div>
-                        <div class="fv-row mb-0 fv-plugins-icon-container flex-row-fluid">
-                            <label for="category_inp"
-                                class="form-label required fs-6 fw-bold mb-3">{{ __('Add package category') }}</label>
-                            <select class="form-select " data-control="select2" id="category_inp"
-                                data-placeholder="{{ __('Add package category') }}" name="package_categories_id"
-                                data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}">
-                                <option value="" selected></option>
-                                @foreach ($categoriesPackage as $categoriesPackag)
-                                    <option value="{{ $categoriesPackag->id }}"> {{ $categoriesPackag->name }} </option>
-                                @endforeach
-                            </select>
-                            <div class="fv-plugins-message-container invalid-feedback" id="package_categories_id"></div>
+                        <div class="d-flex gap-5 mb-4">
+
+                            <div class="fv-row mb-0 fv-plugins-icon-container flex-row-fluid">
+                                <label for="category_inp"
+                                    class="form-label required fs-6 fw-bold mb-3">{{ __('Add package category') }}</label>
+                                <select class="form-select " data-control="select2" id="category_inp"
+                                    data-placeholder="{{ __('Add package category') }}" name="package_categories_id"
+                                    data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}">
+                                    <option value="" selected></option>
+                                    @foreach ($categoriesPackage as $categoriesPackag)
+                                        <option value="{{ $categoriesPackag->id }}"> {{ $categoriesPackag->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="fv-plugins-message-container invalid-feedback" id="package_categories_id">
+                                </div>
+                            </div>
+
+                            <div class="fv-row mb-0 fv-plugins-icon-container flex-row-fluid">
+                                <label for="subcategory_inp"
+                                    class="form-label required fs-6 fw-bold mb-3">{{ __('Add package sub category') }}</label>
+                                <select class="form-select " data-control="select2" id="subcategory_inp"
+                                    data-placeholder="{{ __('Add package sub category') }}"
+                                    name="packagesub_categories_id" data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}">
+                                    <option value="" selected></option>
+                                    @foreach ($subcategoriesPackage as $categoriesPackag)
+                                        <option value="{{ $categoriesPackag->id }}"> {{ $categoriesPackag->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="fv-plugins-message-container invalid-feedback" id="packagesub_categories_id">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex   gap-5 mb-4">
+                            <div class="fv-row mb-0 fv-plugins-icon-container flex-row-fluid">
+                                <label for="city_inp"
+                                    class="form-label required fs-6 fw-bold mb-3">{{ __('Cities') }}</label>
+                                <select class="form-select" data-control="select2" id="city_inp"
+                                    data-placeholder="{{ __('City') }}" name="cities[]" multiple
+                                    data-dir="{{ isArabic() ? 'rtl' : 'ltr' }}">
+                                    @foreach ($cities as $city)
+                                        <option value="{{ $city->id }}"> {{ $city->name }} </option>
+                                    @endforeach
+                                </select>
+                                <div class="fv-plugins-message-container invalid-feedback" id="cities"></div>
+                            </div>
                         </div>
                         <div class="d-flex   gap-5 mb-4">
                             <div class="fv-row mb-0 fv-plugins-icon-container flex-row-fluid">

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreBookingRequest;
 use App\Http\Resources\Api\carspriceResources;
+use App\Http\Resources\Api\packagesResources;
 use App\Models\Booking;
 use App\Models\CarPrice;
 use App\Models\Customer;
+use App\Models\Packages;
 use App\Models\PaymentData;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -165,11 +167,9 @@ class BookingController extends Controller
 
     }
 
-    if($data['type']==='per_trip'){
+    if($data['type']==='per_package'){
 
-        if ($request->has('ticket_image	'))
-        $data['ticket_image	'] = uploadImageToDirectory($request->file('ticket_image'), "Tickets_booking");
-    
+      
         $customer = Customer::where('email', $data['email'])->first();
 
         if (!$customer) {
@@ -185,8 +185,8 @@ class BookingController extends Controller
             $customer = Customer::create($customer_data);
         }
         
-        $carPrice=CarPrice::find($data['car_prices_id']);
-        $amount=$carPrice->price;
+        $package=Packages::find($data['package_id']);
+        $amount=$package->price;
         
         $payment_data=[
             'payment_way_id'=>$data['payment_way_id'],
@@ -207,13 +207,10 @@ class BookingController extends Controller
         $book_data=[
             'type'=>$data['type'],
             'customer_id'=>$customer->id,
-            'car_prices_id'=>$data['car_prices_id'],
+            'package_id'=>$data['package_id'],
             'payment_way_id'=>$data['payment_way_id'],
             'payment_method_id'=>$data['payment_method_id'],
             'payment_data_id'=>$payment->id,
-            'go_only'=>$data['go_only'],
-            'go_and_return'=>$data['go_and_return'],
-            'notes'=>$data['note'],
             'status'=>'pending',
             'amount'=>  $amount,
             'time'=> $data['time'],
@@ -271,7 +268,8 @@ class BookingController extends Controller
                 ->select('car_prices.*', 'cars.passengers_counts'); // Select specific columns from both tables
         }
         }
-        elseif ($data['type'] === 'per_hour') {
+        
+        if ($data['type'] === 'per_hour') {
             $carPriceQuery->where('statue', 1);
             $carPriceQuery->where('type', 'per_hour');
             if (!empty($data['city'])) {
@@ -285,14 +283,38 @@ class BookingController extends Controller
                 ->select('car_prices.*', 'cars.passengers_counts'); // Select specific columns from both tables
         }
         }
-
-
     // Retrieve the filtered results
-      $carPrices = $carPriceQuery->with('cars')->get();
+          $carPrices = $carPriceQuery->with('cars')->get();
 
-     return $this->success('',  carspriceResources::collection($carPrices));
+         return $this->success('',  carspriceResources::collection($carPrices));
+    }
 
+    public function filterPackages(Request $request)
+    {
+       $data= $request->validate([
+            'package_categories_id' => 'required',
+            'packagesub_categories_id' => 'nullable',
+
+        ]);
+        $packages=Packages::query();
+        $packages->where('statue', 1);
  
+        $currentDate = now()->format('Y-m-d');  // Get the current date in 'YYYY-MM-DD' format
+         $packages->whereDate('from_time', '<=', $currentDate)
+                 ->whereDate('to_time', '>=', $currentDate);
+   
+        if ($data['package_categories_id'] !== null) {
+
+         $packages->where('package_categories_id',$data['package_categories_id']);
+        }
+        // Conditionally filter by 'packagesub_categories_id' if it's provided
+        if ($data['packagesub_categories_id'] !== null) {
+            $packages->where('packagesub_categories_id', $data['packagesub_categories_id']);
+        }
+
+
+        $filterpackages = $packages->get();
+        return $this->success('', packagesResources::collection($filterpackages));
     }
     /**
      * Display the specified resource.

@@ -26,6 +26,12 @@ class City extends Model
         static::addGlobalScope(new SortingScope);
     }
 
+    public function packages()
+{
+    return $this->belongsToMany(Packages::class, 'city_package','city_id');
+}
+
+
     public function products()
     {
         return $this->belongsToMany(Product::class)->withPivot('product_has_fast_shipping');

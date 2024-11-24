@@ -52,6 +52,8 @@ Route::resource('CommonQuestion', 'CommonQuestionController')->except(['create',
 Route::resource('addon', 'AddonServiceController')->except(['create', 'edit']);
 
 Route::resource('packageCategories', 'PackageCategoryController')->except(['create', 'edit']);
+Route::resource('packagesubCategories', 'PackagesubCategoryController')->except(['create', 'edit']);
+
 Route::resource('packages', 'PackagesController')->except(['create', 'edit']);
 Route::resource('car_prices', 'CarPriceController')->except(['create', 'edit']);
 

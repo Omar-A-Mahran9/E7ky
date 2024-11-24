@@ -18,8 +18,12 @@ return new class extends Migration
             $table->string('price');
 
             $table->string('image')->unique();
+
             $table->unsignedBigInteger('package_categories_id')->nullable();
             $table->foreign('package_categories_id')->references('id')->on('package_categories');
+
+            $table->unsignedBigInteger('packagesub_categories_id')->nullable();
+            $table->foreign('packagesub_categories_id')->references('id')->on('packagesub_categories');
             // Cities table relations
 
             $table->unsignedBigInteger('car_id')->nullable();
