@@ -263,7 +263,7 @@ class BookingController extends Controller
 
             if (!empty($data['Passenger_count'])) {
                 $carPriceQuery->join('cars', 'cars.id', '=', 'car_prices.car_id')
-                ->where('cars.passengers_counts', $data['Passenger_count'])
+                ->where('cars.passengers_counts', '>=', $data['Passenger_count'])
                 ->orderBy('car_prices.created_at', 'desc')
                 ->select('car_prices.*', 'cars.passengers_counts'); // Select specific columns from both tables
         }
@@ -278,7 +278,7 @@ class BookingController extends Controller
 
             if (!empty($data['Passenger_count'])) {
                 $carPriceQuery->join('cars', 'cars.id', '=', 'car_prices.car_id')
-                ->where('cars.passengers_counts', $data['Passenger_count'])
+                ->where('cars.passengers_counts', '>=', $data['Passenger_count'])
                 ->orderBy('car_prices.created_at', 'desc')
                 ->select('car_prices.*', 'cars.passengers_counts'); // Select specific columns from both tables
         }
