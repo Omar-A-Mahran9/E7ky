@@ -29,9 +29,8 @@ class AuthController extends Controller
                 'exists:customers,email',
                 function ($attribute, $value, $fail) {
                     $customer = Customer::whereEmail($value)->first();
-                     
-                    if ($customer && $customer->block_flag === 1 )
-                    {
+
+                    if ($customer && $customer->block_flag === 1) {
                         $fail(__("Your account is blocked. Please contact support."));
                     }
                 }
@@ -41,14 +40,12 @@ class AuthController extends Controller
 
         $customer = Customer::whereEmail($request->email)->first();
 
-        if (Hash::check($request->password, $customer->password))
-        {
+        if (Hash::check($request->password, $customer->password)) {
             $token = $customer->createToken('Personal access token to apis')->plainTextToken;
 
             return $this->success("logged in successfully", ['token' => $token, "user" => new CustomerResource($customer)]);
 
-        } else
-        {
+        } else {
             return $this->validationFailure(["password" => [__("Password mismatch")]]);
         }
     }
@@ -80,19 +77,18 @@ class AuthController extends Controller
     {
         $data                        = $request->validate([
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
-            'full_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-
-            // 'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-            // 'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
+            'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
+            'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
+            'age' => ['required', 'integer', 'min:18', 'max:100'], // Ensures age is between 18 and 100
+            'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
             'email' => 'required|string|email|unique:customers',
             'password' => ['required', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
-            // 'password_confirmation' => 'required|same:password',
+            'password_confirmation' => 'required|same:password',
             'privacy_flag' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if ($value == 0 || $value == false || $value == "false")
-                    {
+                    if ($value == 0 || $value == false || $value == "false") {
                         $fail(__('Must be approved first'));
 
                     }
@@ -109,16 +105,13 @@ class AuthController extends Controller
             //     }
             // ],
         ]);
-         $data['password_confirmation'] = $data['password']; // Remaining words as last_name or empty string if not provided
 
-        $names = explode(' ', trim($data['full_name']), 2);
-        $data['first_name'] = $names[0]; // First word as first_name
-        $data['last_name'] = isset($names[1]) ? $names[1] : ''; // Remaining words as last_name or empty string if not provided
 
         $data['privacy_flag']        = $data['privacy_flag'] ? 1 : 0;
         $data['power_attorney_flag'] = 1;
-        if ($request->image)
+        if ($request->image) {
             $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
+        }
         $data['block_flag']       = 0;
         $customer                 = Customer::create($data);
         $customer->remember_token = Str::random(10);
