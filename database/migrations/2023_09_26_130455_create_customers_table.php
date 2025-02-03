@@ -14,6 +14,8 @@ return new class () extends Migration {
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('email')->unique();
+
             $table->text('job_description')->nullable(); // Job description of the talker
             $table->text('bio')->nullable(); // Short biography of the talker
             $table->string('image')->nullable(); // URL or path to the profile picture

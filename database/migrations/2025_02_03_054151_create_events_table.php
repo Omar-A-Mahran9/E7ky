@@ -36,6 +36,7 @@ return new class () extends Migration {
             $table->decimal('price', 10, 2)->nullable(); // Event price
             $table->string('event_link')->nullable(); // External link for the event
             $table->string('streaming_link')->nullable(); // External link for the event
+            $table->softDeletes();
 
             $table->timestamps();
         });

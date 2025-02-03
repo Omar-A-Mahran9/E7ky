@@ -40,30 +40,12 @@ class Customer extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function addresses()
+    public function talks()
     {
-        return $this->HasMany(Address::class);
+        return $this->HasMany(Talk::class);
     }
 
-    public function orders()
-    {
-        return $this->HasMany(Order::class);
-    }
 
-    public function rates()
-    {
-        return $this->hasMany(Rate::class);
-    }
-
-    public function visits()
-    {
-        return $this->hasMany(Visit::class);
-    }
-
-    public function getNameAttribute()
-    {
-        return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
-    }
 
     public function sendOTP(){
         $this->otp = rand(111111, 999999);
