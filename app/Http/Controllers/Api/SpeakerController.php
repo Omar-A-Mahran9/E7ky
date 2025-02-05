@@ -14,6 +14,7 @@ class SpeakerController extends Controller
      */
     public function index(Request $request)
     {
+
         $query = Customer::where("type", "speaker");
 
         // Search by direct first_name and last_name
@@ -30,7 +31,6 @@ class SpeakerController extends Controller
 
         // Paginate results
         $speakers = $query->paginate(10);
-
         return $this->success(
             'speakers',
             TalkersResource::collection($speakers)
@@ -42,13 +42,20 @@ class SpeakerController extends Controller
 
     public function show($id)
     {
-        $speaker = Customer::where("type", "speaker")->findOrFail($id);
+        try {
+            $speaker = Customer::where("type", "speaker")->findOrFail($id);
 
-        return $this->success(
-            'speaker',
-            new TalkersResource($speaker, true) // This returns full details
-        );
+            return $this->success(
+                'speaker',
+                new TalkersResource($speaker, true) // Returns full details
+            );
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+
+            return $this->failure('Speaker not found', 404);
+        }
     }
+
 
 
     /**

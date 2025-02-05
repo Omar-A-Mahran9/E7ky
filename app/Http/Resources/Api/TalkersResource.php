@@ -27,13 +27,15 @@ class TalkersResource extends JsonResource
             'job_description' => $this->job_description,
             'bio' => $this->bio,
             'count_talks' => $this->talks->count() ,
-            'count_workshops' => $this->workshops->count(),
-            'count_sessions_and_workshop' => $this->talks->count() + $this->workshops->count(),
+            // 'count_workshops' => $this->workshops->count(),
+            'count_sessions_and_workshop' => $this->talks->count() ,
 
 
         ];
+
         // If detailed flag is true, include more detailed information
         if ($this->detailed) {
+
             $data = array_merge($data, [
  // Here, modify the talks data as requested
                 'talks' => $this->talks->map(function ($talk) {

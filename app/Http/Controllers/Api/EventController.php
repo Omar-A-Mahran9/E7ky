@@ -14,34 +14,21 @@ class EventController extends Controller
     {
         $query = Event::query();
 
-        // Filter by upcoming or past events
-        if ($request->has('status')) {
-            if ($request->status === 'upcoming') {
-                $query->where('start_day', '>=', now()->toDateString());
-            } elseif ($request->status === 'past') {
-                $query->where('end_day', '<', now()->toDateString());
-            }
-        }
-
-        // Search by event name, talks, or customer name
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name_ar', 'LIKE', "%{$search}%")
-                  ->orWhere('name_en', 'LIKE', "%{$search}%")
-                  ->orWhereHas('talks', function ($t) use ($search) {
-                      $t->where('name_ar', 'LIKE', "%{$search}%")
-                        ->orWhere('name_en', 'LIKE', "%{$search}%")
-                        ->orWhereHas('customer', function ($c) use ($search) { // ✅ Fix: Correct relation name
-                            $c->where('name_ar', 'LIKE', "%{$search}%") // ✅ Fix: Use correct column name
-                              ->orWhere('name_en', 'LIKE', "%{$search}%");
-                        });
+                $q->where('events.name_ar', 'LIKE', "%{$search}%")
+                  ->orWhere('events.name_en', 'LIKE', "%{$search}%")
+                  ->orWhereHas('talks', function ($talkQuery) use ($search) {
+                      $talkQuery->where('talks.name_ar', 'LIKE', "%{$search}%")
+                                ->orWhere('talks.name_en', 'LIKE', "%{$search}%");
                   });
             });
         }
 
-        // Sort by event start date
-        $query->orderBy('start_day', 'asc');
+        // ✅ Specify the table name for ordering to avoid ambiguity
+        $query->orderBy('events.created_at', 'desc');
+
 
         // Paginate the results
         $events = $query->paginate(10);
@@ -61,7 +48,7 @@ class EventController extends Controller
     public function show($id, Request $request)
     {
         // Fetch the event by its ID along with its relations (talks and customer)
-        $event = Event::with('talks.customer')->findOrFail($id);
+        $event = Event::with('talks.customers')->findOrFail($id);
 
         // Return the event as a resource, which will automatically handle the response format
         return $this->success(
@@ -74,34 +61,34 @@ class EventController extends Controller
     public function Eventspeakers($id)
     {
         // Fetch the event by its ID along with the related talks and customers
-        $event = Event::with('talks.customer')->findOrFail($id);
-
+        $event = Event::with('talks.customers')->findOrFail($id);
         // Fetch all customers associated with the event
-        $customers = $event->talks->pluck('customer')->unique('id');
+        $customers = $event->talks->flatMap->customers->unique('id');
 
-        // Prepare the response data with talk count per customer
+        // Map the customers to the required response format
         $talksData = $customers->map(function ($customer) use ($event) {
-            // Get talks for each customer
-            $talks = $event->talks->where('customer_id', $customer->id);
-            $workshops = $event->workshops->where('customer_id', $customer->id);
+            $talks = $event->talks->filter(function ($talk) use ($customer) {
+                return $talk->customers->contains($customer->id);
+            });
+
+            $workshops = $customer->workshops ?? collect(); // Replace with actual relation if available
 
             return [
                 'talker_details' => [
                     "id" => $customer->id,
                     "name" => $customer->first_name . ' ' . $customer->last_name
-
                 ],
                 'sessions_count' => $talks->count(), // Count talks per customer
                 'talks' => $talks->map(function ($talk) {
                     return [
                         'id' => $talk->id,
-                        'talk_name' => $talk->name, // You can return the talk name if needed
+                        'talk_name' => $talk->name, // Adjust this if the talk name has different column names
                     ];
                 }),
                 'workshop' => $workshops->map(function ($workshop) {
                     return [
                         'id' => $workshop->id,
-                        'workshop_name' => $workshop->name, // You can return the talk name if needed
+                        'workshop_name' => $workshop->name, // Adjust based on actual column name
                     ];
                 })
             ];

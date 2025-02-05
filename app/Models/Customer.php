@@ -48,11 +48,13 @@ class Customer extends Authenticatable
         return $this->belongsToMany(Talk::class, 'customers_talks')
                     ->withTimestamps(); // Keep track of created_at & updated_at in pivot table
     }
-
-    public function workshops()
+    public function workshops(): BelongsToMany
     {
-        return $this->HasMany(Workshop::class);
+        return $this->belongsToMany(Workshop::class, 'customers_workshops')
+                    ->withTimestamps(); // Keep track of created_at & updated_at in pivot table
     }
+
+
     public function getNameAttribute()
     {
         return $this->attributes['name_' . app()->getLocale()];

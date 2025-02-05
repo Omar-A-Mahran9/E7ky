@@ -33,17 +33,24 @@ class WorkshopsResource extends JsonResource
 
         ];
 
-        // If it's a detailed view, add more fields
         if ($this->detailed) {
             $data = array_merge($data, [
                 'description' => $this->description,
                 'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+                 'speakers' => $this->customers->map(function ($customer) {
+                     return [
+                         'name' => $customer->first_name . " " . $customer->last_name,
+                         'image' => $customer->full_image_path,
 
+                         'start_time' => "10:00",
+                         'end_time' => "10:00",
+
+                     ];
+                 }),
 
 
             ]);
         }
-
 
         return $data;
     }

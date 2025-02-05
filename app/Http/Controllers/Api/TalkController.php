@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreTalkRequest;
 use App\Http\Resources\Api\TalkersResource;
 use App\Http\Resources\Api\TalkResource;
+use App\Models\Customer;
 use App\Models\Talk;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,7 @@ class TalkController extends Controller
     {
         // Get all talks, possibly paginated
         $talks = Talk::with(['customers', 'event'])->get();
+    
         return $this->success('Talks', ['talks' => TalkResource::collection($talks)]);
     }
     public function show($id)
@@ -41,18 +43,31 @@ class TalkController extends Controller
     {
         // Get validated data and remove 'customer_ids'
         $validatedData = $request->validated();
-        $data = array_diff_key($validatedData, ['customer_ids' => '']);
+        $customerIds = $validatedData['customer_ids'] ?? [];
+
+        // Ensure all customer_ids are of type 'speaker'
+        $validCustomerIds = Customer::whereIn('id', $customerIds)
+            ->where('type', 'speaker')
+            ->pluck('id')
+            ->toArray();
+        if (count($validCustomerIds) !== count($customerIds)) {
+            return $this->failure('Some customers are not speakers.', 422);
+        }
+
+        // Remove 'customer_ids' from validated data before creating the Talk
+        unset($validatedData['customer_ids']);
 
         // Create a new Talk
-        $talk = Talk::create($data);        // Create a new Talk
+        $talk = Talk::create($validatedData);
 
-        // Attach multiple customers (Many-to-Many)
-        $talk->customers()->attach($request->customer_ids);
+        // Attach validated customers (Many-to-Many)
+        $talk->customers()->attach($validCustomerIds);
 
         // Return success response
         return $this->success('Talk created successfully', [
             'talk' => $talk->load('customers') // Load customers in response
         ], 201);
     }
+
 
 }
