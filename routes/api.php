@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\AgendaController as ApiAgendaController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\TalkController as ApiTalkController;
-use App\Http\Controllers\TalkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +49,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::apiResource('events', EventController::class);
 
     Route::apiResource('talks', ApiTalkController::class);
+    Route::apiResource('agenda', ApiAgendaController::class);
 
 
 });
