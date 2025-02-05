@@ -11,9 +11,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Customer extends Authenticatable
 {
-    use HasFactory, HasApiTokens, SMSTrait;
+    use HasFactory;
+    use HasApiTokens;
+    use SMSTrait;
 
-    protected $appends = ['name', 'full_image_path'];
+    protected $appends = [ 'full_image_path'];
     protected $guarded = ["password_confirmation"];
     protected $casts   = ['created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d', 'otp' => 'string'];
 
@@ -32,7 +34,7 @@ class Customer extends Authenticatable
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new SortingScope);
+        static::addGlobalScope(new SortingScope());
     }
 
     public function setPasswordAttribute($value)
@@ -44,10 +46,14 @@ class Customer extends Authenticatable
     {
         return $this->HasMany(Talk::class);
     }
+    public function getNameAttribute()
+    {
+        return $this->attributes['name_' . app()->getLocale()];
+    }
 
 
-
-    public function sendOTP(){
+    public function sendOTP()
+    {
         $this->otp = rand(111111, 999999);
         $appName = setting("website_name") ?? "Platin";
         // $this->sendSMS("$appName: $this->otp هو رمز الحماية,لا تشارك الرمز");

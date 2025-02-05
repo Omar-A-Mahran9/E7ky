@@ -29,4 +29,9 @@ class Talk extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+    public function getNameAttribute()
+    {
+        return $this->attributes['name_' . app()->getLocale()];
+    }
+
 }
