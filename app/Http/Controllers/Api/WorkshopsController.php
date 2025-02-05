@@ -39,4 +39,15 @@ class WorkshopsController extends Controller
     }
 
 
+    public function show($id)
+    {
+        $Workshops = Workshop::with(['customer', 'event'])->findOrFail($id);
+
+        return $this->success(
+            'Workshop',
+            new WorkshopsResource($Workshops, true) // This returns full details
+        );
+    }
+
+
 }
