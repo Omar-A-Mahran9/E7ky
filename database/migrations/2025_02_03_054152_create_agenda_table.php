@@ -22,12 +22,12 @@ return new class extends Migration
             $table->date("start_day");
             $table->date("end_day")->nullable();
 
-            $table->dateTime('start_time'); // Event start time
-            $table->dateTime('end_time')->nullable(); // Event end time
+            $table->time('start_time'); // Event start time
+            $table->time('end_time')->nullable(); // Event end time
 
             $table->unsignedBigInteger('event_id'); // Reference to the event (foreign key)
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-        
+
             $table->timestamps();
         });
     }

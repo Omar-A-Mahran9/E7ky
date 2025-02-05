@@ -19,9 +19,13 @@ class AgendaController extends Controller
     }
 
     // Store a new agenda
-    public function store(ApiStoreAgendaReques $request)
+    public function store(ApiStoreAgendaRequest $request)
     {
-        $agenda = Agenda::create($request->validated());
+        // Fetch the validated data from the request
+        $data = $request->validated();
+
+        // Debug the validated data to make sure it is correct
+        $agenda = Agenda::create($data);
 
 
         return $this->success('Agenda created successfully', ['event' => $agenda]);
