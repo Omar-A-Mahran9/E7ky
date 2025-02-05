@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 // Route::get('/', function () {
 //     return view('welcome');
 // })->name('index');
@@ -43,9 +42,9 @@ Route::delete("car_prices/delete-selected", "CarPriceController@deleteSelected")
 /** begin resources routes **/
 Route::resource('order-reasons', 'OrderReasonController')->except(['create', 'edit']);
 Route::resource('admins', 'AdminController')->except(['create', 'edit']);
-Route::resource('booking', 'BookingController')->except(['create', 'edit']);
+Route::resource('event', 'EventController')->except(['create', 'edit']);
 Route::resource('brands', 'BrandController')->except(['create', 'edit']);
- 
+
 Route::resource('blogs', 'BlogsController')->except(['create', 'edit']);
 Route::resource('CommonQuestion', 'CommonQuestionController')->except(['create', 'edit']);
 
@@ -115,7 +114,7 @@ Route::prefix('settings')->name('settings.')->group(function () {
 
     Route::resource('roles', 'RoleController');
     Route::get('role/{role}/admins', 'RoleController@admins');
- 
+
     Route::match(['get', 'post'], 'home-content/main', 'HomeController@index')->name('home-content');
     Route::match(['get', 'post'], 'home-content/about-us', 'HomeController@aboutUs')->name('home.about-us');
     Route::match(['get', 'post'], 'home-content/terms', 'HomeController@terms')->name('home.terms');
@@ -127,7 +126,7 @@ Route::prefix('settings')->name('settings.')->group(function () {
     Route::post('payment-content/payment-way', 'HomeController@paymentWaystore')->name('home.payment-way.post');
     Route::post('payment-content/payment-way/{id}/update_statue', 'HomeController@updatestatuePaymentWay')->name('home.payment-way.update');
     Route::get('payment-content/payment-way', 'HomeController@paymentWay')->name('home.payment-way.get');
-    Route::delete('payment-content/payment-way/{id}/delete','HomeController@deletepaymentWay')->name('home.payment-way.delete');
+    Route::delete('payment-content/payment-way/{id}/delete', 'HomeController@deletepaymentWay')->name('home.payment-way.delete');
 
 
     Route::post('payment-content/payment-partener', 'HomeController@paymentpartenerstore')->name('home.payment-partener.post');

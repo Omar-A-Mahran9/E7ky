@@ -6,17 +6,17 @@
         <!--begin::Logo-->
         <a href="{{ route('dashboard.index') }}">
             @if (isArabic())
-                <img alt="Logo" src="{{ asset('placeholder_images/raqi-logo.svg') }}"
+                <img alt="Logo" src="{{ asset('placeholder_images/brand-logo.svg') }}"
                     class="h-50px d-none d-sm-inline app-sidebar-logo-default theme-light-show" />
             @else
-                <img alt="Logo" src="{{ asset('placeholder_images/raqi-logo.svg') }}"
+                <img alt="Logo" src="{{ asset('placeholder_images/brand-logo.svg') }}"
                     class="h-50px d-none d-sm-inline app-sidebar-logo-default theme-light-show" />
             @endif
             @if (isArabic())
-                <img alt="Logo" src="{{ asset('placeholder_images/raqi-logo-white.svg') }}"
+                <img alt="Logo" src="{{ asset('placeholder_images/brand-logo-white.svg') }}"
                     class="h-50px theme-dark-show" />
             @else
-                <img alt="Logo" src="{{ asset('placeholder_images/raqi-logo-white.svg') }}"
+                <img alt="Logo" src="{{ asset('placeholder_images/brand-logo-white.svg') }}"
                     class="h-50px theme-dark-show" />
             @endif
         </a>
@@ -46,9 +46,9 @@
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
-                @can('view_booking')
-                    <x-dashboard.aside-item :slug="'Booking'" :route="route('dashboard.booking.index')" :title="__('Booking')">
-                        <i class="ki-outline ki-book fs-2"></i>
+                @can('view_event')
+                    <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.event.index')" :title="__('Event')">
+                        <i class="ki-outline ki-chart fs-2"></i>
                     </x-dashboard.aside-item>
                 @endcan
                 <!--end:Menu item-->

@@ -21,182 +21,149 @@ class DashboardController extends Controller
     public function index()
     {
         //  count orders based status and prices
-        $orders               = Order::query();
-        $orderPlaced          = $orders->clone()->where('status', OrderStatus::OrderPlaced->value)->count();
-        $orderPlacedPrice     = $orders->clone()->where('status', OrderStatus::OrderPlaced->value)->sum('total_price');
-        $orderProcessing      = $orders->clone()->whereIn('status', [OrderStatus::PaymentConfirmed->value, OrderStatus::Processing->value, OrderStatus::Shipped->value])->count();
-        $orderProcessingPrice = $orders->clone()->whereIn('status', [OrderStatus::PaymentConfirmed->value, OrderStatus::Processing->value, OrderStatus::Shipped->value])->sum('total_price');
-        $orderDelivered       = $orders->clone()->where('status', OrderStatus::Delivered->value)->count();
-        $orderDeliveredPrice  = $orders->clone()->where('status', OrderStatus::Delivered->value)->sum('total_price');
-        $orderRejected        = $orders->clone()->where('status', OrderStatus::Rejected->value)->count();
-        $orderRejectedPrice   = $orders->clone()->where('status', operator: OrderStatus::Rejected->value)->sum('total_price');
-        $ordersFastShipping   = $orders->clone()->where('has_fast_shipping', true)->count();
-        $ordersNormalShipping = $orders->clone()->where('has_fast_shipping', false)->count();
-        $orderPlaced          = $this->formatNumber($orderPlaced);
-        $orderProcessing      = $this->formatNumber($orderProcessing);
-        $orderDelivered       = $this->formatNumber($orderDelivered);
-        $orderRejected        = $this->formatNumber($orderRejected);
-        $orderPlacedPrice     = $this->formatNumber($orderPlacedPrice);
-        $orderProcessingPrice = $this->formatNumber($orderProcessingPrice);
-        $orderDeliveredPrice  = $this->formatNumber($orderDeliveredPrice);
-        $orderRejectedPrice   = $this->formatNumber($orderRejectedPrice);
+        // $orders               = Order::query();
+        // $orderPlaced          = $orders->clone()->where('status', OrderStatus::OrderPlaced->value)->count();
+        // $orderPlacedPrice     = $orders->clone()->where('status', OrderStatus::OrderPlaced->value)->sum('total_price');
+        // $orderProcessing      = $orders->clone()->whereIn('status', [OrderStatus::PaymentConfirmed->value, OrderStatus::Processing->value, OrderStatus::Shipped->value])->count();
+        // $orderProcessingPrice = $orders->clone()->whereIn('status', [OrderStatus::PaymentConfirmed->value, OrderStatus::Processing->value, OrderStatus::Shipped->value])->sum('total_price');
+        // $orderDelivered       = $orders->clone()->where('status', OrderStatus::Delivered->value)->count();
+        // $orderDeliveredPrice  = $orders->clone()->where('status', OrderStatus::Delivered->value)->sum('total_price');
+        // $orderRejected        = $orders->clone()->where('status', OrderStatus::Rejected->value)->count();
+        // $orderRejectedPrice   = $orders->clone()->where('status', operator: OrderStatus::Rejected->value)->sum('total_price');
+        // $ordersFastShipping   = $orders->clone()->where('has_fast_shipping', true)->count();
+        // $ordersNormalShipping = $orders->clone()->where('has_fast_shipping', false)->count();
+        // $orderPlaced          = $this->formatNumber($orderPlaced);
+        // $orderProcessing      = $this->formatNumber($orderProcessing);
+        // $orderDelivered       = $this->formatNumber($orderDelivered);
+        // $orderRejected        = $this->formatNumber($orderRejected);
+        // $orderPlacedPrice     = $this->formatNumber($orderPlacedPrice);
+        // $orderProcessingPrice = $this->formatNumber($orderProcessingPrice);
+        // $orderDeliveredPrice  = $this->formatNumber($orderDeliveredPrice);
+        // $orderRejectedPrice   = $this->formatNumber($orderRejectedPrice);
 
-        // Total count of customers
-        $users           = Customer::query();
-        $userCount       = $users->clone()->count();
-        $userCountActive = $users->clone()->where('block_flag', false)->count();
-        $userCountOrder  = $users->has('orders')->count();
-        $userCountOrder  = $this->formatNumber($userCountOrder);
-        $userCountActive = $this->formatNumber($userCountActive);
-        $userCount       = $this->formatNumber($userCount);
+        // // Total count of customers
+        // $users           = Customer::query();
+        // $userCount       = $users->clone()->count();
+        // $userCountActive = $users->clone()->where('block_flag', false)->count();
+        // $userCountOrder  = $users->has('orders')->count();
+        // $userCountOrder  = $this->formatNumber($userCountOrder);
+        // $userCountActive = $this->formatNumber($userCountActive);
+        // $userCount       = $this->formatNumber($userCount);
 
-        $topUsers = Customer::clone()->withSum([
-            'orders' => function ($query) {
-                $query->where('status', OrderStatus::Delivered->value);
-            }
-        ], 'total_price')
-            ->withCount([
-                'orders' => function ($query) {
-                    $query->where('status', OrderStatus::Delivered->value);
-                }
-            ])
-            ->having('orders_count', '>', 0)
-            ->orderByDesc('orders_count')
-            ->take(5)
-            ->get();
+        // $topUsers = Customer::clone()->withSum([
+        //     'orders' => function ($query) {
+        //         $query->where('status', OrderStatus::Delivered->value);
+        //     }
+        // ], 'total_price')
+        //     ->withCount([
+        //         'orders' => function ($query) {
+        //             $query->where('status', OrderStatus::Delivered->value);
+        //         }
+        //     ])
+        //     ->having('orders_count', '>', 0)
+        //     ->orderByDesc('orders_count')
+        //     ->take(5)
+        //     ->get();
 
-        // Total count of vendors
-        $vendors            = Vendor::query();
-        $vendorCount        = $vendors->clone()->count();
-        $vendorCountPending = $vendors->clone()->where('approved', VendorStatusEnum::Pending->value)->count();
-        $topVendors         = $vendors->clone()->withCount('products')->withCount([
-            'orderItems as delivered_orders_count' => function ($query) {
-                $query->selectRaw('count(distinct order_id) as delivered_count')
-                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', OrderStatus::Delivered->value);
-            },
-            'orderItems as rejected_orders_count' => function ($query) {
-                $query->selectRaw('count(distinct order_id) as rejected_count')
-                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', OrderStatus::Rejected->value);
-            }
-        ])
-            ->having('delivered_orders_count', '>', 0)
-            ->orderByDesc('delivered_orders_count')->take(5)->get();
-        $vendorCount = $this->formatNumber($vendorCount);
+        // // Total count of vendors
+        // $vendors            = Vendor::query();
+        // $vendorCount        = $vendors->clone()->count();
+        // $vendorCountPending = $vendors->clone()->where('approved', VendorStatusEnum::Pending->value)->count();
+        // $topVendors         = $vendors->clone()->withCount('products')->withCount([
+        //     'orderItems as delivered_orders_count' => function ($query) {
+        //         $query->selectRaw('count(distinct order_id) as delivered_count')
+        //             ->join('orders', 'order_items.order_id', '=', 'orders.id')
+        //             ->where('orders.status', OrderStatus::Delivered->value);
+        //     },
+        //     'orderItems as rejected_orders_count' => function ($query) {
+        //         $query->selectRaw('count(distinct order_id) as rejected_count')
+        //             ->join('orders', 'order_items.order_id', '=', 'orders.id')
+        //             ->where('orders.status', OrderStatus::Rejected->value);
+        //     }
+        // ])
+        //     ->having('delivered_orders_count', '>', 0)
+        //     ->orderByDesc('delivered_orders_count')->take(5)->get();
+        // $vendorCount = $this->formatNumber($vendorCount);
 
-        // Total count of cities
-        $cities          = City::query();
-        $citiesCount     = $cities->clone()->count();
-        $topCities       = $cities->clone()->take(5)->get();
-        $topNameCities   = $topCities->pluck('name');
-        $topBranchCities = $topCities->pluck('branches_count');
-        $citiesCount     = $this->formatNumber($citiesCount);
+        // // Total count of cities
+        // $cities          = City::query();
+        // $citiesCount     = $cities->clone()->count();
+        // $topCities       = $cities->clone()->take(5)->get();
+        // $topNameCities   = $topCities->pluck('name');
+        // $topBranchCities = $topCities->pluck('branches_count');
+        // $citiesCount     = $this->formatNumber($citiesCount);
 
-        // Total count of branches
-        $branches      = CityVendor::query();
-        $branchesCount = 220;
+        // // Total count of branches
+        // $branches      = CityVendor::query();
+        // $branchesCount = 220;
 
-        // categories
-        $categories            = Category::query()->where('parent_id', null);
-        $allCategories         = $categories->clone()->get();
-        $categoryCountProducts = $categories->get();
-        $categoryCount         = $categoryCountProducts->pluck('products_count');
-        $categoryCountOrders   = [];
+        // // categories
+        // $categories            = Category::query()->where('parent_id', null);
+        // $allCategories         = $categories->clone()->get();
+        // $categoryCountProducts = $categories->get();
+        // $categoryCount         = $categoryCountProducts->pluck('products_count');
+        // $categoryCountOrders   = [];
 
-        // Products
-        $products                  = Product::query();
-        $topSellingAllProducts     = $products->clone()->with('images', 'vendor')->withCount([
-            'orderItems as orders_count' => function ($query) {
-                $query->selectRaw('COUNT(DISTINCT order_id)');
-            }
-        ])->having('orders_count', '>', 0)
-            ->orderByDesc('orders_count')
-            ->take(5)->get();
-        $topSellingGoldProducts    = $products->clone()->with('images', 'vendor')
-            ->whereHas('categories', function ($query) {
-                $query->where('categories.id', '=', 1);
-            })->withCount([
-                'orderItems as orders_count' => function ($query) {
-                    $query->selectRaw('COUNT(DISTINCT order_id)');
-                }
-            ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
-            ->take(5)->get();
-        $topSellingSilverProducts  = $products->clone()->with('images', 'vendor')
-            ->whereHas('categories', function ($query) {
-                $query->where('categories.id', '=', 2);
-            })->withCount([
-                'orderItems as orders_count' => function ($query) {
-                    $query->selectRaw('COUNT(DISTINCT order_id)');
-                }
-            ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
-            ->take(5)->get();
-        $topSellingDiamondProducts = $products->clone()->with('images', 'vendor')
-            ->whereHas('categories', function ($query) {
-                $query->where('categories.id', '=', 3);
-            })->withCount([
-                'orderItems as orders_count' => function ($query) {
-                    $query->selectRaw('COUNT(DISTINCT order_id)');
-                }
-            ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
-            ->take(5)->get();
-        $topSellingWatchesProducts = $products->clone()->with('images', 'vendor')
-            ->whereHas('categories', function ($query) {
-                $query->where('categories.id', '=', 4);
-            })->withCount([
-                'orderItems as orders_count' => function ($query) {
-                    $query->selectRaw('COUNT(DISTINCT order_id)');
-                }
-            ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
-            ->take(5)->get();
-        $topSellingAlloysProducts  = $products->clone()->with('images', 'vendor')
-            ->whereHas('categories', function ($query) {
-                $query->where('categories.id', '=', 5);
-            })
-            ->withCount([
-                'orderItems as orders_count' => function ($query) {
-                    $query->selectRaw('COUNT(DISTINCT order_id)');
-                }
-            ])->having('orders_count', '>', 0)
-            ->orderByDesc('orders_count')
-            ->take(5)
-            ->get();
+        // // Products
+        // $products                  = Product::query();
+        // $topSellingAllProducts     = $products->clone()->with('images', 'vendor')->withCount([
+        //     'orderItems as orders_count' => function ($query) {
+        //         $query->selectRaw('COUNT(DISTINCT order_id)');
+        //     }
+        // ])->having('orders_count', '>', 0)
+        //     ->orderByDesc('orders_count')
+        //     ->take(5)->get();
+        // $topSellingGoldProducts    = $products->clone()->with('images', 'vendor')
+        //     ->whereHas('categories', function ($query) {
+        //         $query->where('categories.id', '=', 1);
+        //     })->withCount([
+        //         'orderItems as orders_count' => function ($query) {
+        //             $query->selectRaw('COUNT(DISTINCT order_id)');
+        //         }
+        //     ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
+        //     ->take(5)->get();
+        // $topSellingSilverProducts  = $products->clone()->with('images', 'vendor')
+        //     ->whereHas('categories', function ($query) {
+        //         $query->where('categories.id', '=', 2);
+        //     })->withCount([
+        //         'orderItems as orders_count' => function ($query) {
+        //             $query->selectRaw('COUNT(DISTINCT order_id)');
+        //         }
+        //     ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
+        //     ->take(5)->get();
+        // $topSellingDiamondProducts = $products->clone()->with('images', 'vendor')
+        //     ->whereHas('categories', function ($query) {
+        //         $query->where('categories.id', '=', 3);
+        //     })->withCount([
+        //         'orderItems as orders_count' => function ($query) {
+        //             $query->selectRaw('COUNT(DISTINCT order_id)');
+        //         }
+        //     ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
+        //     ->take(5)->get();
+        // $topSellingWatchesProducts = $products->clone()->with('images', 'vendor')
+        //     ->whereHas('categories', function ($query) {
+        //         $query->where('categories.id', '=', 4);
+        //     })->withCount([
+        //         'orderItems as orders_count' => function ($query) {
+        //             $query->selectRaw('COUNT(DISTINCT order_id)');
+        //         }
+        //     ])->having('orders_count', '>', 0)->orderByDesc('orders_count')
+        //     ->take(5)->get();
+        // $topSellingAlloysProducts  = $products->clone()->with('images', 'vendor')
+        //     ->whereHas('categories', function ($query) {
+        //         $query->where('categories.id', '=', 5);
+        //     })
+        //     ->withCount([
+        //         'orderItems as orders_count' => function ($query) {
+        //             $query->selectRaw('COUNT(DISTINCT order_id)');
+        //         }
+        //     ])->having('orders_count', '>', 0)
+        //     ->orderByDesc('orders_count')
+        //     ->take(5)
+        //     ->get();
 
-        //
-        return view('welcome', compact(
-            'orderPlaced',
-            'orderPlacedPrice',
-            'orderProcessing',
-            'orderProcessingPrice',
-            'orderDelivered',
-            'orderDeliveredPrice',
-            'orderRejected',
-            'orderRejectedPrice',
-            'userCount',
-            'userCountActive',
-            'userCountOrder',
-            'vendorCount',
-            'vendorCountPending',
-            'citiesCount',
-            'branchesCount',
-            'allCategories',
-            'topUsers',
-            'topVendors',
-            'topSellingAllProducts',
-            'topSellingGoldProducts',
-            'topSellingSilverProducts',
-            'topSellingDiamondProducts',
-            'topSellingWatchesProducts',
-            'topSellingAlloysProducts',
-            'categoryCountProducts',
-            'categoryCount',
-            'categoryCountOrders',
-            'topCities',
-            'topNameCities',
-            'topBranchCities',
-            'ordersFastShipping',
-            'ordersNormalShipping'
-        ));
+        // //
+        return view('welcome');
     }
 
     public function ordersTransaction(Request $request)
@@ -288,7 +255,7 @@ class DashboardController extends Controller
         }
         return response()->json($data);
     }
-    function formatNumber($number)
+    public function formatNumber($number)
     {
         if ($number >= 1000 && $number < 1000000) {
             return number_format($number / 1000, 3);

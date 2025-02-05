@@ -1,11 +1,11 @@
 <base href="" />
-<title>{{ __('Al-raqi for Deleiver') }}</title>
+<title>{{ __('E7kky') }}</title>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="shortcut icon" href="{{ asset('placeholder_images/favicon_Al-raqi.svg') }}" />
+<link rel="shortcut icon" href="{{ asset('placeholder_images/favicon_E7kky.svg') }}" />
 <!--begin::Fonts(mandatory for all pages)-->
 <!--begin::Fonts-->
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap"

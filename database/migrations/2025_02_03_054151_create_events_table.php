@@ -20,6 +20,8 @@ return new class () extends Migration {
             $table->longText('description_ar');
             $table->longText('description_en');
             $table->boolean('is_multi_day')->default(false); // Check if it's a multi-day event
+            $table->boolean('featured')->default(false); // Check if it's a multi-day event
+
             $table->date("start_day");
             $table->date("end_day")->nullable();
 

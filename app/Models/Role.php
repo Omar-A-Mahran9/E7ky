@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Builder;
 
-
 class Role extends Model
 {
     use HasFactory;
@@ -21,7 +20,7 @@ class Role extends Model
     ];
 
     public static $modules = [
-        'booking',
+        'event',
         'blogs',
         'CommonQuestion',
         'admins',

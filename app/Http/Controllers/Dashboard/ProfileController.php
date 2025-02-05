@@ -9,7 +9,6 @@ use App\Http\Requests\Dashboard\UpdateProfileInfoRequest;
 use App\Http\Requests\Dashboard\UpdateProfilePasswordRequest;
 use App\Models\Order;
 
-
 class ProfileController extends Controller
 {
     public function profileInfo()
