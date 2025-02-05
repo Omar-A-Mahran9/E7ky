@@ -15,9 +15,17 @@ class TalkController extends Controller
     {
         // Get all talks, possibly paginated
         $talks = Talk::with(['customer', 'event'])->get();
-        return $this->success('Event created successfully', ['talks' => $talks]);
+        return $this->success('Talks', ['talks' => TalkResource::collection($talks)]);
     }
+    public function show($id)
+    {
+        $talk = Talk::with(['customer', 'event'])->findOrFail($id);
 
+        return $this->success(
+            'Talk',
+            new TalkResource($talk, true) // This returns full details
+        );
+    }
 
     public function talksPerEvent($id)
     {

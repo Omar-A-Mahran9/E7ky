@@ -23,8 +23,24 @@ class TalkResource extends JsonResource
             'id' => $this->id,
             'image' => $this->image,
             'name' => $this->name,
-        ];
+            'event_name' => $this->event->name,
 
+            'location' => $this->location,
+            'start_day' => $this->agenda->start_day,
+
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+
+        ];
+        if ($this->detailed) {
+            $data = array_merge($data, [
+                'description' => $this->description,
+                'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+                'speakers' => $this->customer
+
+
+            ]);
+        }
 
         return $data;
     }

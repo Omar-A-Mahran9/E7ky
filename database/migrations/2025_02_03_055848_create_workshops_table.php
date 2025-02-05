@@ -26,8 +26,6 @@ return new class () extends Migration {
             $table->decimal('lon', 10, 6)->nullable(); // Longitude for location
             $table->unsignedBigInteger('event_id'); // Reference to the event (foreign key)
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->unsignedBigInteger('customer_id'); // Reference to the event (foreign key)
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->integer('capacity')->default(0); // Default capacity is 0
 
             $table->timestamps();

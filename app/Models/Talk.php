@@ -9,7 +9,7 @@ class Talk extends Model
 {
     use HasFactory;
 
-    protected $appends = ['name', 'full_image_path'];
+    protected $appends = ['name','description', 'full_image_path'];
     protected $guarded = [];
     protected $casts   = ['created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d', 'otp' => 'string'];
 
@@ -32,11 +32,15 @@ class Talk extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->hasMany(Customer::class);
     }
     public function getNameAttribute()
     {
         return $this->attributes['name_' . app()->getLocale()];
+    }
+    public function getDescriptionAttribute()
+    {
+        return $this->attributes['description_' . app()->getLocale()];
     }
 
 }
