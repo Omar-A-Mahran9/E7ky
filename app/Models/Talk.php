@@ -20,4 +20,13 @@ class Talk extends Model
         return asset(getImagePathFromDirectory($this->image, 'Customers', "default.svg"));
     }
 
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

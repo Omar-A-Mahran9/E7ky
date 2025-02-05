@@ -19,7 +19,7 @@ class AgendaController extends Controller
     }
 
     // Store a new agenda
-    public function store(ApiStoreAgendaRequest $request)
+    public function store(ApiStoreAgendaReques $request)
     {
         $agenda = Agenda::create($request->validated());
 
