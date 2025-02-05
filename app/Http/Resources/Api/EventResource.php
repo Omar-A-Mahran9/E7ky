@@ -7,35 +7,43 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class EventResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+    protected $detailed;
+
+    // Accept the detailed flag in the constructor
+    public function __construct($resource, $detailed = false)
+    {
+        parent::__construct($resource);
+        $this->detailed = $detailed;
+    }
+
     public function toArray(Request $request): array
     {
-        return ['id' => $this->id,
-                    'image' => $this->image,
-                    'event_map' => $this->event_map,
-                    'name_ar' => $this->name_ar,
-                    'name_en' => $this->name_en,
-                    'description_ar' => $this->description_ar,
-                    'description_en' => $this->description_en,
-                    'is_multi_day' => $this->is_multi_day,
-                    'start_day' => $this->start_day,
-                    'end_day' => $this->end_day,
-                    'start_time' => $this->start_time,
-                    'end_time' => $this->end_time,
-                    'registration_start_time' => $this->registration_start_time,
-                    'registration_end_time' => $this->registration_end_time,
-                    'lat' => $this->lat,
-                    'lon' => $this->lon,
-                    'capacity' => $this->capacity,
-                    'status' => $this->status,
-                    'price' => $this->price,
-                    'event_link' => $this->event_link,
-                    'streaming_link' => $this->streaming_link,
-                    'created_at' => $this->created_at->toDateTimeString(),
-                    'updated_at' => $this->updated_at->toDateTimeString(),];
+        // Common fields for both list and view
+        $data = [
+            'id' => $this->id,
+            'image' => $this->image,
+            'name' => $this->name,
+            'location' => $this->location,
+            'price' => $this->price,
+            'start_day' => $this->start_day,
+            'start_time' => $this->start_time,
+            'favorite' => true,
+        ];
+
+        // If it's a detailed view, add more fields
+        if ($this->detailed) {
+            $data = array_merge($data, [
+                'description' => $this->description,
+                'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+                'event_link' => $this->event_link,
+                'streaming_link' => $this->streaming_link,
+                'event_map' => $this->event_map,
+                 'talks' => $this->talks->count(),
+                 'workshops' => $this->workshops->count(),
+
+            ]);
+        }
+
+        return $data;
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreTalkRequest;
+use App\Http\Resources\Api\TalkersResource;
+use App\Http\Resources\Api\TalkResource;
 use App\Models\Talk;
 use Illuminate\Http\Request;
 
@@ -15,6 +17,17 @@ class TalkController extends Controller
         $talks = Talk::with(['customer', 'event'])->get();
         return $this->success('Event created successfully', ['talks' => $talks]);
     }
+
+
+    public function talksPerEvent($id)
+    {
+        // Create a new Talk using the validated data from the request
+        $talks = Talk::where("event_id", $id)->get();
+        $talks_count = Talk::where("event_id", $id)->count();
+
+        return $this->success('Talks', ["talks_count" => $talks_count,"talks" => TalkResource::collection($talks)]);
+    }
+
 
     public function store(StoreTalkRequest $request)
     {

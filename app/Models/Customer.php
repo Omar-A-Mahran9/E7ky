@@ -46,6 +46,11 @@ class Customer extends Authenticatable
     {
         return $this->HasMany(Talk::class);
     }
+
+    public function workshops()
+    {
+        return $this->HasMany(Workshop::class);
+    }
     public function getNameAttribute()
     {
         return $this->attributes['name_' . app()->getLocale()];

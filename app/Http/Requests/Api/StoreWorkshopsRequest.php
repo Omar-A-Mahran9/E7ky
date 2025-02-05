@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAgendaRequest extends FormRequest
+class StoreWorkshopsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,18 @@ class StoreAgendaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_ar' => 'required|string|max:255|unique:agenda,name_ar',
-            'name_en' => 'required|string|max:255|unique:agenda,name_en',
+            'image' => 'required|string',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
             'description_ar' => 'required|string',
             'description_en' => 'required|string',
-            'start_day' => 'required|date',
-            'end_day' => 'nullable|date|after_or_equal:start_day',
-            'start_time' => 'required|date_format:H:i:s',
-            'end_time' => 'nullable|date_format:H:i:s|after:start_time',
+            'location' => 'required|string',
+            'start_time' => 'required|date',
+            'end_time' => 'nullable|date|after:start_time',
+            'agenda_id' => 'required|exists:agenda,id',
+
             'event_id' => 'required|exists:events,id',
+            'customer_id' => 'required|exists:customers,id,type,speaker', // Ensure customer_id is of type speaker
         ];
     }
 }

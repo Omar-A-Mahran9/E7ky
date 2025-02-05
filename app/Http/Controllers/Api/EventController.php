@@ -58,4 +58,63 @@ class EventController extends Controller
         return $this->success('Event created successfully', ['event' => $event]);
     }
 
+    public function show($id, Request $request)
+    {
+        // Fetch the event by its ID along with its relations (talks and customer)
+        $event = Event::with('talks.customer')->findOrFail($id);
+
+        // Return the event as a resource, which will automatically handle the response format
+        return $this->success(
+            'Event details',
+            new ApiEventResource($event, true)
+        );
+    }
+
+
+    public function Eventspeakers($id)
+    {
+        // Fetch the event by its ID along with the related talks and customers
+        $event = Event::with('talks.customer')->findOrFail($id);
+
+        // Fetch all customers associated with the event
+        $customers = $event->talks->pluck('customer')->unique('id');
+
+        // Prepare the response data with talk count per customer
+        $talksData = $customers->map(function ($customer) use ($event) {
+            // Get talks for each customer
+            $talks = $event->talks->where('customer_id', $customer->id);
+            $workshops = $event->workshops->where('customer_id', $customer->id);
+
+            return [
+                'talker_details' => [
+                    "id" => $customer->id,
+                    "name" => $customer->first_name . ' ' . $customer->last_name
+
+                ],
+                'sessions_count' => $talks->count(), // Count talks per customer
+                'talks' => $talks->map(function ($talk) {
+                    return [
+                        'id' => $talk->id,
+                        'talk_name' => $talk->name, // You can return the talk name if needed
+                    ];
+                }),
+                'workshop' => $workshops->map(function ($workshop) {
+                    return [
+                        'id' => $workshop->id,
+                        'workshop_name' => $workshop->name, // You can return the talk name if needed
+                    ];
+                })
+            ];
+        });
+
+        // Return the event's talks grouped by customer and talks count in the response
+        return $this->success(
+            'Event talks data',
+            $talksData
+        );
+    }
+
+
+
+
 }

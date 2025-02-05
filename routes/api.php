@@ -3,7 +3,9 @@
 use App\Http\Controllers\Api\AgendaController as ApiAgendaController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\SpeakerController;
 use App\Http\Controllers\Api\TalkController as ApiTalkController;
+use App\Http\Controllers\Api\WorkshopsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +41,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('/customers/update-password', 'ProfileController@updatePassword');
         Route::get('/customers/profile-info', [ProfileController::class, 'profileInfo'])->name('profile-info');
 
-        Route::get('orders', 'OrderController@orderBy');
         Route::get('/current', function (Request $request) {
             return auth()->user();
         });
@@ -47,8 +48,15 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 
     Route::apiResource('events', EventController::class);
+    Route::get('/event/speakers/{id}', 'EventController@Eventspeakers');
+    Route::apiResource('speakers', SpeakerController::class);
 
     Route::apiResource('talks', ApiTalkController::class);
+    Route::get('/events/talk/{id}', 'TalkController@talksPerEvent');
+
+    Route::apiResource('workshops', WorkshopsController::class);
+    Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
+
     Route::apiResource('agenda', ApiAgendaController::class);
 
 

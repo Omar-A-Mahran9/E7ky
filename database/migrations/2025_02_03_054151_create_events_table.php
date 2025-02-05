@@ -21,12 +21,13 @@ return new class () extends Migration {
             $table->longText('description_en');
             $table->boolean('is_multi_day')->default(false); // Check if it's a multi-day event
             $table->boolean('featured')->default(false); // Check if it's a multi-day event
+            $table->string('location');
 
             $table->date("start_day");
             $table->date("end_day")->nullable();
 
-            $table->dateTime('start_time'); // Event start time
-            $table->dateTime('end_time')->nullable(); // Event end time
+            $table->time('start_time'); // Event start time
+            $table->time('end_time')->nullable(); // Event end time
 
             $table->dateTime('registration_start_time')->nullable(); // Start time for registration
             $table->dateTime('registration_end_time')->nullable(); // End time for registration
