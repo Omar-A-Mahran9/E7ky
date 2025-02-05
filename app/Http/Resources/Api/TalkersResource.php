@@ -21,7 +21,7 @@ class TalkersResource extends JsonResource
         // Common fields for both list and view
         $data = [
             'id' => $this->id,
-            'image' => $this->image,
+            'image' => $this->full_image_path,
             'cover_picture' => $this->cover_picture,
             'name' => $this->first_name." ".$this->last_name,
             'job_description' => $this->job_description,
@@ -39,7 +39,7 @@ class TalkersResource extends JsonResource
                 'talks' => $this->talks->map(function ($talk) {
                     return [
                         'name' => $talk->name,
-                        'image' => $talk->image,
+                        'image' => $talk->full_image_path,
                         'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
                         'location' => $talk->location,
                         'event' => $talk->event->name,
@@ -50,7 +50,7 @@ class TalkersResource extends JsonResource
                 'workshops' => $this->talks->map(function ($talk) {
                     return [
                         'name' => $talk->name,
-                        'image' => $talk->image,
+                        'image' => $talk->full_image_path,
                         'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
                         'location' => $talk->location,
                         'event' => $talk->event->name,

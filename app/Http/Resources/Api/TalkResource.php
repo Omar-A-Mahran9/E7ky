@@ -21,7 +21,7 @@ class TalkResource extends JsonResource
         // Common fields for both list and view
         $data = [
             'id' => $this->id,
-            'image' => $this->image,
+            'image' => $this->full_image_path,
             'name' => $this->name,
             'event_name' => $this->event->name,
 
@@ -36,7 +36,16 @@ class TalkResource extends JsonResource
             $data = array_merge($data, [
                 'description' => $this->description,
                 'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-                'speakers' => $this->customer
+          'speakers' => $this->customers->map(function ($customer) {
+              return [
+                  'name' => $customer->first_name . " " . $customer->last_name,
+                  'image' => $customer->full_image_path,
+
+                  'start_time' => "10:00",
+                  'end_time' => "10:00",
+
+              ];
+          }),
 
 
             ]);

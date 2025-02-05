@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Talk extends Model
 {
@@ -29,11 +30,12 @@ class Talk extends Model
     {
         return $this->belongsTo(Agenda::class);
     }
-
-    public function customer()
+    public function customers(): BelongsToMany
     {
-        return $this->hasMany(Customer::class);
+        return $this->belongsToMany(Customer::class, 'customers_talks')
+                    ->withTimestamps(); // Keep track of created_at & updated_at in pivot table
     }
+
     public function getNameAttribute()
     {
         return $this->attributes['name_' . app()->getLocale()];

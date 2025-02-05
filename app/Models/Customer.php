@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\SortingScope;
 use App\Traits\SMSTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,9 +43,10 @@ class Customer extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function talks()
+    public function talks(): BelongsToMany
     {
-        return $this->HasMany(Talk::class);
+        return $this->belongsToMany(Talk::class, 'customers_talks')
+                    ->withTimestamps(); // Keep track of created_at & updated_at in pivot table
     }
 
     public function workshops()

@@ -14,12 +14,12 @@ class TalkController extends Controller
     public function index()
     {
         // Get all talks, possibly paginated
-        $talks = Talk::with(['customer', 'event'])->get();
+        $talks = Talk::with(['customers', 'event'])->get();
         return $this->success('Talks', ['talks' => TalkResource::collection($talks)]);
     }
     public function show($id)
     {
-        $talk = Talk::with(['customer', 'event'])->findOrFail($id);
+        $talk = Talk::with(['customers', 'event'])->findOrFail($id);
 
         return $this->success(
             'Talk',
@@ -39,11 +39,20 @@ class TalkController extends Controller
 
     public function store(StoreTalkRequest $request)
     {
-        // Create a new Talk using the validated data from the request
-        $talk = Talk::create($request->validated());
+        // Get validated data and remove 'customer_ids'
+        $validatedData = $request->validated();
+        $data = array_diff_key($validatedData, ['customer_ids' => '']);
+
+        // Create a new Talk
+        $talk = Talk::create($data);        // Create a new Talk
+
+        // Attach multiple customers (Many-to-Many)
+        $talk->customers()->attach($request->customer_ids);
 
         // Return success response
-        return $this->success('Talk created successfully', ['talk' => $talk], 201);
+        return $this->success('Talk created successfully', [
+            'talk' => $talk->load('customers') // Load customers in response
+        ], 201);
     }
 
 }

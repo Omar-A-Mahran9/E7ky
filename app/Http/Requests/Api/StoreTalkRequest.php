@@ -33,9 +33,9 @@ class StoreTalkRequest extends FormRequest
             'start_time' => 'required|date',
             'end_time' => 'nullable|date|after:start_time',
             'agenda_id' => 'required|exists:agenda,id',
-
+            'customer_ids' => 'required|array', // Accept an array of customer IDs
+            'customer_ids.*' => 'exists:customers,id', // Ensure each ID exists in the customers table
             'event_id' => 'required|exists:events,id',
-            'customer_id' => 'required|exists:customers,id,type,speaker', // Ensure customer_id is of type speaker
         ];
     }
 }

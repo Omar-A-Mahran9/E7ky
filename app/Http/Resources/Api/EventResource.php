@@ -21,7 +21,7 @@ class EventResource extends JsonResource
         // Common fields for both list and view
         $data = [
             'id' => $this->id,
-            'image' => $this->image,
+            'image' => $this->full_image_path,
             'name' => $this->name,
             'location' => $this->location,
             'price' => $this->price,
