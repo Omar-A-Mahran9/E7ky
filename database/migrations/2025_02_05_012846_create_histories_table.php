@@ -33,6 +33,11 @@ return new class () extends Migration {
             $table->integer('views')->nullable();
             $table->unsignedBigInteger('campaign_id')->nullable();
             $table->timestamps();
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
+
         });
     }
 

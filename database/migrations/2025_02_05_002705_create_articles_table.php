@@ -24,19 +24,24 @@ return new class () extends Migration {
             $table->string('internal_image');
             $table->string('video')->nullable();
             $table->string('status');
-            $table->unsignedInteger('category_id');
-            $table->unsignedInteger('admin_id');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('admin_id');
             $table->integer('img_or_vid')->nullable();
             $table->integer('is_slide_show');
             $table->date('schedule')->nullable();
             $table->integer('views')->default(0);
-            $table->unsignedInteger('campaign_id')->nullable();
-            $table->unsignedInteger('tag_id')->nullable();
+            $table->unsignedBigInteger('campaign_id')->nullable();
+            $table->unsignedBigInteger('tag_id')->nullable();
             $table->integer('is_latest')->nullable();
             $table->string('name_for_latest')->nullable();
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('slug');
             $table->timestamps();
         });
+
     }
 
     /**

@@ -19,6 +19,8 @@ return new class () extends Migration {
             $table->integer('status');
             $table->text('image');
             $table->unsignedBigInteger('admin_id');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+
             $table->string('img_for_mob', 255);
             $table->timestamps();
         });
