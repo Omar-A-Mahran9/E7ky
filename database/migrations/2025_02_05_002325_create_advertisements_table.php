@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('advertisements', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name_ar');
+            $table->string('name_en');
+
             $table->string('status');
             $table->integer('page');
             $table->integer('img_or_code');

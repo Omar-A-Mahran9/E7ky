@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,7 +14,8 @@ return new class extends Migration
             $table->id();
             $table->text('meta_title')->nullable();
             $table->text('meta_description')->nullable();
-            $table->string('name', 255);
+            $table->string('name_ar', 255);
+            $table->string('name_en', 255);
             $table->integer('status');
             $table->text('image');
             $table->integer('sort')->default(0);

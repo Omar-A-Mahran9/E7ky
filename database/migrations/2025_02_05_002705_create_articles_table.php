@@ -16,9 +16,15 @@ return new class () extends Migration {
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->text('html_tags')->nullable();
-            $table->string('name');
-            $table->text('description');
-            $table->longText('content');
+            $table->string('name_ar');
+            $table->string('name_en');
+
+            $table->longText('description_ar');
+            $table->longText('description_en');
+
+            $table->longText('content_ar');
+            $table->longText('content_en');
+
             $table->string('image')->nullable();
             $table->string('slide_image');
             $table->string('internal_image');

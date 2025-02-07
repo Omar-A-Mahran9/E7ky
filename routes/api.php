@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AgendaController as ApiAgendaController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\SocialController as ApiSocialController;
 use App\Http\Controllers\Api\SpeakerController;
 use App\Http\Controllers\Api\TalkController as ApiTalkController;
 use App\Http\Controllers\Api\WorkshopsController;
@@ -46,6 +47,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         });
     });
 
+    Route::get('/auth/redirect', [ApiSocialController::class, "redirectToFacebook"]);
 
     Route::apiResource('events', EventController::class);
     Route::get('/event/speakers/{id}', 'EventController@Eventspeakers');

@@ -15,7 +15,8 @@ return new class () extends Migration {
             $table->text('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->text('html_tags')->nullable();
-            $table->string('name', 255);
+            $table->string('name_ar', 255);
+            $table->string('name_en', 255);
             $table->integer('status');
             $table->text('image');
             $table->unsignedBigInteger('admin_id');
