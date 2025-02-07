@@ -12,7 +12,7 @@ let translations = {
         "Edit blog": "تعديل المدونة",
         "Edit packageCategories": "تعديل فئة الباقة",
         "Add package category": "أضف فئة باقة جديدة",
-        "Add package": "أضف باقة جديدة",
+        "Add new event": "أضف حدث جديد",
         "Add Car Price": "أضف سعر سيارة",
         "Edit car price": "تعديل سعر السيارة",
         "Add new Common Question": "اضافة سؤال ",
@@ -22,6 +22,7 @@ let translations = {
         "Add new Addon": " أضف خدمة ",
         "Edit addon": "تعديل الخدمة",
         "Add new rate": "اضافة تقييم",
+        "event map": "خريطة الحدث",
 
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",

@@ -14,7 +14,7 @@ class StoreCustomerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return abilities()->contains('create_customers');
+        return true;
     }
 
     public function rules()
@@ -25,7 +25,7 @@ class StoreCustomerRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
             'email' => ['required', 'string', 'email:rfc,dns', 'unique:customers'],
-            'password'=> ['required', 'string', 'min:8', 'regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/'],
+            'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/'],
             'password_confirmation' => ['required','same:password'],
         ];
     }

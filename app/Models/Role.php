@@ -22,9 +22,8 @@ class Role extends Model
     public static $modules = [
         'event',
         'blogs',
-        'CommonQuestion',
-        'admins',
         'customers',
+        'admins',
         'customersRate',
         'vendors',
         'colors',

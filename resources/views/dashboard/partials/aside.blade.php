@@ -47,7 +47,22 @@
 
                 <!--begin:Menu item-->
                 @can('view_event')
-                    <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.event.index')" :title="__('Event')">
+                    <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.events.index')" :title="__('Events')">
+                        <i class="ki-outline ki-chart fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                @can('view_customers')
+                    <x-dashboard.aside-item :slug="'customers'" :route="route('dashboard.customers.index')" :title="__('Customers')">
+                        <i class="ki-outline ki-people fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+                <!--end:Menu item-->
+                <!--begin:Menu item-->
+                @can('view_session')
+                    <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.events.index')" :title="__('Events')">
                         <i class="ki-outline ki-chart fs-2"></i>
                     </x-dashboard.aside-item>
                 @endcan

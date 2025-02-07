@@ -3,7 +3,7 @@
 var datatable;
 // Class definition
 var KTDatatablesServerSide = (function () {
-    let dbTable = "addon";
+    let dbTable = "events";
     // Private functions
     var initDatatable = function () {
         datatable = $("#kt_datatable").DataTable({
@@ -24,7 +24,8 @@ var KTDatatablesServerSide = (function () {
             columns: [
                 { data: "id" },
                 { data: "name" },
-                { data: "price" },
+                { data: "image" },
+                { data: "description" },
                 { data: "created_at" },
                 { data: null },
             ],
@@ -53,15 +54,37 @@ var KTDatatablesServerSide = (function () {
                         `;
                     },
                 },
-
                 {
                     targets: 2,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `
+                            <!--begin::Overlay-->
+                            <a class="d-block overlay" data-action="preview_attachments" href="#">
+                                <!--begin::Image-->
+                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded h-100px"
+                                    style="background-image:url('${row.full_image_path}')">
+                                </div>
+                                <!--end::Image-->
+
+                                <!--begin::Action-->
+                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                    <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                </div>
+                                <!--end::Action-->
+                            </a>
+                            <!--end::Overlay-->
+                        `;
+                    },
+                },
+                {
+                    targets: 3,
                     render: function (data, type, row) {
                         return `
                             <div>
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.price}</a>
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.description}</a>
                                 </div>
                                 <!--end::Info-->
                             </div>
@@ -69,7 +92,7 @@ var KTDatatablesServerSide = (function () {
                     },
                 },
                 {
-                    targets: 3,
+                    targets: 4,
                     render: function (data, type, row) {
                         return `
                             <div>
@@ -155,10 +178,15 @@ var KTDatatablesServerSide = (function () {
                 let currentBtnIndex = $(editButtons).index(d);
                 let data = datatable.row(currentBtnIndex).data();
 
-                $("#form_title").text(__("Edit addon"));
+                $("#form_title").text(__("Edit event"));
+                $(".image-input-wrapper").css(
+                    "background-image",
+                    `url('${data.full_image_path}')`
+                );
                 $("#name_ar_inp").val(data.name_ar);
                 $("#name_en_inp").val(data.name_en);
-                $("#price_inp").val(data.price);
+                $("#description_ar_inp").val(data.description_ar);
+                $("#description_en_inp").val(data.description_en);
                 $("#crud_form").attr(
                     "action",
                     `/dashboard/${dbTable}/${data.id}`

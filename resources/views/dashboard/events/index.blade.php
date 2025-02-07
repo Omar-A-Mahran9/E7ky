@@ -34,7 +34,7 @@
                                     stroke="#1C1D22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Blogs') }}</h4>
+                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Events') }}</h4>
 
                         <!--end::Avatar-->
                     </div>
@@ -46,37 +46,7 @@
                     <!--end::Card toolbar-->
                 </div>
                 <!--end:: Card header-->
-                <!--begin:: Card body-->
-                <div class="card-body p-9">
-                    <!--begin::Name-->
 
-                    <div class="d-flex  justify-content-between flex-wrap ">
-                        <!--begin::Due-->
-                        <div class=" rounded min-w-125px py-1 px-4 me-7">
-                            <div class="fs-2 fw-bold">{{ __('blogs count') }}</div>
-                            <div class="fs-4  ">{{ $count_blogs }}</div>
-                        </div>
-                        <!--end::Due-->
-                        <!--begin::Budget-->
-                        <div class="rounded min-w-125px py-1 px-4 ">
-                            <div class="fs-2 fw-bold text-success">{{ __('visited count') }}</div>
-                            <div class="fs-4 text-success ">{{ $visited_site }}</div>
-                        </div>
-                        <!--end::Budget-->
-                        <!--begin::Budget-->
-                        <div class="rounded min-w-125px py-1 px-4 ">
-                            <div class="fs-2 fw-bold text-danger">{{ __('visited count') }}</div>
-                            <div class="fs-4 text-danger ">{{ $visited_site }}</div>
-                        </div>
-                        <!--end::Budget-->
-
-                    </div>
-                    <!--end::Info-->
-
-
-
-                </div>
-                <!--end:: Card body-->
             </div>
             <!--end::Card-->
         </div>
@@ -108,7 +78,7 @@
                                     stroke="#1C1D22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Blogs') }}</h4>
+                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Events') }}</h4>
 
                         <!--end::Avatar-->
                     </div>
@@ -143,7 +113,7 @@
                                             fill="currentColor"></rect>
                                     </svg>
                                 </span>
-                                <!--end::Svg Icon-->{{ __('Add blog') }}
+                                <!--end::Svg Icon-->{{ __('Add Event') }}
                             </button>
                             <!--end::Add customer-->
                         </div>
@@ -168,7 +138,7 @@
             data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
             <!--begin::Card title-->
             <div class="card-title m-0">
-                <h3 class="fw-bold m-0">{{ __('Blogs list') }}</h3>
+                <h3 class="fw-bold m-0">{{ __('Events list') }}</h3>
             </div>
             <!--end::Card title-->
         </div>
@@ -192,7 +162,7 @@
                     </span>
                     <!--end::Svg Icon-->
                     <input type="text" data-kt-docs-table-filter="search"
-                        class="form-control form-control-solid w-250px ps-15" placeholder="{{ __('Search for blogs') }}">
+                        class="form-control form-control-solid w-250px ps-15" placeholder="{{ __('Search for events') }}">
                 </div>
                 <!--end::Search-->
 
@@ -235,70 +205,208 @@
     <!--end::Basic info-->
 
     {{-- begin::Add Country Modal --}}
-    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.blogs.store') }}" method="post"
+    {{-- begin::Add Event Modal --}}
+    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.events.store') }}" method="post"
         data-success-callback="onAjaxSuccess" data-error-callback="onAjaxError">
         @csrf
-        <div class="modal fade" tabindex="-1" id="crud_modal">
+        <div class="modal fade modal-lg" tabindex="-1" id="crud_modal">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="form_title">{{ __('Add new blog') }}</h5>
-                        <!--begin::Close-->
+                        <h5 class="modal-title" id="form_title">{{ __('Add new event') }}</h5>
                         <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
                             aria-label="Close">
                             <i class="ki-outline ki-cross fs-1"></i>
                         </div>
-                        <!--end::Close-->
                     </div>
 
                     <div class="modal-body">
-                        <div class="d-flex flex-column justify-content-center">
-                            <label for="image_inp"
-                                class="form-label required text-center fs-6 fw-bold mb-3">{{ __('Image') }}</label>
-                            <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
-                                placeholder="default.svg" type="editable"></x-dashboard.upload-image-inp>
+                        <div class="d-flex flex-row justify-content-center gap-20">
+
+                            <div class="d-flex flex-column justify-content-center">
+                                <label for="image_inp" class="form-label required text-center fs-6 fw-bold mb-3">
+                                    {{ __('Image') }}
+                                </label>
+                                <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
+                                    placeholder="default.svg" type="editable">
+                                </x-dashboard.upload-image-inp>
+                            </div>
+
+
                         </div>
-                        <div class="fv-row mb-0 fv-plugins-icon-container">
-                            <label for="name_ar_inp"
-                                class="form-label required fs-6 fw-bold mb-3">{{ __('Name ar') }}</label>
-                            <input type="text" name="name_ar" class="form-control form-control-lg form-control-solid"
-                                id="name_ar_inp" placeholder="{{ __('Name ar') }}">
-                            <div class="fv-plugins-message-container invalid-feedback" id="name_ar"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 fv-row">
+                                <label for="name_ar_inp"
+                                    class="form-label required fs-6 fw-bold">{{ __('Name ar') }}</label>
+                                <input type="text" name="name_ar"
+                                    class="form-control form-control-lg form-control-solid" id="name_ar_inp"
+                                    placeholder="{{ __('Name In Arabic') }}">
+                                <div class="fv-plugins-message-container invalid-feedback" id="name_ar"></div>
+                            </div>
+
+                            <div class="col-md-6 fv-row">
+
+                                <label for="name_en_inp"
+                                    class="form-label required fs-6 fw-bold">{{ __('Name en') }}</label>
+                                <input type="text" name="name_en"
+                                    class="form-control form-control-lg form-control-solid" id="name_en_inp"
+                                    placeholder="{{ __('Name In English') }}">
+                                <div class="fv-plugins-message-container invalid-feedback" id="name_en"></div>
+                            </div>
                         </div>
-                        <div class="fv-row mb-0 fv-plugins-icon-container">
-                            <label for="name_en_inp"
-                                class="form-label required fs-6 fw-bold mb-3">{{ __('Name en') }}</label>
-                            <input type="text" name="name_en" class="form-control form-control-lg form-control-solid"
-                                id="name_en_inp" placeholder="{{ __('Name en') }}">
-                            <div class="fv-plugins-message-container invalid-feedback" id="name_en"></div>
-                        </div>
-                        <div class="fv-row mb-0 fv-plugins-icon-container">
+
+                        <div class="fv-row mb-4">
                             <label for="description_ar_inp"
-                                class="form-label required fs-6 fw-bold mb-3">{{ __('Description ar') }}</label>
-                            <input type="text" name="description_ar"
-                                class="form-control form-control-lg form-control-solid" id="description_ar_inp"
-                                placeholder="{{ __('Description ar') }}">
+                                class="form-label required fs-6 fw-bold">{{ __('Description ar') }}</label>
+                            <textarea name="description_ar" class="form-control" id="description_ar_inp" rows="3"
+                                placeholder="{{ __('Description In Arabic') }}"></textarea>
                             <div class="fv-plugins-message-container invalid-feedback" id="description_ar"></div>
                         </div>
-                        <div class="fv-row mb-0 fv-plugins-icon-container">
+
+                        <div class="fv-row mb-3">
                             <label for="description_en_inp"
-                                class="form-label required fs-6 fw-bold mb-3">{{ __('Description en') }}</label>
-                            <input type="text" name="description_en"
-                                class="form-control form-control-lg form-control-solid" id="description_en_inp"
-                                placeholder="{{ __('Description en') }}">
+                                class="form-label required fs-6 fw-bold">{{ __('Description en') }}</label>
+                            <textarea name="description_en" class="form-control" id="description_en_inp" rows="3"
+                                placeholder="{{ __('Description In English') }}"></textarea>
                             <div class="fv-plugins-message-container invalid-feedback" id="description_en"></div>
                         </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-bold">{{ __('Start Date') }}</label>
+                                <input type="date" name="start_day" class="form-control" required>
+                                <div class="fv-plugins-message-container invalid-feedback" id="start_day"></div>
+
+                            </div>
+                            <div class="col-md-6 fv-row">
+                                <div class="d-flex justify-content-between align-items-center  gap-5">
+                                    <div><label class="fs-6 fw-bold">{{ __('End Date') }}</label></div>
+                                    <div class="fv-row mt-3 form-check">
+                                        <input type="checkbox" name="is_multi_day" class="form-check-input"
+                                            id="is_multi_day" value="0">
+                                        <label class="form-check-label"
+                                            for="is_multi_day">{{ __('Multi-Day Event') }}</label>
+                                    </div>
+                                </div>
+                                <input type="date" name="end_day" class="form-control" id="end_day" disabled>
+                                <div class="fv-plugins-message-container invalid-feedback" id="end_day"></div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-3">
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-bold">{{ __('Start Time') }}</label>
+                                <input type="time" name="start_time" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-bold">{{ __('End Time') }}</label>
+                                <input type="time" name="end_time" class="form-control">
+                                <div class="fv-plugins-message-container invalid-feedback" id="end_time"></div>
+
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-bold">{{ __('Registration Start') }}</label>
+                                <input type="time" name="registration_start_time" class="form-control">
+                            </div>
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-bold">{{ __('Registration End') }}</label>
+                                <input type="time" name="registration_end_time" class="form-control">
+                                <div class="fv-plugins-message-container invalid-feedback" id="registration_end_time">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-bold">{{ __('Capacity') }}</label>
+                                <input type="number" name="capacity" class="form-control" min="1">
+                            </div>
+                            <div class="col-md-6 fv-row">
+                                <label class="fs-6 fw-bold">{{ __('Price') }}</label>
+                                <input type="number" name="price" class="form-control" min="0">
+                            </div>
+                        </div>
+
+                        <div class="fv-row mt-3">
+                            <label class="fs-6 fw-bold">{{ __('Event Link') }}</label>
+                            <input type="url" name="event_link" class="form-control">
+                        </div>
+
+                        <div class="fv-row mt-3">
+                            <label class="fs-6 fw-bold">{{ __('Streaming Link') }}</label>
+                            <input type="url" name="streaming_link" class="form-control">
+                        </div>
+                        <div class="fv-row mt-5">
+
+                            <div class="d-flex flex-column justify-content-center ">
+                                <label for="event_map_inp" class="form-label required text-center fs-6 fw-bold mb-3">
+                                    {{ __('Event Map') }}
+                                </label>
+                                <x-dashboard.upload-map-inp name="event_map" :image="null" :directory="null"
+                                    placeholder="map-placeholder.svg" type="editable">
+                                </x-dashboard.upload-map-inp>
+                            </div>
+                        </div>
+
+                        <div class="fv-row mt-3">
+                            <label class="fs-6 fw-bold">{{ __('Status') }}</label>
+                            <select name="status" class="form-control">
+                                <option value="scheduled">{{ __('Scheduled') }}</option>
+                                <option value="ongoing">{{ __('Ongoing') }}</option>
+                                <option value="completed">{{ __('Completed') }}</option>
+                                <option value="canceled">{{ __('Canceled') }}</option>
+                            </select>
+                        </div>
+                        <div class="fv-row mb-3">
+                            <label for="location_inp"
+                                class="form-label required fs-6 fw-bold">{{ __('Location') }}</label>
+                            <input type="text" id="location_inp" name="location" class="form-control"
+                                placeholder="{{ __('Enter event location') }}">
+                            <div class="fv-plugins-message-container invalid-feedback" id="location"></div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="fs-6 fw-bold">{{ __('Pickup your location') }}</label>
+                                <div class="text-center">
+                                    <div id="googleMap"
+                                        style="width: 100%;min-height:300px;border:1px solid #009EF7; border-radius: 10px;">
+                                    </div>
+                                    <input type="hidden" id="lat_inp" name="lat">
+                                    <input type="hidden" id="lng_inp" name="lon">
+                                    <p class="invalid-feedback" id="lat"></p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="fv-row mt-5 form-check">
+                            <input type="hidden" name="featured" value="0">
+                            <input type="checkbox" name="featured" class="form-check-input" id="featured"
+                                value="1">
+                            <label for="featured">{{ __('Featured Event') }}</label>
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light"
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">
-                                {{ __('Save') }}
-                            </span>
+                            <span class="indicator-label">{{ __('Save') }}</span>
                             <span class="indicator-progress">
-                                {{ __('Please wait....') }} <span
+                                {{ __('Please wait...') }} <span
                                     class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
@@ -311,7 +419,7 @@
 @push('scripts')
     <script src="{{ asset('assets/dashboard/js/global/datatable-config.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/datatables/blogs.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/datatables/events.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/global/crud-operations.js') }}"></script>
     <script src="{{ asset('assets/dashboard/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
 
@@ -320,14 +428,39 @@
             $("#add_btn").click(function(e) {
                 e.preventDefault();
 
-                $("#form_title").text(__('Add new blog'));
+                $("#form_title").text(__('Add new event'));
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
-                $("#crud_form").attr('action', `/dashboard/blogs`);
+                $("#crud_form").attr('action', `/dashboard/events`);
                 $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
             });
 
 
+        });
+    </script>
+
+    <script>
+        let lat = 30.0444; // Cairo, Egypt
+        let lng = 31.2357; // Cairo, Egypt
+        const isEditPage = false;
+        const isShowPage = false;
+    </script>
+    <script src="{{ asset('assets/dashboard/js/map_create.js') }}"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu4T0sSqqn87uvqXHcUbbWpxt4NVyBW6w
+                                                                                                                                                                                                                                                                                                                                                                                                    &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
+    </script>
+    <script>
+        document.getElementById('is_multi_day').addEventListener('change', function() {
+            let endDateInput = document.getElementById('end_day');
+            if (this.checked) {
+                this.value = "1"; // Set value to 1 when checked
+                endDateInput.removeAttribute('disabled');
+            } else {
+                this.value = "0"; // Set value to 0 when unchecked
+                endDateInput.setAttribute('disabled', 'disabled');
+                endDateInput.value = ""; // Clear the end date when disabled
+            }
         });
     </script>
 @endpush

@@ -29,8 +29,8 @@ return new class () extends Migration {
             $table->time('start_time'); // Event start time
             $table->time('end_time')->nullable(); // Event end time
 
-            $table->dateTime('registration_start_time')->nullable(); // Start time for registration
-            $table->dateTime('registration_end_time')->nullable(); // End time for registration
+            $table->time('registration_start_time')->nullable(); // Start time for registration
+            $table->time('registration_end_time')->nullable(); // End time for registration
 
             $table->decimal('lat', 10, 6)->nullable(); // Latitude for location
             $table->decimal('lon', 10, 6)->nullable(); // Longitude for location

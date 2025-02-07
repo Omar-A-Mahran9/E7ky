@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Event extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected $guarded = [];
     protected $appends = ['name', 'description','full_image_path'];
@@ -29,7 +29,7 @@ class Event extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Customers', "default.svg"));
+        return asset(getImagePathFromDirectory($this->image, 'Events', "default.svg"));
     }
     public function getNameAttribute()
     {

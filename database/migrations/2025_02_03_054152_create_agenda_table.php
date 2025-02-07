@@ -17,13 +17,8 @@ return new class () extends Migration {
             $table->string('name_en')->unique();
             $table->longText('description_ar')->nullable();
             $table->longText('description_en')->nullable();
-
             $table->date("start_day");
             $table->date("end_day")->nullable();
-
-            $table->time('start_time'); // Event start time
-            $table->time('end_time')->nullable(); // Event end time
-
             $table->unsignedBigInteger('event_id'); // Reference to the event (foreign key)
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 

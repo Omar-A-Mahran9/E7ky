@@ -10,9 +10,13 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->string('social_type')->nullable();
-            $table->string('social_id')->nullable();
+        Schema::create('days', function (Blueprint $table) {
+            $table->id();
+            $table->string('name_ar'); // Arabic name
+            $table->string('name_en'); // English name
+            $table->date('date'); // Day's date
+            
+            $table->timestamps();
         });
     }
 
@@ -21,6 +25,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('days');
     }
 };

@@ -46,7 +46,7 @@
                 <div class="d-flex justify-content-end" id="add_btn" data-bs-toggle="modal" data-bs-target="#crud_modal"
                     data-kt-docs-table-toolbar="base">
                     <!--begin::Add customer-->
-                    {{--  <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
+                 <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
                         data-bs-original-title="Coming Soon" data-kt-initialized="1">
                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                         <span class="svg-icon svg-icon-2">
@@ -58,7 +58,7 @@
                                     fill="currentColor"></rect>
                             </svg>
                         </span>
-                        <!--end::Svg Icon-->{{ __('Add customer') }}</button>  --}}
+                        <!--end::Svg Icon-->{{ __('Add customer') }}</button>
                     <!--end::Add customer-->
                 </div>
                 <!--end::Toolbar-->
