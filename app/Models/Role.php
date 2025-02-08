@@ -23,8 +23,9 @@ class Role extends Model
         'event',
         'blogs',
         'customers',
+        'sessions',
         'admins',
-        'customersRate',
+
         'vendors',
         'colors',
         'roles',

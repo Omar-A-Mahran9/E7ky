@@ -15,7 +15,8 @@ return new class () extends Migration {
             $table->string('name_ar'); // Arabic name
             $table->string('name_en'); // English name
             $table->date('date'); // Day's date
-            
+            $table->unsignedBigInteger('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();
         });
     }

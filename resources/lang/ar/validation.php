@@ -226,6 +226,8 @@ return [
         'first_name' => 'الاسم الأول',
         'last_name' => 'اسم العائلة',
         'message' => 'الرسالة',
+        'cover_picture' => 'صورة الغلاف',
+
         'end_time' => 'نهاية الوقت',
         'registration_end_time' => 'نهاية وقت الدخول',
         'registration_start_time' => 'بداية الوقت الدخول',

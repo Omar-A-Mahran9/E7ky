@@ -86,6 +86,7 @@ class EventController extends Controller
 
             $day =  Day::firstOrCreate([
                   'date' => $date->toDateString(),
+                  'event_id' => $agenda->event_id
               ], [
                   'name_ar' => $agenda->name_ar . " - " . $dayNameAr,
                   'name_en' => $agenda->name_en . " - " . $dayNameEn,

@@ -61,7 +61,7 @@
                 @endcan
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                @can('view_session')
+                @can('view_sessions')
                     <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.events.index')" :title="__('Events')">
                         <i class="ki-outline ki-chart fs-2"></i>
                     </x-dashboard.aside-item>
@@ -135,70 +135,12 @@
                 @endcan
                 <!--end:Menu item-->
 
-                <!--begin:Menu item-->
-                @can('view_customers')
-                    <x-dashboard.aside-item :slug="'customers'" :route="route('dashboard.customers.index')" :title="__('Customers')">
-                        <i class="ki-outline ki-people fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
+
                 <!--begin:Menu item-->
                 @can('view_customersRate')
                     <x-dashboard.aside-item :slug="'customers_rates'" :route="route('dashboard.customers_rates.index')" :title="__('Customers Rates')">
                         <i class="ki-outline ki-chart-line fs-2"></i>
                     </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                @can('view_packages')
-
-                    <div data-kt-menu-trigger="click" class="menu-item here menu-accordion">
-                        <!--begin:Menu link-->
-                        <span class="menu-link bg-transparent ">
-                            <span class="menu-icon text-black">
-                                <i class="ki-outline ki-data fs-2 text-black"></i>
-                            </span>
-                            <span class="menu-title text-black">{{ __('Books Data') }}</span>
-                            <span class="menu-arrow"></span>
-                        </span>
-                        <!--end:Menu link-->
-                        <!--begin:Menu sub-->
-                        <div class="menu-sub menu-sub-accordion" style="display: none; overflow: hidden;">
-                            <!--begin:Menu item-->
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-
-                                @can('view_packageCategories')
-                                    <x-dashboard.aside-item :slug="'packageCategories'" :route="route('dashboard.packageCategories.index')" :title="__('Packages Categories')">
-                                        <i class="ki-outline ki-chart fs-2"></i>
-                                    </x-dashboard.aside-item>
-                                @endcan
-
-                                <!--end:Menu link-->
-                                <!--begin:Menu link-->
-
-                                @can('view_packagesubCategories')
-                                    <x-dashboard.aside-item :slug="'packagesubCategories'" :route="route('dashboard.packagesubCategories.index')" :title="__('Packages Sub Categories')">
-                                        <i class="ki-outline ki-chart fs-2"></i>
-                                    </x-dashboard.aside-item>
-                                @endcan
-
-                                <!--end:Menu link-->
-                                <!--begin:Menu link-->
-
-                                @can('view_packages')
-                                    <x-dashboard.aside-item :slug="'packages'" :route="route('dashboard.packages.index')" :title="__('Packages')">
-                                        <i class="ki-outline ki-package fs-2"></i>
-                                    </x-dashboard.aside-item>
-                                @endcan
-
-                                <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-
-
-                        </div>
-                        <!--end:Menu sub-->
-                    </div>
                 @endcan
 
                 @can('view_contact_us')
@@ -211,106 +153,6 @@
 
 
 
-                {{-- <hr>
-
-                <!--begin:Menu item-->
-                @can('view_vendors')
-                    <x-dashboard.aside-item :slug="'vendors'" :route="route('dashboard.vendors.index')" :title="__('Vendors')">
-                        <i class="ki-outline ki-courier fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-
-                <!--end:Menu item-->
-
-                <!--begin:Menu item-->
-                @can('view_design_types')
-                    <x-dashboard.aside-item :slug="'design-types'" :route="route('dashboard.design-types.index')" :title="__('Design Types')">
-                        <i class="ki-outline ki-data fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                @can('view_contact_requests')
-                    <x-dashboard.aside-item :slug="'contact-requests'" :route="route('dashboard.contact-requests.index')" :title="__('Contact Requests')">
-                        <i class="ki-outline ki-loading fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                @can('view_tags')
-                    <x-dashboard.aside-item :slug="'tags'" :route="route('dashboard.tags.index')" :title="__('Tags')">
-                        <i class="ki-outline ki-key fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-
-                <!--begin:Menu item-->
-                @can('view_fast_cities')
-                    <x-dashboard.aside-item :slug="'fast-shipping-city'" :route="route('dashboard.fast-shipping-city.index')" :title="__('Fast shipping cities')">
-                        <i class="ki-outline ki-courier-express fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-
-                <!--end:Menu item-->
-
-                <!--begin:Menu item-->
-                @can('view_sliders')
-                    <x-dashboard.aside-item :slug="'sliders'" :route="route('dashboard.sliders.index')" :title="__('Sliders')">
-                        <i class="ki-outline ki-slider-horizontal-2 fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                @can('view_offers')
-                    <x-dashboard.aside-item :slug="'offers'" :route="route('dashboard.offers.index')" :title="__('Offers')">
-                        <i class="ki-outline ki-discount fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                @can('view_orders')
-                    <x-dashboard.aside-item :slug="'orders'" :route="route('dashboard.orders.index')" :title="__('Orders')">
-                        <i class="ki-outline ki-parcel fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                @can('view_orders')
-                    <x-dashboard.aside-item :slug="'refund-cancel-orders'" :route="route('dashboard.refund-cancel-orders.index')" :title="__('Refund and cancellation orders')">
-                        <i class="ki-outline ki-parcel fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                @can('view_order_reasons')
-                    <x-dashboard.aside-item :slug="'order-reasons'" :route="route('dashboard.order-reasons.index')" :title="__('Order Reasons')">
-                        <i class="ki-outline ki-subtitle fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                @can('view_newsletter')
-                    <x-dashboard.aside-item :slug="'newsletter'" :route="route('dashboard.newsletter.index')" :title="__('Newsletter')">
-                        <i class="ki-outline ki-book-square fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-                <hr> --}}
-                <!--begin:Menu item-->
-                {{-- @can('view_ads')
-                    <x-dashboard.aside-item :slug="'ads'" :route="route('dashboard.ads.index')" :title="__('Ads')">
-                        <i class="ki-outline ki-medal-star fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan --}}
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
                 @can('view_admins')
                     <x-dashboard.aside-item :slug="'admins'" :route="route('dashboard.admins.index')" :title="__('Admins')">
                         <i class="ki-outline ki-security-user fs-2"></i>
@@ -382,8 +224,7 @@
                         data-kt-menu="true" data-kt-element="theme-mode-menu">
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
-                                data-kt-value="light">
+                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="light">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="ki-outline ki-night-day fs-2"></i>
                                 </span>
