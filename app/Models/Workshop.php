@@ -26,9 +26,9 @@ class Workshop extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function agenda()
+    public function day()
     {
-        return $this->belongsTo(Agenda::class);
+        return $this->belongsTo(Day::class);
     }
 
     public function customers(): BelongsToMany

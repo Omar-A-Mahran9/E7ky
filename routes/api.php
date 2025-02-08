@@ -50,6 +50,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/auth/redirect', [ApiSocialController::class, "redirectToFacebook"]);
 
     Route::apiResource('events', EventController::class);
+    Route::get('/event/agenda/{id}', 'EventController@getAgenda');
+
     Route::get('/event/speakers/{id}', 'EventController@Eventspeakers');
     Route::apiResource('speakers', SpeakerController::class);
 

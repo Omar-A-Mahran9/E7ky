@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Agenda extends Model
 {
@@ -21,5 +22,11 @@ class Agenda extends Model
     public function getNameAttribute()
     {
         return $this->attributes['name_' . app()->getLocale()];
+    }
+
+    public function days(): BelongsToMany
+    {
+        return $this->belongsToMany(Day::class, 'days_events')
+                    ->withTimestamps(); // Keep track of created_at & updated_at in pivot table
     }
 }

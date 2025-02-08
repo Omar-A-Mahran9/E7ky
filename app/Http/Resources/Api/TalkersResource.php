@@ -36,7 +36,7 @@ class TalkersResource extends JsonResource
                     'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
                     'location' => $talk->location,
                     'event' => $talk->event->name,
-                    'start_time' => $talk->agenda->start_time,
+                    'start_time' => $talk->start_time,
                 ];
             }),
 
@@ -47,7 +47,7 @@ class TalkersResource extends JsonResource
                     'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
                     'location' => $talk->location,
                     'event' => $talk->event->name,
-                    'start_time' => $talk->agenda->start_time,
+                    'start_time' => $talk->start_time,
                 ];
             }),
 
