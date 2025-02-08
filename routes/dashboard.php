@@ -69,30 +69,6 @@ Route::resource('customers_rates', 'CustomersRatesController')->except(['create'
 Route::get('customers/blocking/{customer}', 'CustomerController@blocked')->name('customers.blocked');
 Route::get('customers/blocked-selected', 'CustomerController@blockedSelected');
 
-Route::get('vendor/{vendor}/shipping-details', 'VendorController@createShippingDetails')->name('vendor.shipping-details');
-Route::get('vendor/{vendor}/edit-shipping-details', 'VendorController@editShippingDetails')->name('vendor.edit-shipping-details');
-Route::post('vendor/{vendor}/shipping-details', 'VendorController@storeShippingDetails')->name('vendor.store.shipping-details');
-Route::post('vendor/{vendor}/edit-shipping-details', 'VendorController@updateShippingDetails')->name('vendor.update.shipping-details');
-Route::post('change/vendor/{vendor}', 'VendorController@changeStatus')->name('vendor.change.status');
-Route::resource('vendors', 'VendorController');
-Route::resource('fast-shipping-city', 'FastShippingCityController');
-Route::resource('tags', 'TagController')->except(['create', 'edit']);
-Route::resource('skin-colors', 'SkinColorController')->except(['create', 'edit']);
-Route::resource('ads', 'AdController')->except(['create', 'edit']);
-Route::resource('offers', 'OfferController')->except(['create', 'edit']);
-Route::resource('orders', 'OrderController');
-Route::resource('refund-cancel-orders', 'RefundCancelOrderController');
-Route::resource('sliders', 'SliderController');
-Route::post('change-order-status/{id}', 'OrderController@changeOrderStatus')->name('change-order-status');
-Route::post("products/{step?}", "ProductController@store")->name('products.store');
-Route::put("products/{product}/{step?}", "ProductController@update")->name('products.update');
-Route::get("cars/{car}/images", "CarsController@images");
-Route::resource('products', 'ProductController')->except(['store', 'update']);
-
-Route::resource('cars', 'CarsController')->except(['store', 'update']);
-
-Route::post("cars/{step?}", "CarsController@store")->name('cars.store');
-Route::put("cars/{car}/{step?}", "CarsController@update")->name('cars.update');
 
 Route::resource('newsletter', 'NewsLetterController')->only(['index', 'destroy']);
 Route::get('profile-info', 'ProfileController@profileInfo')->name('profile-info');
