@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\SessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,7 @@ Route::resource('order-reasons', 'OrderReasonController')->except(['create', 'ed
 Route::resource('admins', 'AdminController')->except(['create', 'edit']);
 Route::resource('events', 'EventController')->except(['create', 'edit']);
 Route::resource('sessions', 'SessionController')->except(['create', 'edit']);
+Route::get('get-days/{eventId}', [SessionController::class, 'getDaysByEvent']);
 
 Route::resource('blogs', 'BlogsController')->except(['create', 'edit']);
 Route::resource('CommonQuestion', 'CommonQuestionController')->except(['create', 'edit']);
