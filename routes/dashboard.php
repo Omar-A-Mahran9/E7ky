@@ -43,7 +43,7 @@ Route::delete("car_prices/delete-selected", "CarPriceController@deleteSelected")
 Route::resource('order-reasons', 'OrderReasonController')->except(['create', 'edit']);
 Route::resource('admins', 'AdminController')->except(['create', 'edit']);
 Route::resource('events', 'EventController')->except(['create', 'edit']);
-Route::resource('brands', 'BrandController')->except(['create', 'edit']);
+Route::resource('sessions', 'SessionController')->except(['create', 'edit']);
 
 Route::resource('blogs', 'BlogsController')->except(['create', 'edit']);
 Route::resource('CommonQuestion', 'CommonQuestionController')->except(['create', 'edit']);

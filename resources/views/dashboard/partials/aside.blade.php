@@ -62,8 +62,8 @@
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
                 @can('view_sessions')
-                    <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.events.index')" :title="__('Events')">
-                        <i class="ki-outline ki-chart fs-2"></i>
+                    <x-dashboard.aside-item :slug="'sessions'" :route="route('dashboard.sessions.index')" :title="__('Sessions')">
+                        <i class="ki-outline ki-question fs-2"></i>
                     </x-dashboard.aside-item>
                 @endcan
                 <!--end:Menu item-->
@@ -96,52 +96,7 @@
                 @endcan
                 <!--end:Menu item-->
 
-                @can('view_brands')
-                    <x-dashboard.aside-item :slug="'brands'" :route="route('dashboard.brands.index')" :title="__('Brands')">
-                        <i class="ki-outline ki-text-bold fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
 
-                @can('view_colors')
-                    <x-dashboard.aside-item :slug="'skin-colors'" :route="route('dashboard.skin-colors.index')" :title="__('Skin Colors')">
-                        <i class="ki-outline ki-color-swatch fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-
-
-
-                @can('view_cars')
-                    <x-dashboard.aside-item :slug="'cars'" :route="route('dashboard.cars.index')" :title="__('cars')">
-                        <i class="ki-outline ki-car-2 fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-
-                @can('view_carPrices')
-                    <x-dashboard.aside-item :slug="'car_prices'" :route="route('dashboard.car_prices.index')" :title="__('car prices')">
-                        <i class="ki-outline ki-car-3 fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                {{-- @can('view_products')
-                    <x-dashboard.aside-item :slug="'products'" :route="route('dashboard.products.index')" :title="__('Products')">
-                        <i class="ki-outline ki-delivery-2 fs-1"></i>
-                    </x-dashboard.aside-item>
-                @endcan --}}
-
-                <!--begin:Menu item-->
-                @can('view_cities')
-                    <x-dashboard.aside-item :slug="'cities'" :route="route('dashboard.cities.index')" :title="__('Cities')">
-                        <i class="ki-outline ki-map fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
-
-
-                <!--begin:Menu item-->
-                @can('view_customersRate')
-                    <x-dashboard.aside-item :slug="'customers_rates'" :route="route('dashboard.customers_rates.index')" :title="__('Customers Rates')">
-                        <i class="ki-outline ki-chart-line fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
 
                 @can('view_contact_us')
                     <x-dashboard.aside-item :slug="'contact_us'" :route="route('dashboard.contact-requests.index')" :title="__('Contact us')">
@@ -234,8 +189,7 @@
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
-                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
-                                data-kt-value="dark">
+                            <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="ki-outline ki-moon fs-2"></i>
                                 </span>

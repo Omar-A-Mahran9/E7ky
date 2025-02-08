@@ -34,6 +34,7 @@
     "Job Description": "وصف الوظيفة",
     "Gender": "الجنسية",
     "Select Gender": "الجنسية",
+    "Sessions": "الجلسات",
 
     "Blogs": "مدونتنا",
     "Blogs list": "قائمة المدونات",
@@ -52,8 +53,6 @@
     "Contact requests list": "طلبات التواصل",
     "Search for contact requests": "طلبات التواصل البحث",
     "Add package sub category": "اضافة فئة فرعية الباقة",
-
-    "Packages Sub Categories": "فئات فرعية للباقات",
 
     "Question en": "السؤال بالانجليزية",
     "Question ar": "السؤال بالعربية",
