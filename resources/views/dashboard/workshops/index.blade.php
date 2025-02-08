@@ -14,7 +14,7 @@
             data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
             <!--begin::Card title-->
             <div class="card-title m-0">
-                <h3 class="fw-bold m-0">{{ __('Sessions list') }}</h3>
+                <h3 class="fw-bold m-0">{{ __('Workshops list') }}</h3>
             </div>
             <!--end::Card title-->
         </div>
@@ -37,7 +37,8 @@
                         </svg>
                     </span>
                     <input type="text" data-kt-docs-table-filter="search"
-                        class="form-control form-control-solid ps-10 w-250px" placeholder="{{ __('Search for sessions') }}">
+                        class="form-control form-control-solid ps-10 w-250px"
+                        placeholder="{{ __('Search for workshops') }}">
                 </div>
                 <!--end::Search-->
 
@@ -54,7 +55,7 @@
                                     fill="currentColor"></rect>
                             </svg>
                         </span>
-                        {{ __('Add Session') }}
+                        {{ __('Add workshop') }}
                     </button>
                 </div>
                 <!--end::Toolbar-->
@@ -98,14 +99,14 @@
 
     {{-- begin::Add Country Modal --}}
     {{-- begin::Add Event Modal --}}
-    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.sessions.store') }}" method="post"
+    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.workshops.store') }}" method="post"
         data-success-callback="onAjaxSuccess" data-error-callback="onAjaxError">
         @csrf
         <div class="modal fade modal-lg" tabindex="-1" id="crud_modal">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="form_title">{{ __('Add new session') }}</h5>
+                        <h5 class="modal-title" id="form_title">{{ __('Add workshop') }}</h5>
                         <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
                             aria-label="Close">
                             <i class="ki-outline ki-cross fs-1"></i>
@@ -228,7 +229,7 @@
                                 <label for="location_inp"
                                     class="form-label required fs-6 fw-bold">{{ __('Location') }}</label>
                                 <input type="text" id="location_inp" name="location" class="form-control"
-                                    placeholder="{{ __('Enter session location') }}">
+                                    placeholder="{{ __('Enter workshop location') }}">
                                 <div class="fv-plugins-message-container invalid-feedback" id="location"></div>
                             </div>
                         </div>
@@ -288,7 +289,7 @@
 @push('scripts')
     <script src="{{ asset('assets/dashboard/js/global/datatable-config.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/datatables/sessions.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/datatables/workshops.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/global/crud-operations.js') }}"></script>
     <script src="{{ asset('assets/dashboard/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
 
@@ -297,10 +298,10 @@
             $("#add_btn").click(function(e) {
                 e.preventDefault();
 
-                $("#form_title").text(__('Add new session'));
+                $("#form_title").text(__('Add workshop'));
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
-                $("#crud_form").attr('action', `/dashboard/sessions`);
+                $("#crud_form").attr('action', `/dashboard/workshops`);
                 $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
             });
 
@@ -317,7 +318,7 @@
     <script src="{{ asset('assets/dashboard/js/map_create.js') }}"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu4T0sSqqn87uvqXHcUbbWpxt4NVyBW6w
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
     </script>
     <script>
         $(document).ready(function() {

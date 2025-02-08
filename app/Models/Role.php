@@ -24,6 +24,8 @@ class Role extends Model
         'blogs',
         'customers',
         'sessions',
+        'workshops',
+
         'admins',
 
         'vendors',

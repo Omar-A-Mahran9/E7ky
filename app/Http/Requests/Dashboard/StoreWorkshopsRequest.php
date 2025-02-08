@@ -4,15 +4,14 @@ namespace App\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSessionRequest extends FormRequest
+class StoreWorkshopsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return abilities()->contains('create_sessions');
-
+        return abilities()->contains('create_workshops');
     }
 
     /**
@@ -22,6 +21,8 @@ class StoreSessionRequest extends FormRequest
      */
     public function rules(): array
     {
+  
+
         return [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name_ar' => 'required|string|max:255|unique:events,name_ar',

@@ -3,30 +3,28 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dashboard\StoreSessionRequest;
+use App\Http\Requests\Dashboard\StoreWorkshopsRequest;
 use App\Models\Customer;
 use App\Models\Day;
 use App\Models\Event;
-use App\Models\Talk;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 
-class SessionController extends Controller
+class WorkshopController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('view_workshops');
 
-        $this->authorize('view_sessions');
         if ($request->ajax()) {
-
-            $data = getModelData(model: new Talk());
+            $data = getModelData(model: new Workshop());
             return response()->json($data);
 
         } else {
             $events = Event::get();
             $days = Day::get();
             $customers = Customer::where('type', 'speaker')->get();
-            return view('dashboard.sessions.index', compact('events', 'days', 'customers'));
+            return view('dashboard.workshops.index', compact('events', 'days', 'customers'));
         }
     }
 
@@ -36,7 +34,8 @@ class SessionController extends Controller
         return response()->json($days);
     }
 
-    public function store(StoreSessionRequest $request)
+
+    public function store(StoreWorkshopsRequest $request)
     {
         // Get validated data and remove 'customer_ids'
         $validatedData = $request->validated();
@@ -54,35 +53,49 @@ class SessionController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $validatedData['image'] = uploadImageToDirectory($request->file('image'), "Events");
+            $validatedData['image'] = uploadImageToDirectory($request->file('image'), "Workshops");
         }
 
         // Remove 'customer_ids' from validated data before creating the Talk
         unset($validatedData['customer_ids']);
 
         // Create a new Talk
-        $talk = Talk::create($validatedData);
+        $Workshop = Workshop::create($validatedData);
 
         // Attach validated customers (Many-to-Many)
-        $talk->customers()->attach($validCustomerIds);
+        $Workshop->customers()->attach($validCustomerIds);
 
         // Return success response
-        return $this->success('Talk created successfully', [
-            'talk' => $talk->load('customers') // Load customers in response
+        return $this->success('Workshop created successfully', [
+            'Workshop' => $Workshop->load('customers') // Load customers in response
         ], 201);
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
 
     public function destroy($talk)
     {
 
-        $talk = Talk::find($talk);
-        $this->authorize('delete_sessions');
+        $talk = Workshop::find($talk);
+        $this->authorize('delete_workshops');
 
         $talk->delete();
 
-        return response(["session deleted successfully"]);
+        return response(["workshop deleted successfully"]);
     }
-
 
 }

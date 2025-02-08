@@ -29,39 +29,32 @@ class TalkersResource extends JsonResource
             'count_talks' => $this->talks->count() ,
             // 'count_workshops' => $this->workshops->count(),
             'count_sessions_and_workshop' => $this->talks->count() ,
+            'talks' => $this->talks->map(function ($talk) {
+                return [
+                    'name' => $talk->name,
+                    'image' => $talk->full_image_path,
+                    'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+                    'location' => $talk->location,
+                    'event' => $talk->event->name,
+                    'start_time' => $talk->agenda->start_time,
+                ];
+            }),
+
+            'workshops' => $this->talks->map(function ($talk) {
+                return [
+                    'name' => $talk->name,
+                    'image' => $talk->full_image_path,
+                    'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+                    'location' => $talk->location,
+                    'event' => $talk->event->name,
+                    'start_time' => $talk->agenda->start_time,
+                ];
+            }),
 
 
         ];
 
-        // If detailed flag is true, include more detailed information
-        if ($this->detailed) {
 
-            $data = array_merge($data, [
- // Here, modify the talks data as requested
-                'talks' => $this->talks->map(function ($talk) {
-                    return [
-                        'name' => $talk->name,
-                        'image' => $talk->full_image_path,
-                        'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-                        'location' => $talk->location,
-                        'event' => $talk->event->name,
-                        'start_time' => $talk->agenda->start_time,
-                    ];
-                }),
-
-                'workshops' => $this->talks->map(function ($talk) {
-                    return [
-                        'name' => $talk->name,
-                        'image' => $talk->full_image_path,
-                        'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-                        'location' => $talk->location,
-                        'event' => $talk->event->name,
-                        'start_time' => $talk->agenda->start_time,
-                    ];
-                }),
-
-            ]);
-        }
 
         return $data;
     }

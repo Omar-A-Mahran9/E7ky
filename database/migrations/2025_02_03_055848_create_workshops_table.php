@@ -17,8 +17,8 @@ return new class () extends Migration {
             $table->string('name_en');
             $table->longText('description_ar');
             $table->longText('description_en');
-            $table->unsignedBigInteger('agenda_id');
-            $table->foreign('agenda_id')->references('id')->on('agenda')->onDelete('cascade');
+            $table->unsignedBigInteger('day_id');
+            $table->foreign('day_id')->references('id')->on('days')->onDelete('cascade');
             $table->time('start_time'); // Event start time
             $table->time('end_time')->nullable(); // Event end time
             $table->string('location');

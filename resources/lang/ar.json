@@ -42,8 +42,14 @@
     "Sessions list": "قائمة الجلسات",
     "Search for sessions": "البحث عن جلسة",
     "Enter session location": "ادخل عنوان الجلسة",
+    "Add Session": "اضافة جلسة",
+    "Workshops": "الورش",
+    "Search for workshops": " البحث عن الورش",
+    "Add workshop": "اضافة ورشة",
+    "Enter workshop location": "ادخل عنوان الورشة",
+    "Workshops list": "قائمة الورش",
 
-    "Blogs": "مدونتنا",
+    "Select customer": "اخنر العملاء",
     "Blogs list": "قائمة المدونات",
     "Add new blog": "اضافة مدونة ",
     "Search for blogs": "البحث عن مدونة",
@@ -61,10 +67,7 @@
     "Search for contact requests": "طلبات التواصل البحث",
     "Add package sub category": "اضافة فئة فرعية الباقة",
 
-    "Question ar": "السؤال بالعربية",
-    "Answer en": "الإجابة بالإنجليزية",
     "Answer ar": "الإجابة بالعربية",
-    "Question": "السؤال",
 
     "Packages": "باقاتنا",
     "Packages list": "قائمة الباقات",

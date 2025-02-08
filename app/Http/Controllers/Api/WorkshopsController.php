@@ -13,6 +13,7 @@ class WorkshopsController extends Controller
 {
     public function index()
     {
+ 
         // Get all talks, possibly paginated
         $Workshops = Workshop::with(['customers', 'event'])->get();
         $Workshops_count = Workshop::with(['customers', 'event'])->count();

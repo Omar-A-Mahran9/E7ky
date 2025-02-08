@@ -28,21 +28,16 @@ class EventResource extends JsonResource
             'start_day' => $this->start_day,
             'start_time' => $this->start_time,
             'favorite' => true,
+
+            'description' => $this->description,
+            'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+            'event_link' => $this->event_link,
+            'streaming_link' => $this->streaming_link,
+            'event_map' => $this->event_map,
+            'talks' => $this->talks->count(),
+            'workshops' => $this->workshops->count(),
         ];
 
-        // If it's a detailed view, add more fields
-        if ($this->detailed) {
-            $data = array_merge($data, [
-                'description' => $this->description,
-                'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-                'event_link' => $this->event_link,
-                'streaming_link' => $this->streaming_link,
-                'event_map' => $this->event_map,
-                 'talks' => $this->talks->count(),
-                 'workshops' => $this->workshops->count(),
-
-            ]);
-        }
 
         return $data;
     }

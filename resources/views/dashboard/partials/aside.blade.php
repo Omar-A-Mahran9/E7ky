@@ -68,33 +68,14 @@
                 @endcan
                 <!--end:Menu item-->
                 <!--begin:Menu item-->
-                @can('view_blogs')
-                    <x-dashboard.aside-item :slug="'blogs'" :route="route('dashboard.blogs.index')" :title="__('Blogs')">
-                        <i class="ki-outline ki-abstract-29 fs-2"></i>
+                @can('view_workshops')
+                    <x-dashboard.aside-item :slug="'workshops'" :route="route('dashboard.workshops.index')" :title="__('Workshops')">
+                        <i class="ki-outline  ki-chart-pie-3 fs-2"></i>
                     </x-dashboard.aside-item>
                 @endcan
 
-                @can('view_addonService')
-                    <x-dashboard.aside-item :slug="'addonService'" :route="route('dashboard.addon.index')" :title="__('Add new Service')">
-                        <i class="ki-outline ki-plus fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
 
-                <!--end:Menu item-->
 
-                @can('view_CommonQuestion')
-                    <x-dashboard.aside-item :slug="'CommonQuestion'" :route="route('dashboard.CommonQuestion.index')" :title="__('Common Question')">
-                        <i class="ki-outline ki-question fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-
-                <!--begin:Menu item-->
-                @can('view_categories')
-                    <x-dashboard.aside-item :slug="'categories'" :route="route('dashboard.categories.index', ['type' => 'parent'])" :title="__('Categories')">
-                        <i class="ki-outline ki-chart-pie-3 fs-2"></i>
-                    </x-dashboard.aside-item>
-                @endcan
-                <!--end:Menu item-->
 
 
 

@@ -23,6 +23,8 @@ let translations = {
         "Edit addon": "تعديل الخدمة",
         "Add new rate": "اضافة تقييم",
         "event map": "خريطة الحدث",
+        "Add new session": "اضافة جلسة جديدة",
+        "Add workshop": "اضافة ورشة جديدة",
 
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",
@@ -36,7 +38,6 @@ let translations = {
         Approve: "موافقة",
         Reject: "رفض",
         "Vendor approved successfully": "تم قبول التاجر بنجاح",
-        "Vendor rejected": "تم رفض التاجر",
         Edit: "تعديل",
         per_hour: "رحلة بالساعة",
         per_trip: "رحلة",

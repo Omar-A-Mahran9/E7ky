@@ -27,6 +27,8 @@ class CustomerController extends Controller
     {
         $data          = $request->validated();
         $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
+        $data['cover_picture'] = uploadImageToDirectory($request->file('cover_picture'), "Customers/Covers");
+
         $data['block_flag']= false;
         Customer::create($data);
 

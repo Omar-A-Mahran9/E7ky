@@ -32,7 +32,6 @@ class WorkshopsResource extends JsonResource
             'end_time' => $this->end_time,
 
         ];
-
         if ($this->detailed) {
             $data = array_merge($data, [
                 'description' => $this->description,

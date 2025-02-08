@@ -18,7 +18,7 @@ class Workshop extends Model
     public function getFullImagePathAttribute()
     {
 
-        return asset(getImagePathFromDirectory($this->image, 'Customers', "default.svg"));
+        return asset(getImagePathFromDirectory($this->image, 'Workshops', "default.svg"));
     }
 
     public function event()
