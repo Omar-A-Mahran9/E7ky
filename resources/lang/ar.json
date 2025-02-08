@@ -38,6 +38,10 @@
     "Days": "الأيام",
     "Select events": "اختر الحدث",
     "Select day": "اختر اليوم",
+    "Add new session": "اضافة جلسة جديدة",
+    "Sessions list": "قائمة الجلسات",
+    "Search for sessions": "البحث عن جلسة",
+    "Enter session location": "ادخل عنوان الجلسة",
 
     "Blogs": "مدونتنا",
     "Blogs list": "قائمة المدونات",
@@ -57,12 +61,10 @@
     "Search for contact requests": "طلبات التواصل البحث",
     "Add package sub category": "اضافة فئة فرعية الباقة",
 
-    "Question en": "السؤال بالانجليزية",
     "Question ar": "السؤال بالعربية",
     "Answer en": "الإجابة بالإنجليزية",
     "Answer ar": "الإجابة بالعربية",
     "Question": "السؤال",
-    "Answer": "الاجابة",
 
     "Packages": "باقاتنا",
     "Packages list": "قائمة الباقات",

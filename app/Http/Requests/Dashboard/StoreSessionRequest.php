@@ -4,7 +4,7 @@ namespace App\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEventRequest extends FormRequest
+class StoreSessionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,24 +28,15 @@ class StoreEventRequest extends FormRequest
             'name_en' => 'required|string|max:255|unique:events,name_en',
             'description_ar' => 'required|string',
             'description_en' => 'required|string',
-            'event_map' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'featured' => 'boolean',
             'location' => 'required|string|max:255',
-            'start_day' => 'required|date|after_or_equal:today',
-            'is_multi_day' => 'boolean',
-
-            'end_day' => 'required_if:is_multi_day,true|date|after_or_equal:start_day',
             'start_time' => 'required|date_format:H:i',
-            'end_time' => 'nullable|date_format:H:i|after:start_time',
-            'registration_start_time' => 'nullable|date_format:H:i',
-            'registration_end_time' => 'nullable||date_format:H:i|after:registration_start_time',
+            'end_time' => 'required|date_format:H:i|after:start_time',
             'lat' => 'required|numeric|between:-90,90',
             'lon' => 'required|numeric|between:-180,180',
-            'capacity' => 'nullable|integer|min:1',
-            'status' => 'required|in:scheduled,ongoing,completed,canceled',
-            'price' => 'nullable|numeric|min:0',
-            'event_link' => 'nullable|url',
-            'streaming_link' => 'nullable|url',
+            'capacity' => 'required|integer|min:1',
+            'event_id' => 'required',
+            'day_id' => 'required'
+
         ];
     }
 }

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\StoreSessionRequest;
 use App\Models\Day;
 use App\Models\Event;
-use App\Models\Session;
+use App\Models\Talk;
 use Illuminate\Http\Request;
 
 class SessionController extends Controller
@@ -15,7 +16,7 @@ class SessionController extends Controller
         $this->authorize('view_sessions');
         if ($request->ajax()) {
 
-            $data = getModelData(model: new Session());
+            $data = getModelData(model: new Talk());
             return response()->json($data);
 
         } else {
@@ -31,5 +32,33 @@ class SessionController extends Controller
         $days = Day::where('event_id', $eventId)->get(); // Fetch related days
         return response()->json($days);
     }
+
+    public function store(StoreSessionRequest $request)
+    {
+        $this->authorize('create_sessions');
+
+        $validated_data = $request->validated();
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $validated_data['image'] = uploadImageToDirectory($request->file('image'), "Events");
+
+        }
+        // Create event
+        $session = Talk::create($validated_data);
+    }
+
+
+    public function destroy($talk)
+    {
+
+        $talk = Talk::find($talk);
+        $this->authorize('delete_sessions');
+
+        $talk->delete();
+
+        return response(["session deleted successfully"]);
+    }
+
 
 }
