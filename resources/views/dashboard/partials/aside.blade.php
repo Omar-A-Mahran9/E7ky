@@ -45,6 +45,15 @@
                 </x-dashboard.aside-item>
                 <!--end:Menu item-->
 
+
+                <!--begin:Menu item-->
+                @can('view_splashes')
+                    <x-dashboard.aside-item :slug="'splashes'" :route="route('dashboard.splashes.index')" :title="__('splashes')">
+                        <i class="ki-outline ki-abstract-24 fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+                <!--end:Menu item-->
+
                 <!--begin:Menu item-->
                 @can('view_event')
                     <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.events.index')" :title="__('Events')">
@@ -78,12 +87,12 @@
 
 
 
-
+                {{--
                 @can('view_contact_us')
                     <x-dashboard.aside-item :slug="'contact_us'" :route="route('dashboard.contact-requests.index')" :title="__('Contact us')">
                         <i class="ki-outline ki-phone fs-1"></i>
                     </x-dashboard.aside-item>
-                @endcan
+                @endcan --}}
 
 
 

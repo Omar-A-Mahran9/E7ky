@@ -19,7 +19,7 @@ Route::delete("customers/delete-selected", "CustomerController@deleteSelected");
 Route::resource('admins', 'AdminController')->except(['create', 'edit']);
 Route::resource('events', 'EventController')->except(['create', 'edit']);
 Route::resource('sessions', 'SessionController')->except(['create', 'edit']);
-Route::resource('splash', 'SplashController')->except(['create', 'edit']);
+Route::resource('splashes', 'SplashController')->except(['create', 'edit']);
 
 Route::get('get-days/{eventId}', [SessionController::class, 'getDaysByEvent']);
 Route::resource('workshops', 'WorkshopController')->except(['create', 'edit']);

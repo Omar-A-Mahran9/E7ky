@@ -187,7 +187,7 @@ let translations = {
         "Order Count": "عدد الطلبات",
         Total: "المجموع",
         SAR: "ر.س",
-        "Normal Shipping": "الشحن العادي",
+        "Add new splash": "اضافة شاشة جديدة",
         Today: "اليوم",
         "Automatically update price": "تحديث السعر تلقائيًا",
         Weight: "الوزن",

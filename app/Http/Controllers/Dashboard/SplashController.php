@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\StoreSplashRequest;
 use App\Models\Splash;
 use Illuminate\Http\Request;
 
@@ -24,104 +25,53 @@ class SplashController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEventRequest $request)
+    public function store(StoreSplashRequest $request)
     {
-        $this->authorize('create_event');
+        $this->authorize('create_splashes');
 
         $validated_data = $request->validated();
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $validated_data['image'] = uploadImageToDirectory($request->file('image'), "Events");
+            $validated_data['image'] = uploadImageToDirectory($request->file('image'), "Splash");
 
-        }
-        // Handle event_map upload
-        if ($request->hasFile('event_map')) {
-            $validated_data['event_map'] = uploadImageToDirectory($request->file('image'), "Events/maps");
         }
 
         // Create event
-        $event = Event::create($validated_data);
-        // Create default agenda for the event
-        $agendaData = [
-         'name_ar' => $event->name_ar . ' - جدول', // Arabic event name + "جدول"
-         'name_en' => $event->name_en . ' - Agenda', // English event name + "Agenda"
-         'description_ar' => 'جدول الحدث: ' . $event->description_ar, // Arabic description
-         'description_en' => 'Agenda for the event: ' . $event->description_en, // English description
-         'start_day' => $event->start_day,
-         'end_day' => $event->end_day,
-         'event_id' => $event->id,
-        ];
-        // Create Agenda
-        $agenda = Agenda::create($agendaData);
-
-        // Determine the date range
-        $startDay = Carbon::parse($request->start_day);
-        $endDay = $request->end_day ? Carbon::parse($request->end_day) : $startDay; // If no end_day, use start_day
-
-        // Set Arabic locale for Carbon
-        Carbon::setLocale('ar'); // Ensure you have Arabic locale installed on your server
-
-        // Generate an array of dates from start_day to end_day
-        $dates = collect($startDay->daysUntil($endDay->addDay())->toArray());
-
-        // Loop through each date
-        foreach ($dates as $date) {
-            $dayNameAr = $date->translatedFormat('l'); // Arabic day name
-            $dayNameEn = $date->format('l'); // English day name
-
-            $day =  Day::firstOrCreate([
-                  'date' => $date->toDateString(),
-                  'event_id' => $agenda->event_id
-              ], [
-                  'name_ar' => $agenda->name_ar . " - " . $dayNameAr,
-                  'name_en' => $agenda->name_en . " - " . $dayNameEn,
-              ]);
-            DaysEvent::firstOrCreate([
-              'day_id' => $day->id,
-              'event_id' => $agenda->event_id, // Ensure event_id is available
-              'agenda_id' => $agenda->id
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'Event created successfully!',
-            'event' => $event,
-        ], 201);
-    }
-    /**
-     * Display the specified resource.
-     */
-    public function show(Splash $splash)
-    {
-        //
+        $event = Splash::create($validated_data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Splash $splash)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Splash $splash)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(StoreSplashRequest $request, Splash $splash)
     {
-        //
+        $this->authorize('update_splashes');
+
+        $validated_data = $request->validated();
+
+        // Handle image update
+        if ($request->hasFile('image')) {
+            // Delete the old image
+            deleteImageFromDirectory($splash->image, 'Splash');
+
+            // Upload new image
+            $validated_data['image'] = uploadImageToDirectory($request->file('image'), "Splash");
+        }
+
+        // Update event
+        $splash->update($validated_data);
+
+        return response()->json(['message' => 'Splash updated successfully', 'splash' => $splash]);
     }
 
     /**
@@ -129,6 +79,15 @@ class SplashController extends Controller
      */
     public function destroy(Splash $splash)
     {
-        //
+        $this->authorize('delete_splashes');
+
+        // Delete associated image
+        deleteImageFromDirectory($splash->image, 'Splash');
+
+        // Delete the splash record
+        $splash->delete();
+
+        return response()->json(['message' => 'Splash deleted successfully']);
     }
+
 }

@@ -34,7 +34,7 @@
                                     stroke="#1C1D22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Events') }}</h4>
+                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Splashes') }}</h4>
 
                         <!--end::Avatar-->
                     </div>
@@ -78,7 +78,7 @@
                                     stroke="#1C1D22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Events') }}</h4>
+                        <h4 class="fw-bold me-auto px-4 py-3">{{ __('Splashes') }}</h4>
 
                         <!--end::Avatar-->
                     </div>
@@ -113,7 +113,7 @@
                                             fill="currentColor"></rect>
                                     </svg>
                                 </span>
-                                <!--end::Svg Icon-->{{ __('Add Event') }}
+                                <!--end::Svg Icon-->{{ __('Add new splash') }}
                             </button>
                             <!--end::Add customer-->
                         </div>
@@ -138,7 +138,7 @@
             data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
             <!--begin::Card title-->
             <div class="card-title m-0">
-                <h3 class="fw-bold m-0">{{ __('Events list') }}</h3>
+                <h3 class="fw-bold m-0">{{ __('Splashes list') }}</h3>
             </div>
             <!--end::Card title-->
         </div>
@@ -162,7 +162,8 @@
                     </span>
                     <!--end::Svg Icon-->
                     <input type="text" data-kt-docs-table-filter="search"
-                        class="form-control form-control-solid w-250px ps-15" placeholder="{{ __('Search for events') }}">
+                        class="form-control form-control-solid w-250px ps-15"
+                        placeholder="{{ __('Search for splashes') }}">
                 </div>
                 <!--end::Search-->
 
@@ -206,14 +207,14 @@
 
     {{-- begin::Add Country Modal --}}
     {{-- begin::Add Event Modal --}}
-    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.events.store') }}" method="post"
+    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.splashes.store') }}" method="post"
         data-success-callback="onAjaxSuccess" data-error-callback="onAjaxError">
         @csrf
         <div class="modal fade modal-lg" tabindex="-1" id="crud_modal">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="form_title">{{ __('Add new event') }}</h5>
+                        <h5 class="modal-title" id="form_title">{{ __('Add new splash') }}</h5>
                         <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
                             aria-label="Close">
                             <i class="ki-outline ki-cross fs-1"></i>
@@ -259,8 +260,9 @@
                         <div class="fv-row mb-4">
                             <label for="description_ar_inp"
                                 class="form-label required fs-6 fw-bold">{{ __('Description ar') }}</label>
-                            <textarea name="description_ar" class="form-control" id="description_ar_inp" rows="3"
+                            <textarea name="description_ar" class="form-control" data-kt-autosize="true" id="description_ar_inp" rows="3" class="tox-target"
                                 placeholder="{{ __('Description In Arabic') }}"></textarea>
+                               
                             <div class="fv-plugins-message-container invalid-feedback" id="description_ar"></div>
                         </div>
 
@@ -270,132 +272,6 @@
                             <textarea name="description_en" class="form-control" id="description_en_inp" rows="3"
                                 placeholder="{{ __('Description In English') }}"></textarea>
                             <div class="fv-plugins-message-container invalid-feedback" id="description_en"></div>
-                        </div>
-
-
-
-
-                        <div class="row">
-                            <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Start Date') }}</label>
-                                <input type="date" name="start_day" class="form-control" required>
-                                <div class="fv-plugins-message-container invalid-feedback" id="start_day"></div>
-
-                            </div>
-                            <div class="col-md-6 fv-row">
-                                <div class="d-flex justify-content-between align-items-center  gap-5">
-                                    <div><label class="fs-6 fw-bold">{{ __('End Date') }}</label></div>
-                                    <div class="fv-row mt-3 form-check">
-                                        <input type="checkbox" name="is_multi_day" class="form-check-input"
-                                            id="is_multi_day" value="0">
-                                        <label class="form-check-label"
-                                            for="is_multi_day">{{ __('Multi-Day Event') }}</label>
-                                    </div>
-                                </div>
-                                <input type="date" name="end_day" class="form-control" id="end_day" disabled>
-                                <div class="fv-plugins-message-container invalid-feedback" id="end_day"></div>
-
-                            </div>
-                        </div>
-
-
-                        <div class="row mt-3">
-                            <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Start Time') }}</label>
-                                <input type="time" name="start_time" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('End Time') }}</label>
-                                <input type="time" name="end_time" class="form-control">
-                                <div class="fv-plugins-message-container invalid-feedback" id="end_time"></div>
-
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Registration Start') }}</label>
-                                <input type="time" name="registration_start_time" class="form-control">
-                            </div>
-                            <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Registration End') }}</label>
-                                <input type="time" name="registration_end_time" class="form-control">
-                                <div class="fv-plugins-message-container invalid-feedback" id="registration_end_time">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Capacity') }}</label>
-                                <input type="number" name="capacity" class="form-control" min="1">
-                            </div>
-                            <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Price') }}</label>
-                                <input type="number" name="price" class="form-control" min="0">
-                            </div>
-                        </div>
-
-                        <div class="fv-row mt-3">
-                            <label class="fs-6 fw-bold">{{ __('Event Link') }}</label>
-                            <input type="url" name="event_link" class="form-control">
-                        </div>
-
-                        <div class="fv-row mt-3">
-                            <label class="fs-6 fw-bold">{{ __('Streaming Link') }}</label>
-                            <input type="url" name="streaming_link" class="form-control">
-                        </div>
-                        <div class="fv-row mt-5">
-
-                            <div class="d-flex flex-column justify-content-center ">
-                                <label for="event_map_inp" class="form-label required text-center fs-6 fw-bold mb-3">
-                                    {{ __('Event Map') }}
-                                </label>
-                                <x-dashboard.upload-map-inp name="event_map" :image="null" :directory="null"
-                                    placeholder="map-placeholder.svg" type="editable">
-                                </x-dashboard.upload-map-inp>
-                            </div>
-                        </div>
-
-                        <div class="fv-row mt-3">
-                            <label class="fs-6 fw-bold">{{ __('Status') }}</label>
-                            <select name="status" class="form-control">
-                                <option value="scheduled">{{ __('Scheduled') }}</option>
-                                <option value="ongoing">{{ __('Ongoing') }}</option>
-                                <option value="completed">{{ __('Completed') }}</option>
-                                <option value="canceled">{{ __('Canceled') }}</option>
-                            </select>
-                        </div>
-                        <div class="fv-row mb-3">
-                            <label for="location_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Location') }}</label>
-                            <input type="text" id="location_inp" name="location" class="form-control"
-                                placeholder="{{ __('Enter event location') }}">
-                            <div class="fv-plugins-message-container invalid-feedback" id="location"></div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label class="fs-6 fw-bold">{{ __('Pickup your location') }}</label>
-                                <div class="text-center">
-                                    <div id="googleMap"
-                                        style="width: 100%;min-height:300px;border:1px solid #009EF7; border-radius: 10px;">
-                                    </div>
-                                    <input type="hidden" id="lat_inp" name="lat">
-                                    <input type="hidden" id="lng_inp" name="lon">
-                                    <p class="invalid-feedback" id="lat"></p>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="fv-row mt-5 form-check">
-                            <input type="hidden" name="featured" value="0">
-                            <input type="checkbox" name="featured" class="form-check-input" id="featured"
-                                value="1">
-                            <label for="featured">{{ __('Featured Event') }}</label>
                         </div>
 
                     </div>
@@ -417,21 +293,16 @@
     </form>
 @endsection
 @push('scripts')
-    <script src="{{ asset('assets/dashboard/js/global/datatable-config.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/datatables/events.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/global/crud-operations.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
-
+ 
     <script>
         $(document).ready(function() {
             $("#add_btn").click(function(e) {
                 e.preventDefault();
 
-                $("#form_title").text(__('Add new event'));
+                $("#form_title").text(__('Add new splash'));
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
-                $("#crud_form").attr('action', `/dashboard/events`);
+                $("#crud_form").attr('action', `/dashboard/splashes`);
                 $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
             });
 
@@ -448,7 +319,7 @@
     <script src="{{ asset('assets/dashboard/js/map_create.js') }}"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu4T0sSqqn87uvqXHcUbbWpxt4NVyBW6w
-                                                                                                                                                                                                                                                                                                                                                                                                    &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
     </script>
     <script>
         document.getElementById('is_multi_day').addEventListener('change', function() {
@@ -463,4 +334,38 @@
             }
         });
     </script>
+
+ 
+        <script>
+            window['onAjaxSuccess'] = () => {
+                soundStatus = $("[name='sound_status']:checked").val();
+                showToast();
+            }
+        </script>
+        <script>
+            let language = locale == 'en' ? 'ltr' : 'rtl';
+            tinymce.init({
+                selector: "#description_ar_inp",
+                height: "480",
+                menubar: false,
+                toolbar: ["styleselect",
+                    "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
+                    "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
+                ],
+                directionality: language, // Set the initial direction to RTL if needed
+                plugins: "advlist autolink link image lists charmap print preview code directionality"
+            });
+            tinymce.init({
+                selector: "#description_en_inp",
+                height: "480",
+                menubar: false,
+                toolbar: ["styleselect",
+                    "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
+                    "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
+                ],
+                directionality: language, // Set the initial direction to RTL if needed
+                plugins: "advlist autolink link image lists charmap print preview code directionality"
+            });
+        </script>
+    
 @endpush
