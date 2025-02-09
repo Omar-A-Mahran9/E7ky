@@ -1,0 +1,2 @@
+@extends('dashboard.partials.master')
+ 
