@@ -25,10 +25,10 @@ class Role extends Model
         'customers',
         'sessions',
         'workshops',
+        'splashes',
 
         'admins',
 
-        'vendors',
         'colors',
         'roles',
         'addonService',
