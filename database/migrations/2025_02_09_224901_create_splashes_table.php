@@ -13,8 +13,8 @@ return new class () extends Migration {
         Schema::create('splashes', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->string('name_ar')->unique();
-            $table->string('name_en')->unique();
+            $table->string('name_ar') ;
+            $table->string('name_en') ;
             $table->longText('description_ar');
             $table->longText('description_en');
             $table->timestamps();

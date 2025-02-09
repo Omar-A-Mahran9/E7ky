@@ -262,7 +262,7 @@
                                 class="form-label required fs-6 fw-bold">{{ __('Description ar') }}</label>
                             <textarea name="description_ar" class="form-control" data-kt-autosize="true" id="description_ar_inp" rows="3" class="tox-target"
                                 placeholder="{{ __('Description In Arabic') }}"></textarea>
-                               
+
                             <div class="fv-plugins-message-container invalid-feedback" id="description_ar"></div>
                         </div>
 
@@ -293,7 +293,14 @@
     </form>
 @endsection
 @push('scripts')
- 
+   <script src="{{ asset('assets/dashboard/plugins/custom/tinymce/tinymce.bundle.js') }}"></script>
+
+    <script src="{{ asset('assets/dashboard/js/global/datatable-config.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/datatables/datatables.bundle.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/datatables/splashes.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/global/crud-operations.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
+
     <script>
         $(document).ready(function() {
             $("#add_btn").click(function(e) {
@@ -335,7 +342,7 @@
         });
     </script>
 
- 
+
         <script>
             window['onAjaxSuccess'] = () => {
                 soundStatus = $("[name='sound_status']:checked").val();
@@ -367,5 +374,5 @@
                 plugins: "advlist autolink link image lists charmap print preview code directionality"
             });
         </script>
-    
+
 @endpush

@@ -32,6 +32,7 @@ class SplashController extends Controller
      */
     public function store(StoreSplashRequest $request)
     {
+
         $this->authorize('create_splashes');
 
         $validated_data = $request->validated();
@@ -42,8 +43,9 @@ class SplashController extends Controller
 
         }
 
-        // Create event
-        $event = Splash::create($validated_data);
+         $splash = Splash::create($validated_data);
+         return response(["splash deleted successfully"]);
+
     }
 
 

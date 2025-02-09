@@ -62,6 +62,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
 
     Route::apiResource('agenda', ApiAgendaController::class);
+    Route::get('/splashes', 'SplashController@index');
+
+
 
 
 });
