@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreEventRequest as ApiStoreEventRequest;
 use App\Http\Resources\Api\EventResource as ApiEventResource;
+use App\Http\Resources\Api\TalkersResource;
 use App\Models\Agenda;
+use App\Models\Customer;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -57,49 +59,34 @@ class EventController extends Controller
         );
     }
 
-
     public function Eventspeakers($id)
     {
-        // Fetch the event by its ID along with the related talks and customers
-        $event = Event::with('talks.customers')->findOrFail($id);
-        // Fetch all customers associated with the event
-        $customers = $event->talks->flatMap->customers->unique('id');
-
-        // Map the customers to the required response format
-        $talksData = $customers->map(function ($customer) use ($event) {
-            $talks = $event->talks->filter(function ($talk) use ($customer) {
-                return $talk->customers->contains($customer->id);
-            });
-
-            $workshops = $customer->workshops ?? collect(); // Replace with actual relation if available
-
-            return [
-                'talker_details' => [
-                    "id" => $customer->id,
-                    "name" => $customer->first_name . ' ' . $customer->last_name
-                ],
-                'sessions_count' => $talks->count(), // Count talks per customer
-                'talks' => $talks->map(function ($talk) {
-                    return [
-                        'id' => $talk->id,
-                        'talk_name' => $talk->name, // Adjust this if the talk name has different column names
-                    ];
-                }),
-                'workshop' => $workshops->map(function ($workshop) {
-                    return [
-                        'id' => $workshop->id,
-                        'workshop_name' => $workshop->name, // Adjust based on actual column name
-                    ];
-                })
-            ];
-        });
-
-        // Return the event's talks grouped by customer and talks count in the response
+        $speakers = Customer::where("type", "speaker")
+               ->where(function ($query) use ($id) {
+                   $query->whereHas('talks', function ($q) use ($id) {
+                       $q->where('event_id', $id);
+                   })
+                   ->orWhereHas('workshops', function ($q) use ($id) {
+                       $q->where('event_id', $id);
+                   });
+               })
+               ->with([
+                   'talks' => function ($query) use ($id) {
+                       $query->where('event_id', $id);
+                   },
+                   'workshops' => function ($query) use ($id) {
+                       $query->where('event_id', $id);
+                   }
+               ])
+               ->get();
         return $this->success(
-            'Event talks data',
-            $talksData
+            'speakers',
+            TalkersResource::collection($speakers)
         );
     }
+
+
+
 
     public function getAgenda($id)
     {

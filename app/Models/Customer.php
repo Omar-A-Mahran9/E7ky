@@ -16,7 +16,7 @@ class Customer extends Authenticatable
     use HasApiTokens;
     use SMSTrait;
 
-    protected $appends = [ 'full_image_path'];
+    protected $appends = [ 'full_image_path','cover_picture'];
     protected $guarded = ["password_confirmation"];
     protected $casts   = ['created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d', 'otp' => 'string'];
 
@@ -72,5 +72,10 @@ class Customer extends Authenticatable
     public function getFullImagePathAttribute()
     {
         return asset(getImagePathFromDirectory($this->image, 'Customers', "default.svg"));
+    }
+
+    public function getCoverPictureAttribute()
+    {
+        return asset(getImagePathFromDirectory($this->cover_picture, 'Customers/Covers', "default.svg"));
     }
 }
