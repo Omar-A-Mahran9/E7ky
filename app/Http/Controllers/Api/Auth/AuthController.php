@@ -124,7 +124,7 @@ class AuthController extends Controller
         /* Mail::send('emails.otp',['user' =>  $customer],function($message) use($customer){
            $message->to($customer->email)->subject('Otp verification');
         });
-
+*/
         $token = $customer->createToken('Personal access token to apis')->plainTextToken;
 
         return $this->success("registered in successfully", ['token' => $token, "customer" => new CustomerResource($customer)]);
@@ -163,7 +163,7 @@ class AuthController extends Controller
 
         return $this->success("logged in successfully", ['token' => $token, "user" => new UserResource($user)]);
     } */
-    }
+
     public function logout(Request $request)
     {
         $token = $request->user()->token();

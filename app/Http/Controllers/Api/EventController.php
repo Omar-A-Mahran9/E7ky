@@ -88,137 +88,71 @@ class EventController extends Controller
 
 
 
-    public function getAgenda($id)
-    {
-        $agenda = Agenda::where('event_id', $id)->first();
+ public function getAgenda(Request $request, $id)
+{
+    $dateFilter = $request->query('date'); // Get the date from query parameters
 
-        if (!$agenda) {
-            return response()->json(['error' => 'Agenda not found'], 404);
+    $agenda = Agenda::where('event_id', $id)->first();
+
+    if (!$agenda) {
+        return response()->json(['error' => 'Agenda not found'], 404);
+    }
+
+    $days = $agenda->days; // Assuming Agenda has a relationship with days
+    $activities = [];
+
+    foreach ($days as $day) {
+        if ($dateFilter && $day->date != $dateFilter) {
+            continue; // Skip days that do not match the filter
         }
 
-        $days = $agenda->days; // Assuming Agenda has a relationship with days
-        $activities = [];
+        $date = $day->date;
+        $event = $day->event;
 
-        foreach ($days as $day) {
-            $date = $day->date; // Assuming each day has a date field
-            $event = $day->event;
-
-            // Collecting and sorting talks by start_time, then by end_time
-            $talks = $event->talks
-            ->where('day_id', $day->id)
-            ->sortBy(function ($talk) {
-                return [strtotime($talk->start_time), strtotime($talk->end_time)];
-            })
-            ->map(function ($talk) {
-                return [
-                    'id' => $talk->id,
-                    'image' => $talk->full_image_path,
-                    'name' => $talk->name,
-                    'event_name' => $talk->event->name,
-                    'location' => $talk->location,
-                    'start_day' => $talk->day->date,
-                    'valid_time' => strtotime($talk->start_time) < strtotime($talk->end_time),
-                ];
-            });
-
-            // Collecting and sorting workshops by start_time, then by end_time
-            $workshops = $event->workshops
-                ->where('day_id', $day->id)
-                ->sortBy(function ($workshop) {
-                    return [strtotime($workshop->start_time), strtotime($workshop->end_time)];
+        $collectActivities = function ($items) use ($day) {
+            return $items->where('day_id', $day->id)
+                ->sortBy(function ($item) {
+                    return [strtotime($item->start_time), strtotime($item->end_time)];
                 })
-                ->map(function ($workshop) {
+                ->map(function ($item) {
                     return [
-                        'id' => $workshop->id,
-                        'image' => $workshop->full_image_path,
-                        'name' => $workshop->name,
-                        'event_name' => $workshop->event->name,
-                        'location' => $workshop->location,
-                        'start_day' => $workshop->day->date,
-                        'valid_time' => strtotime($workshop->start_time) < strtotime($workshop->end_time),
+                        'id' => $item->id,
+                        'image' => $item->full_image_path,
+                        'name' => $item->name,
+                        'event_name' => $item->event->name,
+                        'location' => $item->location,
+                        'start_day' => $item->day->date,
+                        'start_time' => $item->start_time,
+                        'end_time' => $item->end_time,
+                        'valid_time' => strtotime($item->start_time) < strtotime($item->end_time),
                     ];
                 });
+        };
 
-            $food = $event->workshops
-            ->where('day_id', $day->id)
-            ->sortBy(function ($workshop) {
-                return [strtotime($workshop->start_time), strtotime($workshop->end_time)];
-            })
-            ->map(function ($workshop) {
-                return [
-                    'id' => $workshop->id,
-                    'image' => $workshop->full_image_path,
-                    'name' => $workshop->name,
-                    'event_name' => $workshop->event->name,
-                    'location' => $workshop->location,
-                    'start_day' => $workshop->day->date,
-                    'start_time' => $workshop->start_time,
-                    'end_time' => $workshop->end_time,
-                    'valid_time' => strtotime($workshop->start_time) < strtotime($workshop->end_time),
-                ];
-            });
-            $register = $event->workshops
-            ->where('day_id', $day->id)
-            ->sortBy(function ($workshop) {
-                return [strtotime($workshop->start_time), strtotime($workshop->end_time)];
-            })
-            ->map(function ($workshop) {
-                return [
-                    'id' => $workshop->id,
-                        'image' => $workshop->full_image_path,
-                        'name' => $workshop->name,
-                        'event_name' => $workshop->event->name,
-                        'location' => $workshop->location,
-                        'start_day' => $workshop->day->date,
-                        'start_time' => $workshop->start_time,
-                        'end_time' => $workshop->end_time,
-                        'valid_time' => strtotime($workshop->start_time) < strtotime($workshop->end_time),
-                ];
-            });
+        $talks = $collectActivities($event->talks);
+        $workshops = $collectActivities($event->workshops);
+        $food = $collectActivities($event->workshops);
+        $register = $collectActivities($event->workshops);
+        $another = $collectActivities($event->workshops);
 
-            $another = $event->workshops
-            ->where('day_id', $day->id)
-            ->sortBy(function ($workshop) {
-                return [strtotime($workshop->start_time), strtotime($workshop->end_time)];
-            })
-            ->map(function ($workshop) {
-                return [
-                    'id' => $workshop->id,
-                    'image' => $workshop->full_image_path,
-                    'name' => $workshop->name,
-                    'event_name' => $workshop->event->name,
-                    'location' => $workshop->location,
-                    'start_day' => $workshop->day->date,
-                    'start_time' => $workshop->start_time,
-                    'end_time' => $workshop->end_time,
-
-                    'valid_time' => strtotime($workshop->start_time) < strtotime($workshop->end_time),
-                ];
-            });
-
-
-            // Merging all activities into one collection
-            $allActivities = collect()
+        $allActivities = collect()
             ->merge($register)
             ->merge($talks)
             ->merge($food)
             ->merge($another)
             ->merge($workshops)
-            // ->sortBy([
-            //     fn ($item) => strtotime($item['start_time']),
-            //     fn ($item) => strtotime($item['end_time'])
-            // ])
-            ->values(); // Reset keys after sorting
-            $activities[] = [
-               'date' => $date,
-               'activities' => $allActivities
-            ];
-        }
+            ->values(); // Reset keys after merging
 
-        return response()->json([
-            'agenda' => $activities
-        ]);
+        $activities[] = [
+            'date' => $date,
+            'activities' => $allActivities
+        ];
     }
+
+    return response()->json([
+        'agenda' => $activities
+    ]);
+}
 
 
 
