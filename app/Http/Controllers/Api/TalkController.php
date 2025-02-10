@@ -16,14 +16,13 @@ class TalkController extends Controller
     {
         // Get all talks, possibly paginated
         $talks = Talk::with(['customers', 'event'])->get();
-    
+
         return $this->success('Talks', ['talks' => TalkResource::collection($talks)]);
     }
     public function show($id)
     {
         $talk = Talk::with(['customers', 'event'])->findOrFail($id);
-
-        return $this->success(
+         return $this->success(
             'Talk',
             new TalkResource($talk, true) // This returns full details
         );

@@ -32,16 +32,8 @@ class WorkshopsResource extends JsonResource
             'end_time' => $this->end_time,
             'description' => $this->description,
             'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-             'speakers' => $this->customers->map(function ($customer) {
-                 return [
-                     'name' => $customer->first_name . " " . $customer->last_name,
-                     'image' => $customer->full_image_path,
+            'speakers' => CustomerResource::collection($this->customers)
 
-                     'start_time' => "10:00",
-                     'end_time' => "10:00",
-
-                 ];
-             }),
 
         ];
 

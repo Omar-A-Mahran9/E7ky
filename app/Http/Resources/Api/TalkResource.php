@@ -32,7 +32,7 @@ class TalkResource extends JsonResource
             'end_time' => $this->end_time,
             'description' => $this->description,
             'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-             'speakers' => TalkersResource::collection($this->customers)
+             'speakers' => CustomerResource::collection($this->customers)
         ];
 
         return $data;

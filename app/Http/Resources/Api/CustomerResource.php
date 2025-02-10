@@ -17,11 +17,13 @@ class CustomerResource extends JsonResource
         return [
             'id' => $this->id,
             'image' => $this->full_image_path,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'otp' => $this->otp,
+            'cover_picture' => $this->cover_picture,
+            'name' => $this->first_name." ".$this->last_name,
+            'job_description' => $this->job_description,
+            'bio' => $this->bio,
+            'count_talks' => $this->talks->count() ,
+            // 'count_workshops' => $this->workshops->count(),
+            'count_sessions_and_workshop' => $this->talks->count() ,
         ];
     }
 }
