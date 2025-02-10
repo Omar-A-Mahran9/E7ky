@@ -29,27 +29,11 @@ class TalkersResource extends JsonResource
             'count_talks' => $this->talks->count() ,
             // 'count_workshops' => $this->workshops->count(),
             'count_sessions_and_workshop' => $this->talks->count() ,
-            'talks' => $this->talks->map(function ($talk) {
-                return [
-                    'name' => $talk->name,
-                    'image' => $talk->full_image_path,
-                    'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-                    'location' => $talk->location,
-                    'event' => $talk->event->name,
-                    'start_time' => $talk->start_time,
-                ];
-            }),
+            'talks' => TalkResource::collection($this->talks),
 
-            'workshops' => $this->talks->map(function ($talk) {
-                return [
-                    'name' => $talk->name,
-                    'image' => $talk->full_image_path,
-                    'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-                    'location' => $talk->location,
-                    'event' => $talk->event->name,
-                    'start_time' => $talk->start_time,
-                ];
-            }),
+            'workshops' => WorkshopsResource::collection($this->workshops)
+
+
 
 
         ];
