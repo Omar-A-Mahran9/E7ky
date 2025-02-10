@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\SpeakerController;
 use App\Http\Controllers\Api\TalkController as ApiTalkController;
 use App\Http\Controllers\Api\WorkshopsController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::apiResource('agenda', ApiAgendaController::class);
     Route::get('/splashes', 'SplashController@index');
 
+    Route::get('/home-page', 'HomeController@index');
 
 
 

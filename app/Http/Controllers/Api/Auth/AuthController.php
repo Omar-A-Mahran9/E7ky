@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\CustomerResource;
 use App\Http\Resources\UserResource;
 use App\Models\Customer;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -50,8 +51,10 @@ class AuthController extends Controller
         }
     }
 
-    public function loginOTP(Request $request, Customer $customer)
+    public function loginOTP(Request $request, $data)
     {
+        $customer = Customer::where('phone', $data)->orWhere('email', $data)->first();
+
         $request['phone'] = $customer->phone;
         $request->validate([
             'phone' => ['required', 'exists:customers'],
@@ -75,7 +78,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $data                        = $request->validate([
+        $data  = $request->validate([
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
@@ -119,8 +122,8 @@ class AuthController extends Controller
 
         $customer->sendOTP();
         /* Mail::send('emails.otp',['user' =>  $customer],function($message) use($customer){
-            $message->to($customer->email)->subject('Otp verification');
-        }); */
+           $message->to($customer->email)->subject('Otp verification');
+        });
 
         $token = $customer->createToken('Personal access token to apis')->plainTextToken;
 
@@ -129,38 +132,38 @@ class AuthController extends Controller
 
     /* function socialLogin(Request $request) {
         $request->validate([
-            'social_id' => "required",
+           'social_id' => "required",
         ]);
 
         $user = User::where('social_id', $request->social_id)->first();
         if($user)
         {
-            $token = $user->createToken('Personal access token to apis')->accessToken;
+           $token = $user->createToken('Personal access token to apis')->accessToken;
 
-            return $this->success("logged in successfully", ['token' => $token, "user" => new UserResource($user)]);
+           return $this->success("logged in successfully", ['token' => $token, "user" => new UserResource($user)]);
         }
 
         $request->validate([
-            'name' => "required|string:255",
-            'phone' => 'required|regex:/(^(05)([0-9]{8})$)/u|max:255',
-            'email' => "required|email:255",
-            'social_image_link' => "nullable",
-            'fcm_token' => "required",
+           'name' => "required|string:255",
+           'phone' => 'required|regex:/(^(05)([0-9]{8})$)/u|max:255',
+           'email' => "required|email:255",
+           'social_image_link' => "nullable",
+           'fcm_token' => "required",
         ]);
 
         $user = User::create([
-            'social_id' => $request->social_id,
-            'name' => $request->name,
-            'social_image_link' => $request->social_image_link,
-            'fcm_token' => $request->fcm_token,
-            'phone' => $request->phone,
-            'email' => $request->email
+           'social_id' => $request->social_id,
+           'name' => $request->name,
+           'social_image_link' => $request->social_image_link,
+           'fcm_token' => $request->fcm_token,
+           'phone' => $request->phone,
+           'email' => $request->email
         ]);
         $token = $user->createToken('Personal access token to apis')->accessToken;
 
         return $this->success("logged in successfully", ['token' => $token, "user" => new UserResource($user)]);
     } */
-
+    }
     public function logout(Request $request)
     {
         $token = $request->user()->token();

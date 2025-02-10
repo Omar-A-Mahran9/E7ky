@@ -500,7 +500,7 @@
                                                                     style="Margin:0;padding-top:10px;padding-right:20px;padding-left:20px;padding-bottom:20px">
                                                                     <h1
                                                                         style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:46px;font-style:normal;font-weight:bold;line-height:55px;color:#5c68e2">
-                                                                        <strong>{{ $vendorEmail }}</strong>
+                                                                        <strong>Test</strong>
                                                                     </h1>
                                                                 </td>
                                                             </tr>
@@ -536,8 +536,8 @@
                                                                     style="padding:0;Margin:0;padding-top:10px;padding-bottom:10px">
                                                                     <span class="es-button-border"
                                                                         style="border-style:solid;border-color:#2CB543;background:#5C68E2;border-width:0px;display:inline-block;border-radius:6px;width:auto"><a
-                                                                            href="{{ $resetLink }}"
-                                                                            class="es-button" target="_blank"
+                                                                            href="test" class="es-button"
+                                                                            target="_blank"
                                                                             style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#5C68E2;border-radius:6px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #5C68E2;padding-left:30px;padding-right:30px">{{ __('Set New Password') }}</a></span>
                                                                 </td>
                                                             </tr>
@@ -546,7 +546,7 @@
                                                                     style="padding:0;Margin:0;padding-top:10px;padding-right:20px;padding-left:20px;padding-bottom:20px">
                                                                     <p
                                                                         style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:14px;line-height:20px;color:#999999">
-                                                                        {{ __("This link will expire in 24 hours.") }}
+                                                                        {{ __('This link will expire in 24 hours.') }}
                                                                     </p>
                                                                 </td>
                                                             </tr>
