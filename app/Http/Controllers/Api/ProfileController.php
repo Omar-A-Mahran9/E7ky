@@ -30,22 +30,45 @@ class ProfileController extends Controller
     {
         $admin = auth()->user();
 
-        // Validate the request data
+        // Validate request data
         $data = $request->validate([
             'full_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-            'phone' => ['required', 'string', new PhoneNumber(), new ExistPhone(new Admin(), $admin->id), 'max:20', Rule::unique('admins')->ignore($admin->id)],
-            'email' => ['required', 'string', 'email', Rule::unique('admins', 'email')->ignore($admin->id)],
-            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg', 'max:512'], // Make 'image' optional
+            'phone' => [
+                'nullable', 'string', 'max:20',
+                new PhoneNumber(),
+                new ExistPhone(new Admin(), $admin->id),
+                Rule::unique('admins')->ignore($admin->id)
+            ],
+            'email' => ['nullable', 'string', 'email', Rule::unique('admins', 'email')->ignore($admin->id)],
+            'job_description' => ['nullable', 'string'],
+            'bio' => ['nullable', 'string'],
+            'age' => ['nullable', 'integer', 'min:1'],
+            'gender' => ['nullable', 'in:male,female,other'],
+            'facebook_link' => ['nullable', 'url'],
+            'instagram_link' => ['nullable', 'url'],
+            'X_link' => ['nullable', 'url'],
+            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg', 'max:512'],
+            'cover_picture' => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg', 'max:512'],
         ]);
 
-        $names = explode(' ', trim($data['full_name']), 2);
-        $data['first_name'] = $names[0]; // First word as first_name
-        $data['last_name'] = isset($names[1]) ? $names[1] : ''; // Remaining words as last_name or empty string if not provided
+        // Handle image upload
+        if ($request->has('image')) {
+            $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
+        }
 
+        // Handle cover picture upload
+        if ($request->hasFile('cover_picture')) {
+            $data['image'] = uploadImageToDirectory($request->file('image'), "Customers/Covers");
+        }
+
+
+        // Update admin details
         $admin->update($data);
-        return response()->json(['message' => 'Profile updated successfully.']);
 
-
+        return response()->json([
+            'message' => 'Profile updated successfully.',
+            'admin' => new AdminResource($admin)
+        ]);
     }
 
 
