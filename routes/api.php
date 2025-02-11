@@ -58,6 +58,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::apiResource('talks', ApiTalkController::class);
     Route::get('/events/talk/{id}', 'TalkController@talksPerEvent');
+    Route::get('/talk/{id}', 'TalkController@BookTalk');
 
     Route::apiResource('workshops', WorkshopsController::class);
     Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
@@ -66,7 +67,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/splashes', 'SplashController@index');
 
     Route::get('/home-page', 'HomeController@index');
-
 
 
 });

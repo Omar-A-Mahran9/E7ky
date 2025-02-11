@@ -22,7 +22,7 @@ class TalkController extends Controller
     public function show($id)
     {
         $talk = Talk::with(['customers', 'event'])->findOrFail($id);
-         return $this->success(
+        return $this->success(
             'Talk',
             new TalkResource($talk, true) // This returns full details
         );
@@ -68,5 +68,6 @@ class TalkController extends Controller
         ], 201);
     }
 
+  
 
 }
