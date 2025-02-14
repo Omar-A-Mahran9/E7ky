@@ -16,6 +16,9 @@ return new class () extends Migration {
             $table->string('last_name');
             $table->string('facebook_link')->nullable();
             $table->string('instagram_link')->nullable();
+            $table->string('google_link_acc')->nullable();
+            $table->string('facebook_link_acc')->nullable();
+
             $table->string('X_link')->nullable();
             $table->string('email')->unique();
             $table->text('job_description')->nullable(); // Job description of the talker

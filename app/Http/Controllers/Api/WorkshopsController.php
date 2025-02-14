@@ -109,7 +109,7 @@ class WorkshopsController extends Controller
                     'price' => $talk->price ?? 0, // Assuming talk has a price field
                     'booking_reference' => $bookingReference,
                 ]);
-
+dd('fdfdf');
             $qrCode = QrCode::format('png')->size(200)->generate($booking->id);
              $qrCodePath = uploadImageToDirectory($qrCode, "qrcodes");
 

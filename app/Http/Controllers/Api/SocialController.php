@@ -3,68 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function redirectToFacebook(Request $request)
-    {
-        $request->setLaravelSession(Session::driver());
 
-        return Socialite::driver('facebook')->redirect();
+  // Redirect to Social Provider
+  public function redirectToProvider($provider)
+  {
+        return Socialite::driver($provider)->redirect();
+  }
 
-    }
+  // Handle Social Provider Callback
+  public function handleProviderCallback($provider)
+  {
+      try {
+          $socialUser = Socialite::driver($provider)->user();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+          // Check if user already exists
+          $customer = Customer::where('email', $socialUser->getEmail())->first();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+          if (!$customer) {
+              $customer = Customer::create([
+                  'first_name' => $socialUser->getName(), // Facebook/Google Name
+                  'last_name' => '',
+                  'email' => $socialUser->getEmail(),
+                  'image' => $socialUser->getAvatar(),
+                  "{$provider}_link_acc" => $socialUser->getId(), // Store provider ID
+                  'password' => null,
+              ]);
+          }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+          // Log the user in
+          Auth::login($customer);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+          return response()->json(['message' => 'Login successful', 'user' => $customer]);
+      } catch (\Exception $e) {
+          return response()->json(['error' => 'Something went wrong!'], 500);
+      }
+  }
 }
