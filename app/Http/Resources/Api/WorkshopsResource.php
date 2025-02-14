@@ -27,6 +27,7 @@ class WorkshopsResource extends JsonResource
 
             'location' => $this->location,
             'start_day' => $this->day->date,
+            "is_book"=>false,
 
             'capacity_total' => $this->capacity,
             'current_capacuty' => $this->capacity,

@@ -59,33 +59,45 @@ class EventController extends Controller
         );
     }
 
-    public function Eventspeakers($id)
+    public function Eventspeakers(Request $request, $id)
     {
-        $speakers = Customer::where("type", "speaker")
-               ->where(function ($query) use ($id) {
-                   $query->whereHas('talks', function ($q) use ($id) {
-                       $q->where('event_id', $id);
-                   })
-                   ->orWhereHas('workshops', function ($q) use ($id) {
-                       $q->where('event_id', $id);
-                   });
-               })
-               ->with([
-                   'talks' => function ($query) use ($id) {
-                       $query->where('event_id', $id);
-                   },
-                   'workshops' => function ($query) use ($id) {
-                       $query->where('event_id', $id);
-                   }
-               ])
-               ->get();
+        $query = Customer::where("type", "speaker")
+            ->where(function ($query) use ($id) {
+                $query->whereHas('talks', function ($q) use ($id) {
+                    $q->where('event_id', $id);
+                })
+                ->orWhereHas('workshops', function ($q) use ($id) {
+                    $q->where('event_id', $id);
+                });
+            });
+
+        // Search by first_name and last_name
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'LIKE', "%{$search}%")
+                  ->orWhere('last_name', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Sort by created_at
+        $query->orderBy('created_at', 'asc');
+
+        // Paginate results
+        $speakers = $query->with([
+            'talks' => function ($query) use ($id) {
+                $query->where('event_id', $id);
+            },
+            'workshops' => function ($query) use ($id) {
+                $query->where('event_id', $id);
+            }
+        ])->paginate(10);
+
         return $this->success(
             'speakers',
             TalkersResource::collection($speakers)
         );
     }
-
-
 
 
  public function getAgenda(Request $request, $id)
