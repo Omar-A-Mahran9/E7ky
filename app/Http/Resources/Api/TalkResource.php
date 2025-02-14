@@ -27,7 +27,8 @@ class TalkResource extends JsonResource
 
             'location' => $this->location,
             'start_day' => $this->day->date,
-
+            'capacity_total' => $this->capacity,
+            'current_capacuty' => $this->capacity,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'description' => $this->description,
