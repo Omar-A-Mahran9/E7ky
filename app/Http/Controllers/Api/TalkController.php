@@ -125,9 +125,13 @@ class TalkController extends Controller
            // Decrease talk capacity
            $talk->update(['capacity' => $talk->capacity - 1]);
 
-           return $this->success('Talk booked successfully', [
-            'qr_code_url' => getImagePathFromDirectory($booking->qr, "qrcodes")
-        ]);
+
+
+        return response()->json([
+            'message' => 'Booking successful',
+
+            'qr_code_url' =>getImagePathFromDirectory($booking->qr,"qrcodes")
+        ], 201);
 
                     }
         }
