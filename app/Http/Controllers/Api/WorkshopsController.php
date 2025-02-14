@@ -124,11 +124,9 @@ class WorkshopsController extends Controller
             // Decrease talk capacity
             $workshop->update(['capacity' => $workshop->capacity - 1]);
 
-            return response()->json([
-                'message' => 'Booking successful',
 
-                'qr_code_url' =>getImagePathFromDirectory($booking->qr,"qrcodes")
-            ], 201);
+            return $this->success('qr_code_url', ["qr_code_url" => getImagePathFromDirectory($booking->qr,"qrcodes")]);
+
 
             }
         }
