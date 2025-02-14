@@ -46,6 +46,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
             return auth()->user();
         });
         Route::post('/booking/talk/{id}', 'TalkController@BookTalk');
+        Route::post('/booking/workshop/{id}', 'WorkshopsController@Bookworkshop');
+
         Route::get('/booking/talk/{id}', [ApiTalkController::class, 'bookingtalk'])->name('booking.talk');
 
     });

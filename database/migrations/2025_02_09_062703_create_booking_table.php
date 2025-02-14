@@ -21,7 +21,7 @@ return new class () extends Migration {
 
             $table->integer('quantity')->default(1); // Number of bookings or tickets
             $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending'); // Booking status
-            $table->enum('type', ['session', 'talk', 'event'])->default('event'); // Type of booking
+            $table->enum('type', ['workshop', 'talk', 'event'])->default('event'); // Type of booking
             $table->string('ticket_id')->unique()->nullable(); // Unique ticket ID for QR generation
 
             $table->dateTime('booked_at')->default(now()); // Time when the booking was made
