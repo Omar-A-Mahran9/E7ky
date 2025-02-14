@@ -32,7 +32,7 @@ class EventResource extends JsonResource
             'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
             'event_link' => $this->event_link,
             'streaming_link' => $this->streaming_link,
-            'event_map' => $this->event_map,
+            'event_map' => $this->full_event_map,
              'talks' => $this->talks->count(),
              'workshops' => $this->workshops->count(),
         ];

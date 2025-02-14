@@ -13,7 +13,7 @@ class Event extends Model
     // use SoftDeletes;
 
     protected $guarded = [];
-    protected $appends = ['name', 'description','full_image_path'];
+    protected $appends = ['name', 'description','full_image_path','full_event_map'];
 
     protected $casts = ['created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d'];
 
@@ -30,6 +30,12 @@ class Event extends Model
     public function getFullImagePathAttribute()
     {
         return asset(getImagePathFromDirectory($this->image, 'Events', "default.svg"));
+    }
+
+
+    public function getFullEventMapAttribute()
+    {
+        return asset(getImagePathFromDirectory($this->event_map, 'Events', "default.svg"));
     }
     public function getNameAttribute()
     {
