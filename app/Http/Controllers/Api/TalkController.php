@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreTalkRequest;
 use App\Http\Resources\Api\TalkersResource;
 use App\Http\Resources\Api\TalkResource;
+use App\Models\Book;
 use App\Models\Customer;
 use App\Models\Talk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TalkController extends Controller
 {
@@ -22,7 +26,7 @@ class TalkController extends Controller
     public function show($id)
     {
         $talk = Talk::with(['customers', 'event'])->findOrFail($id);
-         return $this->success(
+        return $this->success(
             'Talk',
             new TalkResource($talk, true) // This returns full details
         );
@@ -66,6 +70,67 @@ class TalkController extends Controller
         return $this->success('Talk created successfully', [
             'talk' => $talk->load('customers') // Load customers in response
         ], 201);
+    }
+
+
+    public function BookTalk(Request $request, $id)
+    {
+        $request->validate([
+            'ticket_id' => 'required|unique:booking,ticket_id',
+        ]);
+        $talk = Talk::with(['event'])->findOrFail($id);
+        $customer=Auth::user();
+        if($customer->type=="customer"){
+            if ($talk->capacity > 0) {
+                $existingBooking = Book::where('talk_id', $talk->id)
+                ->where('customer_id', Auth::id())
+                ->exists();
+
+            if ($existingBooking) {
+                return $this->failure(__('You have already booked this talk'));
+            }
+            // Create booking
+                // Generate unique booking reference
+                $bookingReference = strtoupper(uniqid('REF-'));
+
+
+                $booking = Book::create([
+                    'event_id' => $talk->event->id ?? null,
+                    'talk_id' => $talk->id,
+                    'customer_id' => Auth::id(),
+                    'status' => 'confirmed', // Mark as confirmed by default
+                    'type' => 'talk',
+                    'ticket_id' => $request->ticket_id,
+                    'booked_at' => now(),
+                    'event_date' => $talk->event->event_date ?? null,
+                    'price' => $talk->price ?? 0, // Assuming talk has a price field
+                    'booking_reference' => $bookingReference,
+                ]);
+
+
+            $qrCode = QrCode::format('png')->size(200)->generate($booking->id);
+            $qrCodePath = uploadImageToDirectory($qrCode, "qrcodes");
+            $booking->update([
+                'qr' =>  $qrCodePath , // Stores "qrcodes/E7kky_XXXX.png"
+            ]);
+
+           // Decrease talk capacity
+           $talk->update(['capacity' => $talk->capacity - 1]);
+
+           return response()->json([
+               'message' => 'Booking successful',
+
+               'qr_code_url' =>getImagePathFromDirectory($booking->qr,"qrcodes")
+           ], 201);
+            }
+        }
+        else{
+            return $this->failure('You are not a customer may be speaker', 422);
+        }
+
+
+
+        return response()->json(['message' => 'No available capacity for this talk'], 400);
     }
 
 

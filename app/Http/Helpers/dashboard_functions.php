@@ -40,8 +40,15 @@ if (!function_exists('uploadImageToDirectory')) {
         $model     = Str::plural($model);
         $model     = Str::ucfirst($model);
         $path      = "/Images/$model";
-        $imageName = str_replace(' ', '', 'E7kky_' . time() . $imageFile->getClientOriginalName());  // Set Image name
-        $imageFile->storeAs($path, $imageName, 'public');
+        // If the file is an instance of UploadedFile, handle it normally
+        if ($imageFile instanceof \Illuminate\Http\UploadedFile) {
+            $imageName = str_replace(' ', '', 'E7kky_' . time() . $imageFile->getClientOriginalName());
+            $imageFile->storeAs($path, $imageName, 'public');
+        } else {
+            // Assume it's binary data (like a QR code)
+            $imageName = 'E7kky_' . time() . '.png';
+            Storage::disk('public')->put("$path/$imageName", $imageFile);
+        }
         return $imageName;
     }
 }

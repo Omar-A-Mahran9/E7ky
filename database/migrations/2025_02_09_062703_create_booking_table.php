@@ -16,11 +16,12 @@ return new class () extends Migration {
             $table->unsignedBigInteger('talk_id')->nullable(); // Reference to the talk (foreign key)
             $table->unsignedBigInteger('workshop_id')->nullable(); // Reference to the workshop (foreign key)
             $table->unsignedBigInteger('customer_id'); // Reference to the customer (foreign key)
-            $table->unsignedBigInteger('meal_id'); // Ensure this column is added first
+            $table->unsignedBigInteger('meal_id')->nullable();
+            ; // Ensure this column is added first
 
             $table->integer('quantity')->default(1); // Number of bookings or tickets
             $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending'); // Booking status
-            $table->enum('type', ['session', 'talk', 'event'])->default('event'); // Type of booking
+            $table->enum('type', ['workshop', 'talk', 'event'])->default('event'); // Type of booking
             $table->string('ticket_id')->unique()->nullable(); // Unique ticket ID for QR generation
 
             $table->dateTime('booked_at')->default(now()); // Time when the booking was made
@@ -32,7 +33,8 @@ return new class () extends Migration {
             $table->foreign('event_id')->references('id')->on('events')->onDelete('set null');
             $table->foreign('talk_id')->references('id')->on('talks')->onDelete('set null');
             $table->foreign('workshop_id')->references('id')->on('workshops')->onDelete('set null');
-            $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
             $table->timestamps();
         });

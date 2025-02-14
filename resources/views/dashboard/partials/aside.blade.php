@@ -83,19 +83,11 @@
                     </x-dashboard.aside-item>
                 @endcan
 
-
-
-
-
-                {{--
-                @can('view_contact_us')
-                    <x-dashboard.aside-item :slug="'contact_us'" :route="route('dashboard.contact-requests.index')" :title="__('Contact us')">
-                        <i class="ki-outline ki-phone fs-1"></i>
+                @can('view_booking')
+                    <x-dashboard.aside-item :slug="'booking'" :route="route('dashboard.booking.index')" :title="__('Booking')">
+                        <i class="ki-outline  ki-abstract-30 fs-2"></i>
                     </x-dashboard.aside-item>
-                @endcan --}}
-
-
-
+                @endcan
 
 
                 @can('view_admins')
