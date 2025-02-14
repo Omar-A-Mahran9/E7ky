@@ -26,37 +26,28 @@ class Role extends Model
         'sessions',
         'workshops',
         'splashes',
+        'booking',
 
         'admins',
 
-        'colors',
-        'roles',
-        'addonService',
-        'brands',
-        'categories',
-        'cars',
-        'packages',
-        'carPrices',
-        'payment_partener',
-        'payment_ways',
-        'packageCategories',
-        'packagesubCategories',
-        'packages',
-        'tags',
+         'roles',
+
+
+
+
+
+
         'cities',
-        'ads',
-        'products',
+
+
         'newsletter',
         'contact_us',
         'settings',
         'home_content',
-        'design_types',
-        'fast_cities',
-        'orders',
-        'sliders',
+
+
         'recycle_bin',
-        'order_reasons',
-        'order_refund_cancel'
+
     ];
 
     protected static function booted()

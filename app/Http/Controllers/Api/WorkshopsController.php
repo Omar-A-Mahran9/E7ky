@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreWorkshopsRequest;
 use App\Http\Resources\Api\WorkshopsResource;
+use App\Models\Book;
 use App\Models\Customer;
 use App\Models\Talk;
 use App\Models\Workshop;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WorkshopsController extends Controller
 {
     public function index()
     {
- 
+
         // Get all talks, possibly paginated
         $Workshops = Workshop::with(['customers', 'event'])->get();
         $Workshops_count = Workshop::with(['customers', 'event'])->count();
@@ -69,6 +72,64 @@ class WorkshopsController extends Controller
             'Workshop',
             new WorkshopsResource($Workshops, true) // This returns full details
         );
+    }
+
+    public function BookTalk(Request $request, $id)
+    {
+        $request->validate([
+            'ticket_id' => 'required|unique:booking,ticket_id',
+        ]);
+        $workshop = Talk::with(['event'])->findOrFail($id);
+        $customer=Auth::user();
+        if($customer->type=="customer"){
+            if ($workshop->capacity > 0) {
+                $existingBooking = Book::where('workshop_id', $workshop->id)
+                ->where('customer_id', Auth::id())
+                ->exists();
+
+            if ($existingBooking) {
+                return $this->failure(__('You have already booked this workshop'));
+            }
+            // Create booking
+                // Generate unique booking reference
+                $bookingReference = strtoupper(uniqid('REF-'));
+
+
+                $booking = Book::create([
+                    'event_id' => $workshop->event->id ?? null,
+                    'talk_id' => $workshop->id,
+                    'customer_id' => Auth::id(),
+                    'status' => 'confirmed', // Mark as confirmed by default
+                    'type' => 'talk',
+                    'ticket_id' => $request->ticket_id,
+                    'booked_at' => now(),
+                    'event_date' => $talk->event->event_date ?? null,
+                    'price' => $talk->price ?? 0, // Assuming talk has a price field
+                    'booking_reference' => $bookingReference,
+                ]);
+                 // Generate QR Code containing ticket_id
+            $qrCodePath = 'qrcodes/' . $request->ticket_id . '.png';
+            $qrCode = QrCode::format('png')->size(200)->generate($booking->id);
+            Storage::disk('public')->put($qrCodePath, $qrCode);
+
+            // Decrease talk capacity
+            $talk->update(['capacity' => $talk->capacity - 1]);
+
+            return response()->json([
+                'message' => 'Booking successful',
+
+                'qr_code_url' => asset('storage/' . $qrCodePath), // URL to access the QR code
+            ], 201);
+
+            }
+        }
+        else{
+            return $this->failure('You are not a customer may be speaker', 422);
+        }
+
+
+
+        return response()->json(['message' => 'No available capacity for this talk'], 400);
     }
 
 

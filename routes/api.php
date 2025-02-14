@@ -38,14 +38,16 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('resend-otp/{customer:phone}', 'Auth\ForgetPasswordController@reSendOtp');
 
     Route::middleware(['auth:api'])->group(function () {
-        Route::post('products/{product}/rate', 'ProductController@rate');
-        Route::post('/customers/update-info', [ProfileController::class, 'updateInfo']);
+         Route::post('/customers/update-info', [ProfileController::class, 'updateInfo']);
         Route::post('/customers/update-password', 'ProfileController@updatePassword');
         Route::get('/customers/profile-info', [ProfileController::class, 'profileInfo'])->name('profile-info');
 
         Route::get('/current', function (Request $request) {
             return auth()->user();
         });
+        Route::post('/booking/talk/{id}', 'TalkController@BookTalk');
+        Route::get('/booking/talk/{id}', [ApiTalkController::class, 'bookingtalk'])->name('booking.talk');
+
     });
 
     Route::get('/auth/redirect', [ApiSocialController::class, "redirectToFacebook"]);
@@ -58,7 +60,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::apiResource('talks', ApiTalkController::class);
     Route::get('/events/talk/{id}', 'TalkController@talksPerEvent');
-    Route::get('/talk/{id}', 'TalkController@BookTalk');
 
     Route::apiResource('workshops', WorkshopsController::class);
     Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
