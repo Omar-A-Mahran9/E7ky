@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
+use function Laravel\Prompts\error;
+
 class TalkController extends Controller
 {
     public function index()
@@ -86,9 +88,15 @@ class TalkController extends Controller
                 ->where('customer_id', Auth::id())
                 ->exists();
 
-            if ($existingBooking) {
-                return $this->failure(__('You have already booked this talk'));
-            }
+                if ($existingBooking) {
+                    return response()->json([
+                        'message' => __('You have already booked this talk'),
+                        'errors' => [
+                            'ticket_id' => [__('You have already booked this talk')]
+                        ]
+                    ], 422);
+                }
+
             // Create booking
                 // Generate unique booking reference
                 $bookingReference = strtoupper(uniqid('REF-'));
@@ -117,12 +125,11 @@ class TalkController extends Controller
            // Decrease talk capacity
            $talk->update(['capacity' => $talk->capacity - 1]);
 
-           return response()->json([
-               'message' => 'Booking successful',
+           return $this->success('Talk booked successfully', [
+            'qr_code_url' => getImagePathFromDirectory($booking->qr, "qrcodes")
+        ]);
 
-               'qr_code_url' =>getImagePathFromDirectory($booking->qr,"qrcodes")
-           ], 201);
-            }
+                    }
         }
         else{
             return $this->failure('You are not a customer may be speaker', 422);

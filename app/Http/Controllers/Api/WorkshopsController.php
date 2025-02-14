@@ -90,7 +90,12 @@ class WorkshopsController extends Controller
                 ->exists();
 
             if ($existingBooking) {
-                return $this->failure(__('You have already booked this workshop'));
+                return response()->json([
+                    'message' => __('You have already booked this workshop'),
+                    'errors' => [
+                        'ticket_id' => [__('You have already booked this workshop')]
+                    ]
+                ], 422);
             }
             // Create booking
                 // Generate unique booking reference
@@ -109,8 +114,7 @@ class WorkshopsController extends Controller
                     'price' => $talk->price ?? 0, // Assuming talk has a price field
                     'booking_reference' => $bookingReference,
                 ]);
-dd('fdfdf');
-            $qrCode = QrCode::format('png')->size(200)->generate($booking->id);
+             $qrCode = QrCode::format('png')->size(200)->generate($booking->id);
              $qrCodePath = uploadImageToDirectory($qrCode, "qrcodes");
 
 // Update Booking with Relative Path
