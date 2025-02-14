@@ -106,20 +106,22 @@ class TalkController extends Controller
                     'price' => $talk->price ?? 0, // Assuming talk has a price field
                     'booking_reference' => $bookingReference,
                 ]);
-                 // Generate QR Code containing ticket_id
-            $qrCodePath = 'qrcodes/' . $request->ticket_id . '.png';
+
+
             $qrCode = QrCode::format('png')->size(200)->generate($booking->id);
-            Storage::disk('public')->put($qrCodePath, $qrCode);
+            $qrCodePath = uploadImageToDirectory($qrCode, "qrcodes");
+            $booking->update([
+                'qr' =>  $qrCodePath , // Stores "qrcodes/E7kky_XXXX.png"
+            ]);
 
-            // Decrease talk capacity
-            $talk->update(['capacity' => $talk->capacity - 1]);
+           // Decrease talk capacity
+           $talk->update(['capacity' => $talk->capacity - 1]);
 
-            return response()->json([
-                'message' => 'Booking successful',
+           return response()->json([
+               'message' => 'Booking successful',
 
-                'qr_code_url' => asset('storage/' . $qrCodePath), // URL to access the QR code
-            ], 201);
-
+               'qr_code_url' =>getImagePathFromDirectory($booking->qr,"qrcodes")
+           ], 201);
             }
         }
         else{
