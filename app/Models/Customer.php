@@ -6,6 +6,7 @@ use App\Models\Scopes\SortingScope;
 use App\Traits\SMSTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
@@ -60,6 +61,10 @@ class Customer extends Authenticatable
         return $this->attributes['name_' . app()->getLocale()];
     }
 
+    public function booking(): HasMany
+    {
+        return $this->hasMany(Book::class, 'customer_id', 'id');
+    }
 
     public function sendOTP()
     {

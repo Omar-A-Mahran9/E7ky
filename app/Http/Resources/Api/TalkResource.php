@@ -25,7 +25,7 @@ class TalkResource extends JsonResource
             'image' => $this->full_image_path,
             'name' => $this->name,
             'event_name' => $this->event->name,
-            "is_book"=>false,
+            'is_book' => Auth::check(),
             'location' => $this->location,
             'start_day' => $this->day->date,
             'capacity_total' => $this->capacity,

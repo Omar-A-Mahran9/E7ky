@@ -52,7 +52,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     });
 
-    Route::get('auth/{provider}', [ApiSocialController::class, 'redirectToProvider']);
+     Route::get('auth/{provider}', [ApiSocialController::class, 'redirectToProvider']);
     Route::get('auth/{provider}/callback', [ApiSocialController::class, 'handleProviderCallback']);
 
     Route::apiResource('events', EventController::class);

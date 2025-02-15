@@ -20,7 +20,7 @@ class CustomerResource extends JsonResource
             'cover_picture' => $this->cover_picture,
             'phone' => $this->phone,
             'email' => $this->email,
-
+            'otp'=>$this->otp,
             'name' => $this->first_name." ".$this->last_name,
             'job_description' => $this->job_description,
             'bio' => $this->bio,
