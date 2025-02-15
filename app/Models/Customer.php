@@ -68,7 +68,7 @@ class Customer extends Authenticatable
 
     public function sendOTP()
     {
-        $this->otp = rand(111111, 999999);
+        $this->otp = rand(1111, 9999);
         $appName = setting("website_name") ?? "Platin";
         // $this->sendSMS("$appName: $this->otp هو رمز الحماية,لا تشارك الرمز");
         $this->save();
