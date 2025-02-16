@@ -35,7 +35,6 @@ class ProfileController extends Controller
             'full_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'phone' => [
                 'nullable', 'string', 'max:20',
-                new PhoneNumber(),
                 new ExistPhone(new Admin(), $admin->id),
                 Rule::unique('admins')->ignore($admin->id)
             ],
