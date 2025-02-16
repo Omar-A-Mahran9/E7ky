@@ -36,11 +36,11 @@ class ProfileController extends Controller
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-            'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
+            'phone' => ['required', 'string', 'max:20'],
             'age' => ['required', 'integer', 'min:18', 'max:100'], // Ensures age is between 18 and 100
             'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
-            'email' => 'required|string|email|unique:customers',
-            'password' => ['required', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
+            'email' => 'required|string|email',
+            'password' => ['nullable', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
         ]);
 
         // Handle image upload
