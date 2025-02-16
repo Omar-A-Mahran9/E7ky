@@ -39,7 +39,7 @@ class ProfileController extends Controller
             'bio' => ['required', 'string', 'max:255'], // Ensures age is between 18 and 100
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-            'phone' => ['required', 'string', 'max:20'],
+'phone' => 'required|string|unique:customers,phone,' . $admin->id,
             'age' => ['required', 'integer', 'min:18', 'max:100'], // Ensures age is between 18 and 100
             'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
             'email' => 'required|string|email|unique:customers,email,' . $admin->id,
