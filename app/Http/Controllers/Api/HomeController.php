@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\EventResource;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class HomeController extends Controller
         ];
 
         $fully_data = [
-            'banners' => $banners,
+            'banners' => EventResource::collection($banners) ,
             'cycle_tracking' => $cycle_tracking,
             'articles' => $articles,
             'invite_friend' => $invite_friend
