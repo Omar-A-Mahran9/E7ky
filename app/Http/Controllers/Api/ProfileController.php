@@ -29,11 +29,14 @@ class ProfileController extends Controller
 
     public function updateInfo(Request $request)
     {
+
         $admin = auth()->user();
 
         // Validate request data
         $data = $request->validate([
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
+            'cover_picture' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
+            'bio' => ['required', 'string', 'max:255'], // Ensures age is between 18 and 100
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'phone' => ['required', 'string', 'max:20'],
@@ -42,15 +45,14 @@ class ProfileController extends Controller
             'email' => 'required|string|email',
             'password' => ['nullable', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
         ]);
-
-        // Handle image upload
+         // Handle image upload
         if ($request->has('image')) {
             $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
         }
 
         // Handle cover picture upload
         if ($request->hasFile('cover_picture')) {
-            $data['image'] = uploadImageToDirectory($request->file('image'), "Customers/Covers");
+            $data['cover_picture'] = uploadImageToDirectory($request->file('cover_picture'), "Customers/Covers");
         }
 
 

@@ -81,6 +81,6 @@ class Customer extends Authenticatable
 
     public function getCoverPictureAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Customers/Covers', "default.svg"));
+        return asset(getImagePathFromDirectory($this->cover_picture, 'Customers/Covers', "default.svg"));
     }
 }
