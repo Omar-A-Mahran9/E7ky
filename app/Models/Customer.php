@@ -17,7 +17,7 @@ class Customer extends Authenticatable
     use HasApiTokens;
     use SMSTrait;
 
-    protected $appends = ['full_image_path','cover_picture'];
+    protected $appends = ['full_image_path','full_cover_picture'];
     protected $guarded = ["password_confirmation"];
     protected $casts   = ['created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d', 'otp' => 'string'];
 
@@ -79,8 +79,9 @@ class Customer extends Authenticatable
         return asset(getImagePathFromDirectory($this->image, 'Customers', "default.svg"));
     }
 
-    public function getCoverPictureAttribute()
+    public function getFullCoverPictureAttribute()
     {
+
         // If cover_picture is null, return a default image
         if (!$this->attributes['cover_picture']) {
             return asset('placeholder_images/default.svg');
