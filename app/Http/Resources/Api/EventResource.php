@@ -35,6 +35,7 @@ class EventResource extends JsonResource
             'event_map' => $this->full_event_map,
              'talks' => $this->talks->count(),
              'workshops' => $this->workshops->count(),
+             'is_live'=>true,
         ];
 
 
