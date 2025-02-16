@@ -12,6 +12,7 @@ use App\Models\Admin;
 use App\Models\Order;
 use App\Rules\ExistPhone;
 use App\Rules\NotNumbersOnly;
+use App\Rules\PasswordNumberAndLetter;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -32,22 +33,14 @@ class ProfileController extends Controller
 
         // Validate request data
         $data = $request->validate([
-            'full_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-            'phone' => [
-                'nullable', 'string', 'max:20',
-                new ExistPhone(new Admin(), $admin->id),
-                Rule::unique('admins')->ignore($admin->id)
-            ],
-            'email' => ['nullable', 'string', 'email', Rule::unique('admins', 'email')->ignore($admin->id)],
-            'job_description' => ['nullable', 'string'],
-            'bio' => ['nullable', 'string'],
-            'age' => ['nullable', 'integer', 'min:1'],
-            'gender' => ['nullable', 'in:male,female,other'],
-            'facebook_link' => ['nullable', 'url'],
-            'instagram_link' => ['nullable', 'url'],
-            'X_link' => ['nullable', 'url'],
-            'image' => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg', 'max:512'],
-            'cover_picture' => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg', 'max:512'],
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
+            'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
+            'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
+            'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
+            'age' => ['required', 'integer', 'min:18', 'max:100'], // Ensures age is between 18 and 100
+            'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
+            'email' => 'required|string|email|unique:customers',
+            'password' => ['required', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
         ]);
 
         // Handle image upload

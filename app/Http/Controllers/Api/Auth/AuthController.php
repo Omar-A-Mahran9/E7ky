@@ -97,16 +97,7 @@ class AuthController extends Controller
                     }
                 }
             ],
-            // 'power_attorney_flag' => [
-            //     'required',
-            //     function ($attribute, $value, $fail) {
-            //         if ($value == 0 || $value == false || $value == "false")
-            //         {
-            //             $fail(__('Must be approved first'));
 
-            //         }
-            //     }
-            // ],
         ]);
 
 
