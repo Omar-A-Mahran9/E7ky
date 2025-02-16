@@ -42,7 +42,7 @@ class ProfileController extends Controller
             'phone' => ['required', 'string', 'max:20'],
             'age' => ['required', 'integer', 'min:18', 'max:100'], // Ensures age is between 18 and 100
             'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
-            'email' => 'required|string|email',
+            'email' => 'required|string|email|unique:customers,email,' . $admin->id,
             'password' => ['nullable', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
         ]);
          // Handle image upload

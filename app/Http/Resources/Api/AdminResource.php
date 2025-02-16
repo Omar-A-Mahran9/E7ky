@@ -25,7 +25,7 @@ class AdminResource extends JsonResource
             'job_description' => $this->job_description,
             'bio' => $this->bio,
             'image' => $this->image,
-            'cover_picture' => $this->cover_picture ? url($this->cover_picture) : url('placeholder_images/default.svg'),
+            'cover_picture' => $this->full_cover_picture ? url($this->full_cover_picture) : url('placeholder_images/default.svg'),
             'age' => (string) $this->age,
             'phone' => $this->phone,
             'gender' => $this->gender,
