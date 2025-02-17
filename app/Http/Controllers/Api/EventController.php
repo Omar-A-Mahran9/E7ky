@@ -136,6 +136,7 @@ class EventController extends Controller
                         'start_day' => $item->day->date,
                         'start_time' => $item->start_time,
                         'end_time' => $item->end_time,
+                        'style'=>1,
                         'valid_time' => strtotime($item->start_time) < strtotime($item->end_time),
                     ];
                 });
