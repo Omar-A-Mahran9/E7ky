@@ -87,7 +87,7 @@ class Customer extends Authenticatable
             return asset('placeholder_images/default.svg');
         }
 
-        return asset(getImagePathFromDirectory($this->cover_picture, 'Customers/Covers', "default.svg"));
+        return asset(getImagePathFromDirectory($this->cover_picture??"", 'Customers/Covers', "default.svg"));
     }
 
 }
