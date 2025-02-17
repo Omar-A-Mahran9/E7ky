@@ -81,13 +81,15 @@ class Customer extends Authenticatable
 
     public function getFullCoverPictureAttribute()
     {
+        // Use null coalescing operator to safely check if cover_picture exists
+        $coverPicture = $this->attributes['cover_picture'] ?? null;
 
-        // If cover_picture is null, return a default image
-        if (!$this->attributes['cover_picture']??"") {
+        if (!$coverPicture) {
             return asset('placeholder_images/default.svg');
         }
 
-        return asset(getImagePathFromDirectory($this->cover_picture??"", 'Customers/Covers', "default.svg"));
+        return asset(getImagePathFromDirectory($coverPicture, 'Customers/Covers', "default.svg"));
     }
+
 
 }
