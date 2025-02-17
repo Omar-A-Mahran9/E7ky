@@ -83,7 +83,7 @@ class Customer extends Authenticatable
     {
 
         // If cover_picture is null, return a default image
-        if (!$this->attributes['cover_picture']) {
+        if (!$this->attributes['cover_picture']??"") {
             return asset('placeholder_images/default.svg');
         }
 
