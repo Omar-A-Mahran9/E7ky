@@ -30,6 +30,9 @@ class CustomerResource extends JsonResource
             'count_talks' => $this->talks->count() ,
             // 'count_workshops' => $this->workshops->count(),
             'count_sessions_and_workshop' => $this->talks->count() ,
+            'talks' => $this->talks??[],
+            'workshops' => $this->workshops??[],
+
         ];
     }
 }
