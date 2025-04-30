@@ -83,7 +83,7 @@ class AuthController extends Controller
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
-            'age' => ['required', 'integer', 'min:18', 'max:100'], // Ensures age is between 18 and 100
+            'birth_date' => ['required', 'date'], // Ensures age is between 18 and 100
             'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
             'email' => 'required|string|email|unique:customers',
             'password' => ['required', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],

@@ -18,8 +18,9 @@ class CustomerResource extends JsonResource
             'id' => $this->id,
             'image' => $this->full_image_path,
             'cover_picture' => $this->full_cover_picture ?? '',
-            'age' => $this->age,
+            'birth_date' => $this->birth_date,
             'gender' => $this->gender,
+            'status' => $this->status,
 
             'phone' => $this->phone,
             'email' => $this->email,
@@ -30,9 +31,6 @@ class CustomerResource extends JsonResource
             'count_talks' => $this->talks->count() ,
             // 'count_workshops' => $this->workshops->count(),
             'count_sessions_and_workshop' => $this->talks->count() ,
-            // 'talks' => TalkResource::collection($this->talks)??[],
-            // 'workshops' =>  WorkshopsResource::collection($this->workshops)??[],
-
         ];
     }
 }

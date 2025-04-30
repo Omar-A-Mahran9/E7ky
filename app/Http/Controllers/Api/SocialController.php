@@ -4,46 +4,110 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialController extends Controller
 {
 
-  // Redirect to Social Provider
-  public function redirectToProvider($provider)
-  {
-        return Socialite::driver($provider)->redirect();
-  }
+    public function redirectToProvider($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
+        // dd(Socialite::driver($provider));
 
-  // Handle Social Provider Callback
-  public function handleProviderCallback($provider)
-  {
-      try {
-          $socialUser = Socialite::driver($provider)->user();
+        // Generate the provider's authentication URL
+        $authUrl = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
 
-          // Check if user already exists
-          $customer = Customer::where('email', $socialUser->getEmail())->first();
+        return response()->json([
+            'auth_url' => $authUrl
+        ]);
+    }
 
-          if (!$customer) {
-              $customer = Customer::create([
-                  'first_name' => $socialUser->getName(), // Facebook/Google Name
-                  'last_name' => '',
-                  'email' => $socialUser->getEmail(),
-                  'image' => $socialUser->getAvatar(),
-                  "{$provider}_link_acc" => $socialUser->getId(), // Store provider ID
-                  'password' => null,
-              ]);
-          }
 
-          // Log the user in
-          Auth::login($customer);
+    public function handleProviderCallback($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
 
-          return response()->json(['message' => 'Login successful', 'user' => $customer]);
-      } catch (\Exception $e) {
-          return response()->json(['error' => 'Something went wrong!'], 500);
-      }
-  }
+        try {
+            $user = Socialite::driver($provider)->stateless()->user();
+        } catch (\Exception $exception) {
+            return response()->json(['error' => 'Invalid credentials provided.'], 422);
+        }
+
+        if (!$user->getEmail()) {
+            return response()->json(['error' => 'Unable to retrieve email from provider.'], 422);
+        }
+        $fullName = $user->getName();
+        $nameParts = explode(' ', trim($fullName), 2); // Split into at most 2 parts
+
+        $firstName = $nameParts[0] ?? '';
+        $lastName = $nameParts[1] ?? '';
+
+        $userCreated = Customer::firstOrCreate(
+            ['email' => $user->getEmail()],
+            [
+                'verified_at' => now(),
+                'phone' => '9665' . rand(10000000, 99999999),
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'image' => uploadFileFromOutside($user->getAvatar(), "ProfileImages"), // ✅ Correctly handles URLs
+                'password' => bcrypt(Str::random(12)),
+                'status' => 2,
+                'created_by_social' => 1,
+
+            ]
+        );
+
+        $userCreated->providers()->updateOrCreate(
+            [
+                'provider' => $provider,
+                'provider_id' => $user->getId(),
+            ],
+            [
+                'avatar' => $user->getAvatar()
+            ]
+        );
+
+        $token = $userCreated->createToken('token-name')->plainTextToken;
+
+        // return $this->success(data: [
+        //     'token' => $token,
+        //     'message' => __('Thank You for verified'),
+        //     'user' => $userCreated,
+        // ]);
+
+            // Encode data in Base64 to avoid URL length issues
+      $data = base64_encode(json_encode([
+        'token' => $token,
+        'message' => __('Thank You for verified'),
+        'user' => [
+            'id' => $userCreated->id,
+            'name' => $userCreated->name,
+            'email' => $userCreated->email,
+            'image' => $userCreated->image
+        ],
+       ]));
+
+      // Redirect with encoded data
+      $redirectUrl = env('APP_URL', 'https://noraa-consultations.netlify.app') . "?data={$data}";
+
+      return redirect()->to($redirectUrl);
+
+    }
+
+
+    protected function validateProvider($provider)
+    {
+        if (!in_array($provider, ['facebook', 'github', 'google'])) {
+            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
+        }
+    }
+
 }

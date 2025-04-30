@@ -33,6 +33,39 @@ if (!function_exists('isDarkMode')) {
     }
 }
 
+
+if (!function_exists('uploadFileFromOutside')) {
+    function uploadFileFromOutside($file, $model = '')
+    {
+        // Normalize model name
+        $model = Str::plural($model);
+        $model = Str::ucfirst($model);
+
+        // Define storage path
+        $path = "Images/" . $model;
+
+        if ($file instanceof \Illuminate\Http\UploadedFile) {
+            // ✅ Handle normal file upload
+            return uploadImage($file, $model); // ✅ Use the same function
+        }
+
+        elseif (is_string($file) && filter_var($file, FILTER_VALIDATE_URL)) {
+            // ✅ Handle external URL (Google Avatar)
+            $response = Http::get($file);
+
+            if ($response->successful()) {
+                $fileName = str_replace(' ', '', 'Nura_' . time() . '_' . Str::random(10) . '.jpg');
+                Storage::disk('public')->put("$path/$fileName", $response->body());
+
+                return $fileName;
+            }
+        }
+
+        return null; // Return null if neither file nor URL is valid
+    }
+}
+
+
 if (!function_exists('uploadImageToDirectory')) {
 
     function uploadImageToDirectory($imageFile, $model = '')
