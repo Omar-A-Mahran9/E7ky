@@ -54,7 +54,7 @@ class SocialController extends Controller
             ['email' => $user->getEmail()],
             [
                 'verified_at' => now(),
-                'phone' => '9665' . rand(10000000, 99999999),
+                'phone' => null,
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'image' => uploadFileFromOutside($user->getAvatar(), "ProfileImages"), // ✅ Correctly handles URLs
