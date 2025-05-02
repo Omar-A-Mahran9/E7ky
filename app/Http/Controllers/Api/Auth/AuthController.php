@@ -114,8 +114,13 @@ class AuthController extends Controller
         }
 
 
-        return $this->success("registered in successfully", [ "customer" => new CustomerResource($customer)]);
-    }
+        return $this->success("Registered successfully. Please check your email for the OTP.", [
+            "name" => $customer->first_name . ' ' . $customer->last_name,
+            "email" => $customer->email,
+            "otp" => $customer->otp,
+
+        ]);
+            }
 
     /* function socialLogin(Request $request) {
         $request->validate([
