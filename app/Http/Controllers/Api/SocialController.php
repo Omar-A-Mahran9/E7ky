@@ -77,29 +77,35 @@ class SocialController extends Controller
 
         $token = $userCreated->createToken('token-name')->plainTextToken;
 
-        // return $this->success(data: [
-        //     'token' => $token,
-        //     'message' => __('Thank You for verified'),
-        //     'user' => $userCreated,
-        // ]);
+        return $this->success([
+            'token' => $token,
+            'message' => __('Thank You for verified'),
+            'user' => [
+                'id' => $userCreated->id,
+                'name' => $userCreated->name,
+                'email' => $userCreated->email,
+                'image' => $userCreated->image,
+            ]
+        ]);
+
 
             // Encode data in Base64 to avoid URL length issues
-      $data = base64_encode(json_encode([
-        'token' => $token,
-        'message' => __('Thank You for verified'),
-        'user' => [
-            'id' => $userCreated->id,
-            'name' => $userCreated->name,
-            'email' => $userCreated->email,
-            'image' => $userCreated->image
-        ],
-       ]));
+    //   $data = base64_encode(json_encode([
+    //     'token' => $token,
+    //     'message' => __('Thank You for verified'),
+    //     'user' => [
+    //         'id' => $userCreated->id,
+    //         'name' => $userCreated->name,
+    //         'email' => $userCreated->email,
+    //         'image' => $userCreated->image
+    //     ],
+    //    ]));
 
       // Redirect with encoded data
     //   $redirectUrl = env('APP_URL') . "?data={$data}";
 
     //   return redirect()->to($redirectUrl);
-    return $data ;
+    // return $data ;
 
     }
 
