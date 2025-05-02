@@ -26,6 +26,7 @@ class CustomerResource extends JsonResource
             'email' => $this->email,
             'otp'=>$this->otp,
             'otp_expires_at'=>$this->otp_expires_at,
+            "expires_in_seconds" => now()->diffInSeconds($this->otp_expires_at, false),
             'name' => $this->first_name." ".$this->last_name,
             'job_description' => $this->job_description,
             'bio' => $this->bio,
