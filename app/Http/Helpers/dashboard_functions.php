@@ -46,7 +46,7 @@ if (!function_exists('uploadFileFromOutside')) {
 
         if ($file instanceof \Illuminate\Http\UploadedFile) {
             // ✅ Handle normal file upload
-            return uploadImage($file, $model); // ✅ Use the same function
+            return uploadImageToDirectory($file, $model); // ✅ Use the same function
         }
 
         elseif (is_string($file) && filter_var($file, FILTER_VALIDATE_URL)) {
@@ -54,7 +54,7 @@ if (!function_exists('uploadFileFromOutside')) {
             $response = Http::get($file);
 
             if ($response->successful()) {
-                $fileName = str_replace(' ', '', 'Nura_' . time() . '_' . Str::random(10) . '.jpg');
+                $fileName = str_replace(' ', '', 'E7kky_' . time() . '_' . Str::random(10) . '.jpg');
                 Storage::disk('public')->put("$path/$fileName", $response->body());
 
                 return $fileName;
