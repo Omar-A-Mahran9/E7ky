@@ -88,7 +88,7 @@
                         <th>{{ __('Name') }}</th>
                         <th>{{ __('Image') }}</th>
                         <th>{{ __('Email') }}</th>
-                        <th>{{ __('Status') }}</th>
+                        <th>{{ __('block flag') }}</th>
                         <th>{{ __('type') }}</th>
 
                         <th>{{ __('Created at') }}</th>
@@ -178,12 +178,13 @@
                         <div class="row mb-3">
 
                             <div class="col-md-6">
-                                <label for="age_inp" class="form-label fs-6 fw-bold">{{ __('Age') }}</label>
-                                <input type="number" name="age" class="form-control" id="age_inp" min="10"
-                                    max="100">
-                                <div class="fv-plugins-message-container invalid-feedback" id="age"></div>
-
+                                <label for="birth_date_inp"
+                                    class="form-label fs-6 fw-bold">{{ __('Birth Date') }}</label>
+                                <input type="date" name="birth_date" class="form-control" id="birth_date_inp"
+                                    max="{{ now()->subYears(18)->format('Y-m-d') }}">
+                                <div class="fv-plugins-message-container invalid-feedback" id="birth_date"></div>
                             </div>
+
 
                             <div class="col-md-6">
                                 <label for="gender_inp" class="form-label fs-6 fw-bold">{{ __('Gender') }}</label>
@@ -300,6 +301,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        @php
+                            use App\Enums\CustomerStatus;
+                        @endphp
+
+                        <div class="col-md-6">
+                            <label for="status_inp" class="form-label fs-6 fw-bold">{{ __('Status') }}</label>
+                            <select name="status" class="form-control" id="status_inp">
+                                @foreach (CustomerStatus::values() as $value => $name)
+                                    <option value="{{ $value }}">{{ __(ucfirst($name)) }}</option>
+                                @endforeach
+                            </select>
+                            <div class="fv-plugins-message-container invalid-feedback" id="status"></div>
+                        </div>
+
+
                     </div>
 
                     <div class="modal-footer">

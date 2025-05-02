@@ -48,7 +48,7 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
-        $this->authorize('delete_customers');
+        $this->authorize('block_customers');
 
         $customer->delete();
 
@@ -57,7 +57,7 @@ class CustomerController extends Controller
 
     public function blockedSelected(Request $request)
     {
-        $this->authorize('delete_customers');
+        $this->authorize('block_customers');
 
         // Customer::whereIn('id', $request->selected_items_ids)->delete();
 
@@ -65,7 +65,7 @@ class CustomerController extends Controller
     }
     public function blocked(Request $request, Customer $customer)
     {
-        $this->authorize('delete_customers');
+        $this->authorize('block_customers');
         if ($customer->block_flag === 0)
         {
             $customer->update([

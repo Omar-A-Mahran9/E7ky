@@ -6,7 +6,7 @@ use App\Models\Vendor;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class VendorStatusChanged
+class CustomerStatusChanged
 {
     use Dispatchable, SerializesModels;
 

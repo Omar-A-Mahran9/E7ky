@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class VendorStatusChangedMail extends Mailable
+class CustomerStatusChangedMail extends Mailable
 {
     use Queueable, SerializesModels;
 

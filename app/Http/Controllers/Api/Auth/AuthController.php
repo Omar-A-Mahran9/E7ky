@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Models\User;
-use App\Rules\IsActive;
+
 use App\Rules\PasswordNumberAndLetter;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -11,13 +10,11 @@ use App\Rules\NotNumbersOnly;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\CustomerResource;
-use App\Http\Resources\UserResource;
+use App\Mail\OtpMail;
 use App\Models\Customer;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -94,37 +91,30 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:customers',
             'password' => ['required', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
             'password_confirmation' => 'required|same:password',
-            'privacy_flag' => [
-                'required',
-                function ($attribute, $value, $fail) {
-                    if ($value == 0 || $value == false || $value == "false") {
-                        $fail(__('Must be approved first'));
 
-                    }
-                }
-            ],
 
         ]);
 
- 
-        $data['privacy_flag']        = $data['privacy_flag'] ? 1 : 0;
-        $data['power_attorney_flag'] = 1;
+
+
         if ($request->image) {
             $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
         }
-        $data['block_flag']       = 0;
-        $customer                 = Customer::create($data);
+         $customer                 = Customer::create($data);
         $customer->remember_token = Str::random(10);
         $customer->save();
 
-        $customer->sendOTP();
-        /* Mail::send('emails.otp',['user' =>  $customer],function($message) use($customer){
-           $message->to($customer->email)->subject('Otp verification');
-        });
-*/
-        $token = $customer->createToken('Personal access token to apis')->plainTextToken;
+        $otp= $customer->sendOTP();
+        if ($customer->email) {
+            try {
+                Mail::to($customer->email)->send(new OtpMail($otp));
+            } catch (\Exception $e) {
+                Log::error("OTP Email Error: " . $e->getMessage());
+            }
+        }
 
-        return $this->success("registered in successfully", ['token' => $token, "customer" => new CustomerResource($customer)]);
+
+        return $this->success("registered in successfully", [ "customer" => new CustomerResource($customer)]);
     }
 
     /* function socialLogin(Request $request) {

@@ -2,8 +2,8 @@
 
 var datatable;
 // Class definition
-var KTDatatablesServerSide = function () {
-    let dbTable = 'vendors';
+var KTDatatablesServerSide = (function () {
+    let dbTable = "vendors";
     // Private functions
     var initDatatable = function () {
         datatable = $("#kt_datatable").DataTable({
@@ -14,19 +14,19 @@ var KTDatatablesServerSide = function () {
             order: [],
             stateSave: saveState,
             select: {
-                style: 'multi',
+                style: "multi",
                 selector: 'td:first-child input[type="checkbox"]',
-                className: 'row-selected'
+                className: "row-selected",
             },
             ajax: {
                 url: `/dashboard/${dbTable}`,
             },
             columns: [
-                { data: 'id' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'approved' },
-                { data: 'created_at' },
+                { data: "id" },
+                { data: "name" },
+                { data: "email" },
+                { data: "approved" },
+                { data: "created_at" },
                 { data: null },
             ],
             columnDefs: [
@@ -38,7 +38,7 @@ var KTDatatablesServerSide = function () {
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                 <input class="form-check-input" type="checkbox" value="${data}" />
                             </div>`;
-                    }
+                    },
                 },
                 {
                     targets: 1,
@@ -53,7 +53,7 @@ var KTDatatablesServerSide = function () {
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
                 {
                     targets: 2,
@@ -67,21 +67,23 @@ var KTDatatablesServerSide = function () {
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
                 {
                     targets: 3,
                     orderable: false,
                     render: function (data) {
                         let status = {
-                            '0': { 'color': 'primary', 'title': __('Pending') },
-                            '1': { 'color': 'success', 'title': __('Approved') },
-                            '2': { 'color': 'danger', 'title': __('Rejected') },
-                            '3': { 'color': 'danger', 'title': __('Blocking') },
+                            0: { color: "primary", title: __("Pending") },
+                            1: { color: "success", title: __("Approved") },
+                            2: { color: "danger", title: __("Rejected") },
+                            3: { color: "danger", title: __("Blocking") },
                         };
 
-                        return `<span class="badge badge-light-${status[data]['color']}">${__(status[data]['title'])}</span>`;
-                    }
+                        return `<span class="badge badge-light-${
+                            status[data]["color"]
+                        }">${__(status[data]["title"])}</span>`;
+                    },
                 },
                 {
                     targets: 4,
@@ -95,7 +97,7 @@ var KTDatatablesServerSide = function () {
                                 <!--end::Info-->
                             </div>
                         `;
-                    }
+                    },
                 },
                 {
                     targets: -1,
@@ -115,29 +117,41 @@ var KTDatatablesServerSide = function () {
                             <!--begin::Menu-->
                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
                                 <!--begin::Menu item-->
-                                ${!row.vendor_shipment ? `<div class="menu-item px-3">
-                                    <a href="/dashboard/vendor/${data.id}/shipping-details" class="menu-link px-3 text-start" data-kt-docs-table-filter="show_row">
-                                        ${__('Add shipping data')}
+                                ${
+                                    !row.vendor_shipment
+                                        ? `<div class="menu-item px-3">
+                                    <a href="/dashboard/vendor/${
+                                        data.id
+                                    }/shipping-details" class="menu-link px-3 text-start" data-kt-docs-table-filter="show_row">
+                                        ${__("Add shipping data")}
                                     </a>
-                                </div>` : `<div class="menu-item px-3">
-                                    <a href="/dashboard/vendor/${data.id}/edit-shipping-details" class="menu-link px-3 text-start" data-kt-docs-table-filter="show_row">
-                                        ${__('Edit shipping data')}
+                                </div>`
+                                        : `<div class="menu-item px-3">
+                                    <a href="/dashboard/vendor/${
+                                        data.id
+                                    }/edit-shipping-details" class="menu-link px-3 text-start" data-kt-docs-table-filter="show_row">
+                                        ${__("Edit shipping data")}
                                     </a>
-                                </div>`}
+                                </div>`
+                                }
                                 <!--end::Menu item-->
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="/dashboard/vendors/${data.id}" class="menu-link px-3 show_button" data-kt-docs-table-filter="show_row">
-                                        ${__('Show')}
+                                    <a href="/dashboard/vendors/${
+                                        data.id
+                                    }" class="menu-link px-3 show_button" data-kt-docs-table-filter="show_row">
+                                        ${__("Show")}
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
 
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
-                                    <a href="/dashboard/vendors/${data.id}/edit" class="menu-link px-3" data-kt-docs-table-filter="edit_row">
-                                        ${__('Edit')}
+                                    <a href="/dashboard/vendors/${
+                                        data.id
+                                    }/edit" class="menu-link px-3" data-kt-docs-table-filter="edit_row">
+                                        ${__("Edit")}
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
@@ -145,7 +159,7 @@ var KTDatatablesServerSide = function () {
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
-                                        ${__('Delete')}
+                                        ${__("Delete")}
                                     </a>
                                 </div>
                                 <!--end::Menu item--
@@ -159,24 +173,24 @@ var KTDatatablesServerSide = function () {
             // Add data-filter attribute
             createdRow: function (row, data, dataIndex) {
                 // $(row).find('td:eq(4)').attr('data-filter', data.CreditCardType);
-            }
+            },
         });
 
         // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
-        datatable.on('draw', function () {
+        datatable.on("draw", function () {
             initToggleToolbar();
             toggleToolbars();
-            // updateVendorStatus();
+            // updateCustomerStatus();
             deleteRowWithURL(`/dashboard/${dbTable}/`);
             deleteSelectedRowsWithURL({
                 url: `/dashboard/${dbTable}/delete-selected`,
-                restoreUrl: `/dashboard/${dbTable}/restore-selected`
+                restoreUrl: `/dashboard/${dbTable}/restore-selected`,
             });
             KTMenu.createInstances();
         });
-    }
+    };
 
-    // var updateVendorStatus = () => {
+    // var updateCustomerStatus = () => {
     //     // Select all edit buttons
     //     const statusButtons = document.querySelectorAll('[data-kt-docs-table-filter="change_status_row"]');
 
@@ -220,22 +234,21 @@ var KTDatatablesServerSide = function () {
     //     });
     // }
 
-
     // Public methods
     return {
         init: function () {
             initDatatable();
             handleSearchDatatable();
             initToggleToolbar();
-            // updateVendorStatus();
+            // updateCustomerStatus();
             deleteRowWithURL(`/dashboard/${dbTable}/`);
             deleteSelectedRowsWithURL({
                 url: `/dashboard/${dbTable}/delete-selected`,
-                restoreUrl: `/dashboard/${dbTable}/restore-selected`
+                restoreUrl: `/dashboard/${dbTable}/restore-selected`,
             });
-        }
-    }
-}();
+        },
+    };
+})();
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {

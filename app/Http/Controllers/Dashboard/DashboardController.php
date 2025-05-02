@@ -13,7 +13,7 @@ use App\Models\Customer;
 use App\Enums\OrderStatus;
 use App\Models\CityVendor;
 use Illuminate\Http\Request;
-use App\Enums\VendorStatusEnum;
+use App\Enums\CustomerStatusEnum;
 use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
@@ -68,7 +68,7 @@ class DashboardController extends Controller
         // // Total count of vendors
         // $vendors            = Vendor::query();
         // $vendorCount        = $vendors->clone()->count();
-        // $vendorCountPending = $vendors->clone()->where('approved', VendorStatusEnum::Pending->value)->count();
+        // $vendorCountPending = $vendors->clone()->where('approved', CustomerStatusEnum::Pending->value)->count();
         // $topVendors         = $vendors->clone()->withCount('products')->withCount([
         //     'orderItems as delivered_orders_count' => function ($query) {
         //         $query->selectRaw('count(distinct order_id) as delivered_count')

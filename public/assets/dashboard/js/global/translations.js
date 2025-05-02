@@ -88,6 +88,8 @@ let translations = {
         membership: "عضوية",
         rejected: "مرفوض",
         approved: "فعال",
+        "block flag": "حالة الحظر",
+
         pending: "قيد الانتظار",
         saturday: "السبت",
         sunday: "الأحد",
@@ -164,8 +166,8 @@ let translations = {
         Unblocked: "رفع الحظر",
         "Blocked...": "جار الحظر...",
         "Unblocked...": "جار رفع الحظر...",
-        "Blocked successfully": "تم إلغاء الحظر بنجاح",
-        "Un Blocked successfully": "تم الحظر بنجاح",
+        "Blocked successfully": "تم الحظر بنجاح",
+        "Un Blocked successfully": "تم إلغاء الحظر بنجاح",
         Blocking: "حظر",
         Unblocking: "رفع الحظر",
         "You must add shipping details first":
