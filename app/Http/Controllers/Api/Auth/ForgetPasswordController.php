@@ -28,10 +28,11 @@ class ForgetPasswordController extends Controller
             return $this->failure(__("Your account is blocked. Please contact support."));
         }
 
+
         $otp = rand(1000, 9999);
         $customer->update([
             'otp' => $otp,
-            'otp_expires_at' => now()->addMinutes(5)
+            'otp_expires_at' => now()->addMinute()
         ]);
 
         // try {
@@ -102,6 +103,9 @@ class ForgetPasswordController extends Controller
         $request->validate([
             'otp' => ['required', 'string']
         ]);
+        if ($customer->otp_expires_at < now()) {
+            return $this->failure(__("OTP has expired"));
+        }
 
         if (
             $customer->otp !== $request->otp ||
@@ -123,11 +127,15 @@ class ForgetPasswordController extends Controller
     public function changePassword(Request $request, $data)
     {
         $customer = $this->findCustomer($data);
+
         if (!$customer) {
             return $this->failure(__("This user does not exist"));
         }
          // Check if OTP is null
         if (!is_null($customer->otp)) {
+            if ($customer->otp_expires_at < now()) {
+                return $this->failure(__("OTP has expired"));
+            }
             return $this->failure(__("OTP is missing or not verified"));
         }
 
