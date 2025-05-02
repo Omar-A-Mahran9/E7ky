@@ -98,7 +98,8 @@ class SocialController extends Controller
       // Redirect with encoded data
     //   $redirectUrl = env('APP_URL') . "?data={$data}";
 
-      return redirect()->to($data);
+    //   return redirect()->to($redirectUrl);
+    return $data ;
 
     }
 
