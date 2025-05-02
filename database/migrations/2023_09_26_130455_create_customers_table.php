@@ -32,7 +32,7 @@ return new class () extends Migration {
             $table->enum('type', ['speaker', 'customer'])->default('customer'); // Enum to distinguish between speaker and customer
             $table->string('otp')->nullable();
             $table->string('password')->nullable();
-            $table->boolean('block_flag')->defaultFalse();
+            $table->boolean('block_flag')->default(0);
             $table->rememberToken();
             $table->timestamps();
 

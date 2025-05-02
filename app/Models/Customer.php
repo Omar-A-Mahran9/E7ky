@@ -56,10 +56,7 @@ class Customer extends Authenticatable
     }
 
 
-    public function getNameAttribute()
-    {
-        return $this->attributes['name_' . app()->getLocale()];
-    }
+  
 
     public function booking(): HasMany
     {
@@ -90,6 +87,12 @@ class Customer extends Authenticatable
 
         return asset(getImagePathFromDirectory($coverPicture, 'Customers/Covers', "default.svg"));
     }
+
+    public function providers()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
 
 
 }

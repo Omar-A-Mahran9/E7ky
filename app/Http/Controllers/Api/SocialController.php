@@ -96,7 +96,7 @@ class SocialController extends Controller
        ]));
 
       // Redirect with encoded data
-      $redirectUrl = env('APP_URL', 'https://noraa-consultations.netlify.app') . "?data={$data}";
+      $redirectUrl = env('APP_URL') . "?data={$data}";
 
       return redirect()->to($redirectUrl);
 
