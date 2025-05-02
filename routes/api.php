@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AgendaController as ApiAgendaController;
+use App\Http\Controllers\Api\Auth\ForgetPasswordController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SocialController as ApiSocialController;
@@ -32,10 +33,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('login-otp/{customer:phone}', 'Auth\AuthController@loginOTP');
     Route::post('register', 'Auth\AuthController@register');
 
-    Route::post('send-otp/{phone}', 'Auth\ForgetPasswordController@sendOtp');
-    Route::post('check-otp/{customer:phone}', 'Auth\ForgetPasswordController@checkOTP');
-    Route::post('change-password/{customer:phone}', 'Auth\ForgetPasswordController@changePassword');
-    Route::get('resend-otp/{customer:phone}', 'Auth\ForgetPasswordController@reSendOtp');
+    Route::post('send-otp/{data}', [ForgetPasswordController::class, 'sendOtp']);
+    Route::get('resend-otp/{data}', [ForgetPasswordController::class, 'reSendOtp']);
+    Route::post('check-otp/{data}', [ForgetPasswordController::class, 'checkOTP']);
+    Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
+
 
     Route::middleware(['auth:api'])->group(function () {
          Route::post('/customers/update-info', [ProfileController::class, 'updateInfo']);

@@ -31,6 +31,7 @@ return new class () extends Migration {
             $table->enum('gender', ['male', 'female'])->nullable(); // Define enum and make it unique
             $table->enum('type', ['speaker', 'customer'])->default('customer'); // Enum to distinguish between speaker and customer
             $table->string('otp')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
             $table->string('password')->nullable();
             $table->boolean('block_flag')->default(0);
             $table->rememberToken();

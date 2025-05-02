@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\Api\CustomerResource;
 use App\Mail\RegisterMail;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -17,94 +18,115 @@ class ForgetPasswordController extends Controller
 {
     public function sendOtp(Request $request, $data)
     {
-        $customer = Customer::where('phone', $data)->orWhere('email', $data)->first();
+        $customer = $this->findCustomer($data);
         if (!$customer) {
             return $this->failure(__("This user does not exist"));
         }
-
-        $request['phone'] = $customer->phone;
-
-        $request->validate([
-            'phone' => ['required', 'exists:customers,phone'],
-        ]);
 
         if ($customer->block_flag === 1) {
             return $this->failure(__("Your account is blocked. Please contact support."));
         }
 
-        // Generate OTP
-        $otp = rand(1000, 9999); // 6-digit OTP
-        $customer->otp = $otp;
-        $customer->save();
+        $otp = rand(1000, 9999);
+        $customer->update([
+            'otp' => $otp,
+            'otp_expires_at' => now()->addMinutes(5)
+        ]);
 
-        // // ✅ Send OTP via Email
-        // if ($customer->email) {
-        //     try {
-        //         Mail::to($customer->email)->send(new RegisterMail($otp));
-        //     } catch (\Exception $e) {
-        //         Log::error("OTP Email Error: " . $e->getMessage());
-        //     }
-        // }
-
-        // ✅ Send OTP via SMS (Using a third-party service like Twilio, Vonage, etc.)
         try {
             $this->sendOtpSms($customer->phone, $otp);
         } catch (\Exception $e) {
             Log::error("OTP SMS Error: " . $e->getMessage());
         }
 
+        // Optionally send via email
+        // try {
+        //     Mail::to($customer->email)->send(new RegisterMail($otp));
+        // } catch (\Exception $e) {
+        //     Log::error("OTP Email Error: " . $e->getMessage());
+        // }
+
         return $this->success("OTP sent successfully", ["customer" => new CustomerResource($customer)]);
     }
 
-
-    public function reSendOtp(Request $request, $phone)
+    public function reSendOtp(Request $request, $data)
     {
-        $customer = Customer::where('phone', $data)->orWhere('email', $data)->first();
+        $customer = $this->findCustomer($data);
         if (!$customer) {
             return $this->failure(__("This user does not exist"));
         }
 
-        $request['phone'] = $customer->phone;
-
-        $request->validate([
-            'phone' => ['required', 'exists:customers'],
-        ]);
         if ($customer->block_flag === 1) {
             return $this->failure(__("Your account is blocked. Please contact support."));
         }
-        $customer->sendOTP();
-        return $this->success("Re-send otp is successfully", ["customer" => new CustomerResource($customer)]);
+
+        $otp = rand(1000, 9999);
+        $customer->update([
+            'otp' => $otp,
+            'otp_expires_at' => now()->addMinutes(5)
+        ]);
+
+        try {
+            $this->sendOtpSms($customer->phone, $otp);
+        } catch (\Exception $e) {
+            Log::error("OTP SMS Error: " . $e->getMessage());
+        }
+
+        return $this->success("OTP resent successfully", ["customer" => new CustomerResource($customer)]);
     }
+
     public function checkOTP(Request $request, $data)
     {
-        $customer = Customer::where('phone', $data)->orWhere('email', $data)->first();
-        $request->validate([
-           'otp' => [
-               'required',
-               Rule::exists('customers')->where(function ($query) use ($customer) {
-                   return $query->where('id', $customer->id);
-               })
-           ]
-        ]);
-        $customer->update([
-            "otp" => null
-        ]);
-        $token = $customer->createToken('Personal access token to apis')->plainTextToken;
+        $customer = $this->findCustomer($data);
+        if (!$customer) {
+            return $this->failure(__("This user does not exist"));
+        }
 
-        return $this->success("verified successfully", ['token' => $token, "customer" => new CustomerResource($customer)]);
+        $request->validate([
+            'otp' => ['required', 'string']
+        ]);
+
+        if (
+            $customer->otp !== $request->otp ||
+            !$customer->otp_expires_at ||
+            now()->gt($customer->otp_expires_at)
+        ) {
+            return $this->failure(__("Invalid or expired OTP"));
+        }
+
+        $customer->update(['otp' => null, 'otp_expires_at' => null]);
+        $token = $customer->createToken('Personal Access Token')->plainTextToken;
+
+        return $this->success("OTP verified successfully", [
+            'token' => $token,
+            "customer" => new CustomerResource($customer)
+        ]);
     }
 
     public function changePassword(Request $request, $data)
     {
-        $customer = Customer::where('phone', $data)->orWhere('email', $data)->first();
+        $customer = $this->findCustomer($data);
+        if (!$customer) {
+            return $this->failure(__("This user does not exist"));
+        }
 
         $request->validate([
             'password' => ['required', 'min:6', new PasswordNumberAndLetter()],
-            'password_confirmation' => 'required|required_with:password|min:6|same:password',
+            'password_confirmation' => 'required_with:password|same:password',
         ]);
 
-        $customer->update(['password' => $request->password]);
+        $customer->update(['password' => Hash::make($request->password)]);
+        return $this->success("Password changed successfully");
+    }
 
-        return $this->success("password changed successfully");
+    private function findCustomer($data)
+    {
+        return Customer::where('phone', $data)->orWhere('email', $data)->first();
+    }
+
+    private function sendOtpSms($phone, $otp)
+    {
+        // Implement actual SMS logic
+        Log::info("Sending OTP {$otp} to phone {$phone}");
     }
 }
