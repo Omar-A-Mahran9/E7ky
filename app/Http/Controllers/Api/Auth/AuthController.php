@@ -82,7 +82,13 @@ class AuthController extends Controller
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-            'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
+            'phone_code' => ['required', 'string'],
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+?[1-9][0-9]{7,14}$/',
+                'unique:customers,phone',
+            ],
             'birth_date' => ['required', 'date'], // Ensures age is between 18 and 100
             'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
             'email' => 'required|string|email|unique:customers',
@@ -100,7 +106,7 @@ class AuthController extends Controller
 
         ]);
 
-
+ 
         $data['privacy_flag']        = $data['privacy_flag'] ? 1 : 0;
         $data['power_attorney_flag'] = 1;
         if ($request->image) {

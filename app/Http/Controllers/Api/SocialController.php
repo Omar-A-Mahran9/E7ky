@@ -55,6 +55,7 @@ class SocialController extends Controller
             [
                 'verified_at' => now(),
                 'phone' => null,
+                'phone_code' => null,
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'image' => uploadFileFromOutside($user->getAvatar(), "ProfileImages"), // ✅ Correctly handles URLs

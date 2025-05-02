@@ -27,6 +27,7 @@ return new class () extends Migration {
             $table->string('image')->nullable(); // URL or path to the profile picture
             $table->string('cover_picture')->nullable(); // URL or path to the profile picture            $table->string('email')->unique();
             $table->date('birth_date')->nullable();
+            $table->string('phone_code')->nullable();
             $table->string('phone')->unique()->nullable();
             $table->enum('gender', ['male', 'female'])->nullable(); // Define enum and make it unique
             $table->enum('type', ['speaker', 'customer'])->default('customer'); // Enum to distinguish between speaker and customer
