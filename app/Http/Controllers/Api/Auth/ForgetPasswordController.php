@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\Api\CustomerResource;
+use App\Mail\OtpMail;
 use App\Mail\RegisterMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -33,11 +34,11 @@ class ForgetPasswordController extends Controller
             'otp_expires_at' => now()->addMinutes(5)
         ]);
 
-        try {
-            $this->sendOtpSms($customer->phone, $otp);
-        } catch (\Exception $e) {
-            Log::error("OTP SMS Error: " . $e->getMessage());
-        }
+        // try {
+        //     $this->sendOtpSms($customer->phone, $otp);
+        // } catch (\Exception $e) {
+        //     Log::error("OTP SMS Error: " . $e->getMessage());
+        // }
 
         // Optionally send via email
         // try {
@@ -45,6 +46,14 @@ class ForgetPasswordController extends Controller
         // } catch (\Exception $e) {
         //     Log::error("OTP Email Error: " . $e->getMessage());
         // }
+
+        if ($customer->email) {
+            try {
+                Mail::to($customer->email)->send(new OtpMail($otp));
+            } catch (\Exception $e) {
+                Log::error("OTP Email Error: " . $e->getMessage());
+            }
+        }
 
         return $this->success("OTP sent successfully", ["customer" => new CustomerResource($customer)]);
     }
@@ -66,10 +75,18 @@ class ForgetPasswordController extends Controller
             'otp_expires_at' => now()->addMinutes(5)
         ]);
 
-        try {
-            $this->sendOtpSms($customer->phone, $otp);
-        } catch (\Exception $e) {
-            Log::error("OTP SMS Error: " . $e->getMessage());
+        // try {
+        //     $this->sendOtpSms($customer->phone, $otp);
+        // } catch (\Exception $e) {
+        //     Log::error("OTP SMS Error: " . $e->getMessage());
+        // }
+
+        if ($customer->email) {
+            try {
+                Mail::to($customer->email)->send(new OtpMail($otp));
+            } catch (\Exception $e) {
+                Log::error("OTP Email Error: " . $e->getMessage());
+            }
         }
 
         return $this->success("OTP resent successfully", ["customer" => new CustomerResource($customer)]);
