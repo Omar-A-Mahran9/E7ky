@@ -25,6 +25,7 @@ class CustomerResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'otp'=>$this->otp,
+            'otp_expires_at'=>$this->otp_expires_at,
             'name' => $this->first_name." ".$this->last_name,
             'job_description' => $this->job_description,
             'bio' => $this->bio,
