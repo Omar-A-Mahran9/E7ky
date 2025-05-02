@@ -38,15 +38,24 @@ class AuthController extends Controller
 
         $customer = Customer::whereEmail($request->email)->first();
 
+        // Check if OTP verification is required
+        if ($customer->otp || $customer->otp_expires_at || $customer->otp_expires_at > now()) {
+            // OTP is present and has not expired
+            return $this->validationFailure([__("Please verify your OTP to proceed.")]);
+        }
+
         if (Hash::check($request->password, $customer->password)) {
             $token = $customer->createToken('Personal access token to apis')->plainTextToken;
 
-            return $this->success("logged in successfully", ['token' => $token, "user" => new CustomerResource($customer)]);
-
+            return $this->success("Logged in successfully", [
+                'token' => $token,
+                "user" => new CustomerResource($customer)
+            ]);
         } else {
             return $this->validationFailure(["password" => [__("Password mismatch")]]);
         }
     }
+
 
     public function loginOTP(Request $request, $data)
     {
@@ -100,6 +109,8 @@ class AuthController extends Controller
         if ($request->image) {
             $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
         }
+        $data['otp_expires_at'] = now()->addMinute();
+
          $customer                 = Customer::create($data);
         $customer->remember_token = Str::random(10);
         $customer->save();
