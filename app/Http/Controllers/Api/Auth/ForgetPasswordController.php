@@ -127,12 +127,22 @@ class ForgetPasswordController extends Controller
             return $this->failure(__("This user does not exist"));
         }
 
+        // Check if OTP is null
+        if (is_null($customer->otp)) {
+            return $this->failure(__("OTP is missing or not verified"));
+        }
+
+        // Validate new password
         $request->validate([
             'password' => ['required', 'min:6', new PasswordNumberAndLetter()],
             'password_confirmation' => 'required_with:password|same:password',
         ]);
 
-        $customer->update(['password' => Hash::make($request->password)]);
+        // Update password
+        $customer->update([
+            'password' => Hash::make($request->password)
+        ]);
+
         return $this->success("Password changed successfully");
     }
 
