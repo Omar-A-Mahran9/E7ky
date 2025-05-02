@@ -126,9 +126,8 @@ class ForgetPasswordController extends Controller
         if (!$customer) {
             return $this->failure(__("This user does not exist"));
         }
-
-        // Check if OTP is null
-        if (is_null($customer->otp)) {
+         // Check if OTP is null
+        if (!is_null($customer->otp)) {
             return $this->failure(__("OTP is missing or not verified"));
         }
 
