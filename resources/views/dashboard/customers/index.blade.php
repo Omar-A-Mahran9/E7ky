@@ -308,11 +308,15 @@
 
                         <div class="col-md-6">
                             <label for="status_inp" class="form-label fs-6 fw-bold">{{ __('Status') }}</label>
-                            <select name="status" class="form-control" id="status_inp">
-                                @foreach (CustomerStatus::values() as $value => $name)
-                                    <option value="{{ $value }}">{{ __(ucfirst($name)) }}</option>
+                            <select name="status" class="form-select form-select-solid" data-control="select2"
+                                data-dir="{{ getDirection() }}" id="status_inp" data-allow-clear="true"
+                                data-placeholder="{{ __('Select status') }}">
+
+                                @foreach (CustomerStatus::values() as $value => $label)
+                                    <option value="{{ $value }}">{{ __($label) }}</option>
                                 @endforeach
                             </select>
+
                             <div class="fv-plugins-message-container invalid-feedback" id="status"></div>
                         </div>
 

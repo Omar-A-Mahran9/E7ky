@@ -265,8 +265,7 @@ var KTDatatablesServerSide = (function () {
 
                 let currentBtnIndex = $(editButtons).index(d);
                 let data = datatable.row(currentBtnIndex).data();
-
-                $("#form_title").text(__("Edit Customer"));
+                 $("#form_title").text(__("Edit Customer"));
                 $(".image-input-wrapper").css(
                     "background-image",
                     `url('${data.full_image_path}')`
@@ -278,8 +277,11 @@ var KTDatatablesServerSide = (function () {
                 $("#email_inp").val(data.email);
                 $("#bio_inp").val(data.bio);
                 $("#job_description_inp").val(data.job_description);
-                $("#age_inp").val(data.age);
+                $("#birth_date_inp").val(data.birth_date);
                 $("#gender_inp").val(data.gender);
+                $('#status_inp').select2(); // reinitialize if needed
+                $('#status_inp').val("pending").trigger('change');
+
 
                 $("#phone_inp").val(data.phone);
                 $("#facebook_link_inp").val(data.facebook_link);

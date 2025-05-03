@@ -260,8 +260,8 @@
                         <div class="fv-row mb-4">
                             <label for="description_ar_inp"
                                 class="form-label required fs-6 fw-bold">{{ __('Description ar') }}</label>
-                            <textarea name="description_ar" class="form-control" data-kt-autosize="true" id="description_ar_inp" rows="3" class="tox-target"
-                                placeholder="{{ __('Description In Arabic') }}"></textarea>
+                            <textarea name="description_ar" class="form-control" data-kt-autosize="true" id="description_ar_inp" rows="3"
+                                class="tox-target" placeholder="{{ __('Description In Arabic') }}"></textarea>
 
                             <div class="fv-plugins-message-container invalid-feedback" id="description_ar"></div>
                         </div>
@@ -293,13 +293,12 @@
     </form>
 @endsection
 @push('scripts')
-   <script src="{{ asset('assets/dashboard/plugins/custom/tinymce/tinymce.bundle.js') }}"></script>
-
     <script src="{{ asset('assets/dashboard/js/global/datatable-config.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/datatables/splashes.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/global/crud-operations.js') }}"></script>
     <script src="{{ asset('assets/dashboard/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/plugins/custom/tinymce/tinymce.bundle.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -317,62 +316,31 @@
         });
     </script>
 
+
+
     <script>
-        let lat = 30.0444; // Cairo, Egypt
-        let lng = 31.2357; // Cairo, Egypt
-        const isEditPage = false;
-        const isShowPage = false;
-    </script>
-    <script src="{{ asset('assets/dashboard/js/map_create.js') }}"></script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu4T0sSqqn87uvqXHcUbbWpxt4NVyBW6w
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
-    </script>
-    <script>
-        document.getElementById('is_multi_day').addEventListener('change', function() {
-            let endDateInput = document.getElementById('end_day');
-            if (this.checked) {
-                this.value = "1"; // Set value to 1 when checked
-                endDateInput.removeAttribute('disabled');
-            } else {
-                this.value = "0"; // Set value to 0 when unchecked
-                endDateInput.setAttribute('disabled', 'disabled');
-                endDateInput.value = ""; // Clear the end date when disabled
-            }
+        let language = locale == 'en' ? 'ltr' : 'rtl';
+        tinymce.init({
+            selector: "#description_ar_inp",
+            height: "480",
+            menubar: false,
+            toolbar: ["styleselect",
+                "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
+                "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
+            ],
+            directionality: language, // Set the initial direction to RTL if needed
+            plugins: "advlist autolink link image lists charmap print preview code directionality"
+        });
+        tinymce.init({
+            selector: "#description_en_inp",
+            height: "480",
+            menubar: false,
+            toolbar: ["styleselect",
+                "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
+                "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
+            ],
+            directionality: language, // Set the initial direction to RTL if needed
+            plugins: "advlist autolink link image lists charmap print preview code directionality"
         });
     </script>
-
-
-        <script>
-            window['onAjaxSuccess'] = () => {
-                soundStatus = $("[name='sound_status']:checked").val();
-                showToast();
-            }
-        </script>
-        <script>
-            let language = locale == 'en' ? 'ltr' : 'rtl';
-            tinymce.init({
-                selector: "#description_ar_inp",
-                height: "480",
-                menubar: false,
-                toolbar: ["styleselect",
-                    "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
-                    "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
-                ],
-                directionality: language, // Set the initial direction to RTL if needed
-                plugins: "advlist autolink link image lists charmap print preview code directionality"
-            });
-            tinymce.init({
-                selector: "#description_en_inp",
-                height: "480",
-                menubar: false,
-                toolbar: ["styleselect",
-                    "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
-                    "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
-                ],
-                directionality: language, // Set the initial direction to RTL if needed
-                plugins: "advlist autolink link image lists charmap print preview code directionality"
-            });
-        </script>
-
 @endpush

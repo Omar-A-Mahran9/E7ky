@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Dashboard;
 
+use App\Enums\CustomerStatus;
 use App\Models\Customer;
 use App\Rules\ExistButDeleted;
 use App\Rules\NotNumbersOnly;
@@ -30,10 +31,11 @@ class StoreCustomerRequest extends FormRequest
             'X_link' => ['nullable', 'url'],
             'job_description' => ['nullable', 'string'],
             'bio' => ['nullable', 'string'],
-            'age' => ['nullable', 'integer', 'min:10', 'max:100'],
+            'birth_date' => ['required', 'date'], // Ensures age is between 18 and 100
             'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
             'email' => ['required', 'string', 'email:rfc,dns', 'unique:customers'],
             'gender' => ['nullable', Rule::in(['male', 'female'])],
+'status' => ['required', Rule::in(array_column(CustomerStatus::cases(), 'name'))],
 
             'type' => ['required', 'in:speaker,customer'],
             'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/'],

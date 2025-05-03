@@ -569,7 +569,7 @@ table, td { color: #000000; } #u_body a { color: #e67e23; text-decoration: under
 <body>
     <p>Hello,</p>
     <p>Your OTP code is: <strong>{{ $otp }}</strong></p>
-    <p>This code is valid for 5 minutes.</p>
+    <p>This code is valid for 1 minute.</p>
     <p>If you did not request this, please ignore this email.</p>
 </body>
 

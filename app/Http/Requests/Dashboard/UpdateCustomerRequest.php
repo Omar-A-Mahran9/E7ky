@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Dashboard;
 
+use App\Enums\CustomerStatus;
 use App\Rules\NotNumbersOnly;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,12 +32,13 @@ class UpdateCustomerRequest extends FormRequest
             'email' => ['required', 'string', 'email:rfc,dns', Rule::unique('customers')->ignore($customer->id)],
             'job_description' => ['nullable', 'string'],
             'bio' => ['nullable', 'string'],
-            'age' => ['nullable', 'integer', 'min:10', 'max:100'],
+            'birth_date' => ['required', 'date'], // Ensures age is between 18 and 100
             'gender' => ['required', Rule::in(['male', 'female'])],
             'type' => ['required', 'in:speaker,customer'],
             'facebook_link' => ['nullable', 'url'],
             'instagram_link' => ['nullable', 'url'],
             'X_link' => ['nullable', 'url'],
+            'status' => ['required', Rule::in(array_column(CustomerStatus::cases(), 'name'))],
 
             // Only require password if a new one is provided
             'password' => ['nullable', 'string', 'min:8', 'regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/'],
