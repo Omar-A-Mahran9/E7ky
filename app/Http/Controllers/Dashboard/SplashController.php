@@ -97,7 +97,15 @@ class SplashController extends Controller
 
         Splash::whereIn('id', $request->selected_items_ids)->delete();
 
-        return response(["selected newsletters deleted successfully"]);
+        return response(["selected splashes deleted successfully"]);
+    }
+
+    public function restoreSelected(Request $request)
+    {
+        $this->authorize('delete_splashes');
+        Splash::withTrashed()->whereIn('id', $request->selected_items_ids)->restore();
+
+        return response(["selected splashes restored successfully"]);
     }
 
 }

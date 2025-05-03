@@ -15,6 +15,7 @@ Route::get("admins/restore-selected", "AdminController@restoreSelected");
 
 Route::delete("customers/delete-selected", "CustomerController@deleteSelected");
 Route::delete("splashes/delete-selected", "SplashController@deleteSelected");
+Route::get("splashes/restore-selected", "SplashController@restoreSelected");
 
 /** begin resources routes **/
 Route::resource('admins', 'AdminController')->except(['create', 'edit']);
