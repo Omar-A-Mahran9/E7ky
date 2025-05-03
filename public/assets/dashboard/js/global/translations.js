@@ -169,6 +169,8 @@ let translations = {
         "Blocked successfully": "تم الحظر بنجاح",
         "Un Blocked successfully": "تم إلغاء الحظر بنجاح",
         Blocking: "حظر",
+        "Items have been restored successfully": "تم استرجاع البيانات بنجاح",
+
         Unblocking: "رفع الحظر",
         "You must add shipping details first":
             "يجب عليك إضافة بيانات الشحن أولاً",
