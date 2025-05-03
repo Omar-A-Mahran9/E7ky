@@ -91,5 +91,13 @@ class SplashController extends Controller
 
         return response()->json(['message' => 'Splash deleted successfully']);
     }
+    public function deleteSelected(Request $request)
+    {
+        $this->authorize('delete_splashes');
+
+        Splash::whereIn('id', $request->selected_items_ids)->delete();
+
+        return response(["selected newsletters deleted successfully"]);
+    }
 
 }
