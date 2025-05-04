@@ -83,7 +83,7 @@ class SocialController extends Controller
             'message' => __('Thank You for verified'),
             'user' => [
                 'id' => $userCreated->id,
-                'name' => $userCreated->name,
+                'name' => $userCreated->firstName,
                 'email' => $userCreated->email,
                 'image' => $userCreated->image,
             ]
