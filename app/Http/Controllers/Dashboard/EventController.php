@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreEventRequest;
+use App\Http\Requests\Dashboard\UpdateEventRequest;
 use App\Models\Agenda;
 use App\Models\Day;
 use App\Models\DaysEvent;
@@ -99,29 +100,83 @@ class EventController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+    public function update(UpdateEventRequest $request,Event $event)
     {
-        //
+        $this->authorize('update_event');
+
+        // $event = Event::findOrFail($id);
+        $validated_data = $request->validated();
+
+        // Force lat/lon if needed
+        $validated_data['lat'] = 30.0444;
+        $validated_data['lon'] = 31.2357;
+
+        // Handle new image upload
+        if ($request->hasFile('image')) {
+            $validated_data['image'] = uploadImageToDirectory($request->file('image'), "Events");
+        } else {
+            $validated_data['image'] = $event->image; // Preserve old image if not updated
+        }
+
+        // Handle event map upload
+        if ($request->hasFile('event_map')) {
+            $validated_data['event_map'] = uploadImageToDirectory($request->file('event_map'), "Events/maps");
+        } else {
+            $validated_data['event_map'] = $event->event_map; // Preserve old map if not updated
+        }
+
+        // Update the event
+        $event->update($validated_data);
+
+        // Update related agenda (assumes one-to-one relationship)
+        $agenda = Agenda::updateOrCreate(
+            ['event_id' => $event->id],
+            [
+                'name_ar' => $event->name_ar . ' - جدول',
+                'name_en' => $event->name_en . ' - Agenda',
+                'description_ar' => 'جدول الحدث: ' . $event->description_ar,
+                'description_en' => 'Agenda for the event: ' . $event->description_en,
+                'start_day' => $event->start_day,
+                'end_day' => $event->end_day,
+            ]
+        );
+
+
+       
+
+        // Handle days and days_events
+        $startDay = Carbon::parse($event->start_day);
+        $endDay = $event->end_day ? Carbon::parse($event->end_day) : $startDay;
+        Carbon::setLocale('ar');
+        $dates = collect($startDay->daysUntil($endDay->copy()->addDay()));
+
+        foreach ($dates as $date) {
+            $dayNameAr = $date->translatedFormat('l');
+            $dayNameEn = $date->format('l');
+
+            $day = Day::updateOrCreate([
+                'date' => $date->toDateString(),
+                'event_id' => $event->id,
+            ], [
+                'name_ar' => $agenda->name_ar . ' - ' . $dayNameAr,
+                'name_en' => $agenda->name_en . ' - ' . $dayNameEn,
+            ]);
+
+            DaysEvent::updateOrCreate([
+                'day_id' => $day->id,
+                'event_id' => $event->id,
+            ], [
+                'agenda_id' => $agenda->id,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Event updated successfully!',
+            'event' => $event,
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     public function destroy(Event $event)
     {
