@@ -171,29 +171,73 @@ var KTDatatablesServerSide = (function () {
         );
 
         editButtons.forEach((d) => {
-            // edit button on click
             d.addEventListener("click", function (e) {
                 e.preventDefault();
 
                 let currentBtnIndex = $(editButtons).index(d);
                 let data = datatable.row(currentBtnIndex).data();
 
+                // Set form title
                 $("#form_title").text(__("Edit event"));
-                $(".image-input-wrapper").css(
+
+                // Set image preview backgrounds
+                $("#image_inp").css(
                     "background-image",
                     `url('${data.full_image_path}')`
                 );
+                $("#event_map_inp").css(
+                    "background-image",
+                    `url('${data.full_event_map}')`
+                );
+
+                // Set form fields
                 $("#name_ar_inp").val(data.name_ar);
                 $("#name_en_inp").val(data.name_en);
                 $("#description_ar_inp").val(data.description_ar);
                 $("#description_en_inp").val(data.description_en);
+                $("input[name='start_day']").val(data.start_day);
+                $("input[name='end_day']").val(data.end_day);
+                $("input[name='start_time']").val(data.start_time);
+                $("input[name='end_time']").val(data.end_time);
+                $("input[name='registration_start_time']").val(
+                    data.registration_start_time
+                );
+                $("input[name='registration_end_time']").val(
+                    data.registration_end_time
+                );
+                $("input[name='capacity']").val(data.capacity);
+                $("input[name='price']").val(data.price);
+                $("input[name='event_link']").val(data.event_link);
+                $("input[name='streaming_link']").val(data.streaming_link);
+                $("select[name='status']").val(data.status);
+                $("#location_inp").val(data.location);
+                $("#lat_inp").val(data.lat);
+                $("#lng_inp").val(data.lon);
+
+                // Multi-day checkbox toggle
+                if (data.is_multi_day == 1) {
+                    $("#is_multi_day").prop("checked", true).val(1);
+                    $("#end_day").prop("disabled", false);
+                } else {
+                    $("#is_multi_day").prop("checked", false).val(0);
+                    $("#end_day").prop("disabled", true);
+                }
+
+                // Featured checkbox
+                $("#featured").prop("checked", data.featured == 1);
+
+                // Set form action to PUT
                 $("#crud_form").attr(
                     "action",
                     `/dashboard/${dbTable}/${data.id}`
                 );
+                // Prevent duplicates
+                $("#crud_form input[name='_method']").remove();
                 $("#crud_form").prepend(
                     `<input type="hidden" name="_method" value="PUT">`
                 );
+
+                // Show the modal
                 $("#crud_modal").modal("show");
             });
         });
