@@ -83,7 +83,7 @@ class SocialController extends Controller
             'message' => __('Thank You for verified'),
             'user' => [
                 'id' => $userCreated->id,
-                'name' => $userCreated->first_name,
+                'name' => $userCreated->first_name .' ' .$userCreated->last_name,
                 'email' => $userCreated->email,
                 'image' => asset(getImagePathFromDirectory($userCreated->image, 'Splash', "default.svg")) ,
             ]
