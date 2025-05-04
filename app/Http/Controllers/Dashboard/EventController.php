@@ -29,14 +29,15 @@ class EventController extends Controller
         }
     }
 
- 
+
 
     public function store(StoreEventRequest $request)
     {
         $this->authorize('create_event');
 
         $validated_data = $request->validated();
-
+        $validated_data['lat']=30.0444;
+        $validated_data['lon']=31.2357;
         // Handle image upload
         if ($request->hasFile('image')) {
             $validated_data['image'] = uploadImageToDirectory($request->file('image'), "Events");
