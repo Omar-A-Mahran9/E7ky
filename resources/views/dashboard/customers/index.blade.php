@@ -134,8 +134,8 @@
                             <div class="d-flex flex-column justify-content-center">
                                 <label for="cover_picture_inp"
                                     class="form-label required text-center fs-6 fw-bold mb-3">{{ __('Cover') }}</label>
-                                <x-dashboard.upload-image-inp name="cover_picture" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable"></x-dashboard.upload-image-inp>
+                                <x-dashboard.upload-icon-inp name="cover_picture" :image="null" :directory="null"
+                                    placeholder="default.svg" type="editable"></x-dashboard.upload-icon-inp>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -313,7 +313,7 @@
                                 data-placeholder="{{ __('Select status') }}">
 
                                 @foreach (CustomerStatus::values() as $value => $label)
-                                    <option value="{{ $value }}">{{ __($label) }}</option>
+                                    <option value="{{ $label }}">{{ __($label) }}</option>
                                 @endforeach
                             </select>
 

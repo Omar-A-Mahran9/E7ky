@@ -41,6 +41,18 @@ class CustomerController extends Controller
         if ($request->has('image'))
             $data['image'] = uploadImageToDirectory($request->file('image'), "Customers");
 
+            if ($request->has('cover_picture'))
+
+            $data['cover_picture'] = uploadImageToDirectory($request->file('cover_picture'), "Customers/Covers");
+
+                    // ✅ Remove password if not provided
+            if (empty($data['password'])) {
+                unset($data['password']);
+            } else {
+                // Hash password if provided
+                $data['password'] =  $data['password'];
+            }
+
         $customer->update($data);
 
         return response(["Customer updated successfully"]);

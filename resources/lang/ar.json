@@ -86,7 +86,10 @@
     "packages categories count": "عدد فئات الباقات",
     "block flag": "حالة الحظر",
     "Items have been restored successfully": "تم استرجاع البيانات بنجاح",
-
+    "Your account is not approved. Current status: :status": "حسابك غير مُعتمد. الحالة الحالية: :status",
+    "pending": "قيد المراجعة",
+    "approved": "مقبول",
+    "rejected": "مرفوض",
     "cities count": "عدد  المدن",
     "Add category": "اضافة فئة جديدة",
     "visited count": "عدد  الزيارات",

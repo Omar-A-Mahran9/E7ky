@@ -25,7 +25,7 @@ class UpdateProfilePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'current_password' => ['required', new CurrentVendorPassword, Rule::excludeIf(!is_null($this->current_password))],
+            // 'current_password' => ['required', new CurrentVendorPassword, Rule::excludeIf(!is_null($this->current_password))],
             'password' => ['required_with:current_password', 'string', 'min:8', 'regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/', 'max:50', new NotNumbersOnly()],
             'password_confirmation' => ['required_with:password', 'same:password', Rule::excludeIf(!is_null($this->password_confirmation))],
         ];

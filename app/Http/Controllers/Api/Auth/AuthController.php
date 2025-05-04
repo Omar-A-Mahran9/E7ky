@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-
+use App\Enums\CustomerStatus;
 use App\Rules\PasswordNumberAndLetter;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -38,6 +38,12 @@ class AuthController extends Controller
 
         $customer = Customer::whereEmail($request->email)->first();
 
+        if ($customer->status !=  'approved' ) {
+            return $this->validationFailure([
+                __("Your account is not approved. Current status: :status", [
+                    'status' => $customer->status] ?? 'unknown')
+                ]);
+        }
         // Check if OTP verification is required
         if ($customer->otp || $customer->otp_expires_at || $customer->otp_expires_at > now()) {
             // OTP is present and has not expired
@@ -133,39 +139,6 @@ class AuthController extends Controller
         ]);
             }
 
-    /* function socialLogin(Request $request) {
-        $request->validate([
-           'social_id' => "required",
-        ]);
-
-        $user = User::where('social_id', $request->social_id)->first();
-        if($user)
-        {
-           $token = $user->createToken('Personal access token to apis')->accessToken;
-
-           return $this->success("logged in successfully", ['token' => $token, "user" => new UserResource($user)]);
-        }
-
-        $request->validate([
-           'name' => "required|string:255",
-           'phone' => 'required|regex:/(^(05)([0-9]{8})$)/u|max:255',
-           'email' => "required|email:255",
-           'social_image_link' => "nullable",
-           'fcm_token' => "required",
-        ]);
-
-        $user = User::create([
-           'social_id' => $request->social_id,
-           'name' => $request->name,
-           'social_image_link' => $request->social_image_link,
-           'fcm_token' => $request->fcm_token,
-           'phone' => $request->phone,
-           'email' => $request->email
-        ]);
-        $token = $user->createToken('Personal access token to apis')->accessToken;
-
-        return $this->success("logged in successfully", ['token' => $token, "user" => new UserResource($user)]);
-    } */
 
     public function logout(Request $request)
     {

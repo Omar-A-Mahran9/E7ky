@@ -265,10 +265,15 @@ var KTDatatablesServerSide = (function () {
 
                 let currentBtnIndex = $(editButtons).index(d);
                 let data = datatable.row(currentBtnIndex).data();
-                 $("#form_title").text(__("Edit Customer"));
+
+                $("#form_title").text(__("Edit Customer"));
                 $(".image-input-wrapper").css(
                     "background-image",
                     `url('${data.full_image_path}')`
+                );
+                $(".cover-input .image-input-wrapper").css(
+                    "background-image",
+                    `url('${data.full_cover_picture}')`
                 );
                 $("#password_inp").val("");
                 $("#password_confirmation_inp").val("");
@@ -279,9 +284,7 @@ var KTDatatablesServerSide = (function () {
                 $("#job_description_inp").val(data.job_description);
                 $("#birth_date_inp").val(data.birth_date);
                 $("#gender_inp").val(data.gender);
-                $('#status_inp').select2(); // reinitialize if needed
-                $('#status_inp').val("pending").trigger('change');
-
+                $("#status_inp").val(data.status).trigger("change");
 
                 $("#phone_inp").val(data.phone);
                 $("#facebook_link_inp").val(data.facebook_link);

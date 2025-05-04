@@ -147,7 +147,7 @@ class ForgetPasswordController extends Controller
 
         // Update password
         $customer->update([
-            'password' => Hash::make($request->password)
+            'password' => $request->password
         ]);
 
         return $this->success("Password changed successfully");

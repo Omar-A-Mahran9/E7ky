@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\OrderStatus;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\UpdateProfileInfoRequest;
-use App\Http\Requests\Dashboard\UpdateProfileEmailRequest;
+ use App\Http\Controllers\Controller;
+ use App\Http\Requests\Dashboard\UpdateProfileEmailRequest;
 use App\Http\Requests\Dashboard\UpdateProfilePasswordRequest;
 use App\Http\Resources\Api\AdminResource;
-use App\Models\Admin;
-use App\Models\Order;
-use App\Rules\ExistPhone;
-use App\Rules\NotNumbersOnly;
-use App\Rules\PasswordNumberAndLetter;
-use App\Rules\PhoneNumber;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
+use App\Rules\NotNumbersOnly;
+
+use Illuminate\Http\Request;
+ 
 class ProfileController extends Controller
 {
     public function profileInfo()
@@ -31,19 +25,23 @@ class ProfileController extends Controller
     {
 
         $admin = auth()->user();
-
-        // Validate request data
+         // Validate request data
         $data = $request->validate([
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'cover_picture' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'bio' => ['required', 'string', 'max:255'], // Ensures age is between 18 and 100
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
-'phone' => 'required|string|unique:customers,phone,' . $admin->id,
-            'age' => ['required', 'integer', 'min:18', 'max:100'], // Ensures age is between 18 and 100
+            'phone_code' => ['required', 'string'],
+            'phone' => [
+                'required',
+                'string',
+                 'unique:customers,phone,' . $admin->id,
+            ],
+            'birth_date' => ['required', 'date'], // Ensures age is between 18 and 100
             'gender' => ['required', 'in:male,female,other'], // Restricts gender to specific values
             'email' => 'required|string|email|unique:customers,email,' . $admin->id,
-            'password' => ['nullable', 'string', 'min:8', 'max:255', new PasswordNumberAndLetter()],
+
         ]);
          // Handle image upload
         if ($request->has('image')) {

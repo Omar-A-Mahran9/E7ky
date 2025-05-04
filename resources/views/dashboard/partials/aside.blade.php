@@ -56,7 +56,7 @@
 
                 <!--begin:Menu item-->
                 @can('view_event')
-                    <x-dashboard.aside-item :slug="'event'" :route="route('dashboard.events.index')" :title="__('Events')">
+                    <x-dashboard.aside-item :slug="'events'" :route="route('dashboard.events.index')" :title="__('Events')">
                         <i class="ki-outline ki-chart fs-2"></i>
                     </x-dashboard.aside-item>
                 @endcan

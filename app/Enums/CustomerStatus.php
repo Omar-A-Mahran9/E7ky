@@ -4,7 +4,6 @@ namespace App\Enums;
 
 enum CustomerStatus:int{
 
-    case blocked = 0;
     case pending = 1;
     case approved = 2;
     case rejected = 3;

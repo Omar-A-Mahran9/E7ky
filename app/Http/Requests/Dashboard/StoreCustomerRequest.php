@@ -21,6 +21,7 @@ class StoreCustomerRequest extends FormRequest
 
     public function rules()
     {
+ 
         return [
             'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:512',
             'cover_picture' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:1024',
@@ -35,7 +36,7 @@ class StoreCustomerRequest extends FormRequest
             'phone' => ['required', 'string', 'regex:/^[0-9]+$/', 'max:20', 'unique:customers'],
             'email' => ['required', 'string', 'email:rfc,dns', 'unique:customers'],
             'gender' => ['nullable', Rule::in(['male', 'female'])],
-'status' => ['required', Rule::in(array_column(CustomerStatus::cases(), 'name'))],
+            'status' => ['required', Rule::in(array_column(CustomerStatus::cases(), 'name'))],
 
             'type' => ['required', 'in:speaker,customer'],
             'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/'],
