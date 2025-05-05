@@ -55,6 +55,21 @@
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
+
+                @can('view_articles_categories')
+                    <x-dashboard.aside-item :slug="'articles'" :route="route('dashboard.articles_categories.index')" :title="__('Articles Categories')">
+                        <i class="ki-outline ki-menu fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+
+                @can('view_articles')
+                    <x-dashboard.aside-item :slug="'articles'" :route="route('dashboard.articles.index')" :title="__('Articles')">
+                        <i class="ki-outline ki-book fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
                 @can('view_event')
                     <x-dashboard.aside-item :slug="'events'" :route="route('dashboard.events.index')" :title="__('Events')">
                         <i class="ki-outline ki-chart fs-2"></i>

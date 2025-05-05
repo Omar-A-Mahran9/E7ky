@@ -27,6 +27,8 @@ class Role extends Model
         'workshops',
         'splashes',
         'booking',
+        'articles',
+        'articles_categories',
 
         'admins',
 
