@@ -38,12 +38,12 @@ class AuthController extends Controller
 
         $customer = Customer::whereEmail($request->email)->first();
 
-        if ($customer->status !=  'approved' ) {
-            return $this->validationFailure([
-                __("Your account is not approved. Current status: :status", [
-                    'status' => $customer->status] ?? 'unknown')
-                ]);
-        }
+        // if ($customer->status !=  'approved' ) {
+        //     return $this->validationFailure([
+        //         __("Your account is not approved. Current status: :status", [
+        //             'status' => $customer->status] ?? 'unknown')
+        //         ]);
+        // }
         // Check if OTP verification is required
         if ($customer->otp || $customer->otp_expires_at || $customer->otp_expires_at > now()) {
             // OTP is present and has not expired
