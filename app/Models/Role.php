@@ -29,7 +29,7 @@ class Role extends Model
         'booking',
         'articles',
         'articles_categories',
-
+        'tags',
         'admins',
 
          'roles',

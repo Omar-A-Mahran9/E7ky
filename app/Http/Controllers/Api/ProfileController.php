@@ -10,7 +10,7 @@ use App\Http\Resources\Api\AdminResource;
 use App\Rules\NotNumbersOnly;
 
 use Illuminate\Http\Request;
- 
+
 class ProfileController extends Controller
 {
     public function profileInfo()
@@ -29,7 +29,7 @@ class ProfileController extends Controller
         $data = $request->validate([
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'cover_picture' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
-            'bio' => ['required', 'string', 'max:255'], // Ensures age is between 18 and 100
+            'bio' => ['nullable', 'string', 'max:255'], // Ensures age is between 18 and 100
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'last_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
             'phone_code' => ['required', 'string'],

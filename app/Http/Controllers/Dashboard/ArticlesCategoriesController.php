@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreCategoryRequest as DashboardStoreCategoryRequest;
 use App\Http\Requests\Dashboard\UpdateEventRequest;
-use App\Http\Requests\StoreArticleRequest;
-use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Agenda;
-use App\Models\Article;
-use App\Models\Category;
+ use App\Models\Category;
 use App\Models\Day;
 use App\Models\DaysEvent;
 use App\Models\Event;
@@ -18,17 +15,15 @@ use Illuminate\Http\Request;
 
 class ArticlesCategoriesController extends Controller
 {
-      // Display the categories list (AJAX or normal request)
-      public function index(Request $request)
-      {
-          if ($request->ajax()) {
-              $data = Category::all(); // You can modify to paginate or filter
-              return response()->json($data);
-          } else {
-              return view('dashboard.articles_categories.index');
-          }
-      }
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $categories = Category::all();
+            return response()->json($categories);
+        }
 
+        return view('dashboard.articles_categories.index');
+    }
 
 
       public function store(DashboardStoreCategoryRequest $request)

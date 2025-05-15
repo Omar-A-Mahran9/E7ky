@@ -11,25 +11,18 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('articles', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // Equivalent to UNSIGNED INT AUTO_INCREMENT PRIMARY KEY
             $table->string('meta_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->text('html_tags')->nullable();
-            $table->string('name_ar');
-            $table->string('name_en');
-
-            $table->longText('description_ar');
-            $table->longText('description_en');
-
-            $table->longText('content_ar');
-            $table->longText('content_en');
 
             $table->string('image')->nullable();
             $table->string('slide_image');
             $table->string('internal_image');
             $table->string('video')->nullable();
             $table->string('status');
+
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('admin_id');
             $table->integer('img_or_vid')->nullable();
@@ -40,15 +33,25 @@ return new class () extends Migration {
             $table->unsignedBigInteger('tag_id')->nullable();
             $table->integer('is_latest')->nullable();
             $table->string('name_for_latest')->nullable();
+
+            $table->string('slug');
+            $table->string('name_ar')->default('');
+            $table->string('name_en')->default('');
+            $table->text('description_ar')->default('');
+            $table->text('description_en')->default('');
+            $table->text('content_ar')->default('');
+            $table->text('content_en')->default('');
+
+            $table->timestamps();
+
+            // Foreign keys
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->string('slug');
-            $table->timestamps();
         });
-
     }
+
 
     /**
      * Reverse the migrations.

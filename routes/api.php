@@ -32,6 +32,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('login', 'Auth\AuthController@loginByEmail');
     Route::post('login-otp/{customer:phone}', 'Auth\AuthController@loginOTP');
     Route::post('register', 'Auth\AuthController@register');
+    Route::post('Social_register', 'Auth\AuthController@register');
+
 
     Route::post('send-otp/{data}', [ForgetPasswordController::class, 'sendOtp']);
     Route::get('resend-otp/{data}', [ForgetPasswordController::class, 'reSendOtp']);

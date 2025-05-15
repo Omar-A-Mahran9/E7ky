@@ -90,6 +90,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
         $data  = $request->validate([
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'first_name' => ['required', 'string', 'max:255', new NotNumbersOnly()],
@@ -130,14 +131,15 @@ class AuthController extends Controller
             }
         }
 
+$expiresInSeconds = now()->diffInSeconds($customer->otp_expires_at, false);
 
-        return $this->success("Registered successfully. Please check your email for the OTP.", [
-            "name" => $customer->first_name . ' ' . $customer->last_name,
-            "email" => $customer->email,
-            "otp" => $customer->otp,
-
-        ]);
-            }
+return $this->success("Registered successfully. Please check your email for the OTP.", [
+    "name"   => $customer->first_name . ' ' . $customer->last_name,
+    "email"  => $customer->email,
+    "otp"    => $customer->otp,
+    "expires_in" => $expiresInSeconds > 0 ? $expiresInSeconds : 0, // fallback to 0 if already expired
+]);
+    }
 
 
     public function logout(Request $request)

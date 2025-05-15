@@ -3,24 +3,9 @@
 var datatable;
 // Class definition
 var KTDatatablesServerSide = (function () {
-    let dbTable = "categories";
+    let dbTable = "articles_categories";
     // Private functions
     var initDatatable = function () {
-        let columns = [
-            { data: "id" },
-            { data: "name" },
-            { data: "image" },
-            { data: "description" },
-            { data: "meta_tag_key_words" },
-            { data: "meta_tag_key_description" },
-            { data: "created_at" },
-            { data: null },
-        ];
-
-        if (categoryType === "sub")
-            // if sub models then add nes column for the parent category name
-            columns.splice(4, 0, { data: "categories" });
-
         datatable = $("#kt_datatable").DataTable({
             language: language,
             searchDelay: searchDelay,
@@ -34,35 +19,35 @@ var KTDatatablesServerSide = (function () {
                 className: "row-selected",
             },
             ajax: {
-                url: `/dashboard/categories?type=${categoryType}`,
+                url: `/dashboard/${dbTable}`,
             },
-            columns: columns,
+            columns: [
+                { data: "id" },
+                { data: "name" },
+                { data: "image" },
+                { data: "description" },
+                { data: "created_at" },
+                { data: null },
+            ],
             columnDefs: [
                 {
                     targets: 0,
                     orderable: false,
-                    render: function (data, type, row, meta) {
-                        return categoryType === "sub"
-                            ? `
-            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" value="${data}" />
-            </div>`
-                            : `
-            <div class="form-check form-check-sm form-check-custom form-check-solid" style="justify-content: center;">
-                <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${
-                    meta.row + 1
-                }</a>
-            </div>`;
+                    render: function (data) {
+                        return `
+                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="${data}" />
+                            </div>`;
                     },
                 },
                 {
                     targets: 1,
-                    render: function (data) {
+                    render: function (data, type, row) {
                         return `
                             <div>
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${data}</a>
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.name}</a>
                                 </div>
                                 <!--end::Info-->
                             </div>
@@ -94,12 +79,12 @@ var KTDatatablesServerSide = (function () {
                 },
                 {
                     targets: 3,
-                    render: function (data) {
+                    render: function (data, type, row) {
                         return `
                             <div>
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${data}</a>
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.description}</a>
                                 </div>
                                 <!--end::Info-->
                             </div>
@@ -108,150 +93,12 @@ var KTDatatablesServerSide = (function () {
                 },
                 {
                     targets: 4,
-                    render: function (data) {
-                        if (categoryType === "sub") {
-                            let result = `
-        <!--begin::Info-->
-        <div class="d-flex flex-row justify-content-center">
-    `;
-                            if (data.length == 0) {
-                                result += `<div>
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${"__"}</a>
-                                </div>
-                                <!--end::Info-->
-                            </div>`;
-                            } else {
-                                result += data
-                                    .map(function (category) {
-                                        return `
-                <div class="category-item m-2">
-                    <span class="badge badge-light-info fs-7">${
-                        category.name ?? "__"
-                    }</span>
-                </div>
-            `;
-                                    })
-                                    .join(""); // Join all HTML fragments into a single string
-
-                                result += `
-            </div>
-            <!--end::Info-->
-        `;
-                            }
-                            return result;
-                        } else {
-                            if (data == null) {
-                                return `
-                                <div>
-                                    <!--begin::Info-->
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${"__"}</a>
-                                    </div>
-                                    <!--end::Info-->
-                                </div>
-                            `;
-                            } else {
-                                let tags = data.split(",");
-                                let result = `
-        <!--begin::Info-->
-        <div class="d-flex flex-row justify-content-center">
-    `;
-
-                                result += tags
-                                    .map(function (tag) {
-                                        return `
-            <span class="badge badge-light-info fs-7 m-1">${tag ?? "__"}</span>
-        `;
-                                    })
-                                    .join(""); // Join all HTML fragments into a single string
-
-                                result += `
-        </div>
-        <!--end::Info-->
-    `;
-
-                                return result;
-                            }
-                        }
-                    },
-                },
-                {
-                    targets: 5,
-                    render: function (data) {
-                        if (categoryType === "sub") {
-                            if (data == null) {
-                                return `
-                            <div>
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${"__"}</a>
-                                </div>
-                                <!--end::Info-->
-                            </div>
-                        `;
-                            } else {
-                                let tags = data.split(",");
-                                let result = `
-    <!--begin::Info-->
-    <div class="d-flex flex-row justify-content-center">
-`;
-
-                                result += tags
-                                    .map(function (tag) {
-                                        return `
-        <span class="badge badge-light-info fs-7 m-1">${tag ?? "__"}</span>
-    `;
-                                    })
-                                    .join(""); // Join all HTML fragments into a single string
-
-                                result += `
-    </div>
-    <!--end::Info-->
-`;
-
-                                return result;
-                            }
-                        } else {
-                            return `
-                            <div>
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${data}</a>
-                                </div>
-                                <!--end::Info-->
-                            </div>
-                        `;
-                        }
-                    },
-                },
-                {
-                    targets: 6,
-                    render: function (data) {
+                    render: function (data, type, row) {
                         return `
                             <div>
                                 <!--begin::Info-->
                                 <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${
-                                        data ?? "__"
-                                    }</a>
-                                </div>
-                                <!--end::Info-->
-                            </div>
-                        `;
-                    },
-                },
-                {
-                    targets: categoryType === "sub" ? 7 : 6,
-                    render: function (data) {
-                        return `
-                            <div>
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${
-                                        data ?? "__"
-                                    }</a>
+                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.created_at}</a>
                                 </div>
                                 <!--end::Info-->
                             </div>
@@ -281,13 +128,14 @@ var KTDatatablesServerSide = (function () {
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
+
                                 ${`<!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
-                                            ${__("Delete")}
-                                        </a>
-                                    </div>
-                                    <!--end::Menu item-->`}
+                                <div class="menu-item px-3">
+                                    <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
+                                        ${__("Delete")}
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->`}
                             </div>
                             <!--end::Menu-->
                         </div
@@ -329,10 +177,8 @@ var KTDatatablesServerSide = (function () {
 
                 let currentBtnIndex = $(editButtons).index(d);
                 let data = datatable.row(currentBtnIndex).data();
-                $("#form_title").text(__("Edit subcategory"));
-                $("[name='_method']").remove();
-                $("#crud_form").trigger("reset");
 
+                $("#form_title").text(__("Edit event"));
                 $(".image-input-wrapper").css(
                     "background-image",
                     `url('${data.full_image_path}')`
@@ -341,30 +187,9 @@ var KTDatatablesServerSide = (function () {
                 $("#name_en_inp").val(data.name_en);
                 $("#description_ar_inp").val(data.description_ar);
                 $("#description_en_inp").val(data.description_en);
-                $("#meta_tag_key_words_inp").val(data.meta_tag_key_words);
-
-                $("#meta_tag_key_description_inp").val(
-                    data.meta_tag_key_description
-                );
-                if (data.show_in_home == 1) {
-                    $("#kt_modal_update_address_billing").prop("checked", true);
-                } else {
-                    $("#kt_modal_update_address_billing").prop(
-                        "checked",
-                        false
-                    );
-                }
-                const categoryIds = data.categories
-                    ? data.categories.map((category) => category.id)
-                    : null;
-                $(`[name='parent_id[]']`)
-                    .val(categoryIds)
-                    .attr("selected", true);
-                $(`[name='parent_id[]']`).trigger("change");
-
                 $("#crud_form").attr(
                     "action",
-                    `/dashboard/${dbTable}/${data.id}?type=${categoryType}`
+                    `/dashboard/${dbTable}/${data.id}`
                 );
                 $("#crud_form").prepend(
                     `<input type="hidden" name="_method" value="PUT">`

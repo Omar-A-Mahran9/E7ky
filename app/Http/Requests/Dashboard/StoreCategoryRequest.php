@@ -15,6 +15,8 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
+            'description_ar' => 'required|string|max:255',
+            'description_en' => 'required|string|max:255',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string|max:255',
