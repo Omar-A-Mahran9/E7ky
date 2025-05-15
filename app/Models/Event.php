@@ -43,6 +43,6 @@ class Event extends Model
     }
     public function getDescriptionAttribute()
     {
-        return $this->attributes['name_' . app()->getLocale()];
+        return $this->attributes['description_' . app()->getLocale()];
     }
 }
