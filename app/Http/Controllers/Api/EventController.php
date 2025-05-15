@@ -13,33 +13,45 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Event::query();
+public function index(Request $request)
+{
+    $query = Event::query();
 
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('events.name_ar', 'LIKE', "%{$search}%")
-                  ->orWhere('events.name_en', 'LIKE', "%{$search}%")
-                  ->orWhereHas('talks', function ($talkQuery) use ($search) {
-                      $talkQuery->where('talks.name_ar', 'LIKE', "%{$search}%")
-                                ->orWhere('talks.name_en', 'LIKE', "%{$search}%");
-                  });
-            });
-        }
-
-        $query->orderBy('events.created_at', 'desc');
-
-
-        // Paginate the results
-        $events = $query->paginate(10);
-
-        return $this->success(
-            'Events',
-            ApiEventResource::collection($events)
-        );
+    // Search functionality
+    if ($request->has('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('events.name_ar', 'LIKE', "%{$search}%")
+              ->orWhere('events.name_en', 'LIKE', "%{$search}%")
+              ->orWhereHas('talks', function ($talkQuery) use ($search) {
+                  $talkQuery->where('talks.name_ar', 'LIKE', "%{$search}%")
+                            ->orWhere('talks.name_en', 'LIKE', "%{$search}%");
+              });
+        });
     }
+
+    // Status filter: upcoming or past
+    if ($request->has('status')) {
+        $status = $request->status;
+        if ($status === 'upcoming') {
+            $query->where('start_date', '>', now());
+        } elseif ($status === 'past') {
+            $query->where('end_date', '<', now());
+        }
+    }
+
+    // Order by creation date
+    $query->orderBy('events.created_at', 'desc');
+
+    // Paginate the results
+    $events = $query->paginate(10);
+
+    return $this->success(
+        'Events',
+        ApiEventResource::collection($events)
+    );
+}
+
 
     public function store(ApiStoreEventRequest $request)
     {
