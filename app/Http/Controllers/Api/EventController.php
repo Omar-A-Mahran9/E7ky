@@ -34,9 +34,9 @@ public function index(Request $request)
     if ($request->has('status')) {
         $status = $request->status;
         if ($status === 'upcoming') {
-            $query->where('start_date', '>', now());
+            $query->where('start_day', '>', now());
         } elseif ($status === 'past') {
-            $query->where('end_date', '<', now());
+            $query->where('end_day', '<', now());
         }
     }
 
