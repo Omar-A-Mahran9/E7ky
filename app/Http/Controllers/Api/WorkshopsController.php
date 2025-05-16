@@ -16,16 +16,23 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class WorkshopsController extends Controller
 {
-    public function index()
-    {
+public function index(Request $request)
+{
+    // Paginate workshops with relationships
+    $workshops = Workshop::with(['customers', 'event'])->paginate(10);
 
-        // Get all talks, possibly paginated
-        $Workshops = Workshop::with(['customers', 'event'])->get();
-        $Workshops_count = Workshop::with(['customers', 'event'])->count();
+    // Total count without pagination
+    $workshopsCount = Workshop::count();
 
-        return $this->successWithPagination('Talks', ["workshops_count" => $Workshops_count,"workshops" => WorkshopsResource::collection($Workshops)]);
+    // Use getData(true) to format response as array with data/links/meta
+    $formatted = WorkshopsResource::collection($workshops)->response()->getData(true);
 
-    }
+    // Merge count into the formatted response
+    $formatted['workshops_count'] = $workshopsCount;
+
+    return $this->successWithPagination('Workshops', $formatted);
+}
+
     public function store(StoreWorkshopsRequest $request)
     {
         // Get validated data and extract 'customer_ids'
