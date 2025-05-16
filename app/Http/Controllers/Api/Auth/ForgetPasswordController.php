@@ -124,34 +124,41 @@ class ForgetPasswordController extends Controller
         ]);
     }
 
-    public function changePassword(Request $request, $data)
-    {
-        $customer = $this->findCustomer($data);
+  public function changePassword(Request $request, $data)
+{
+    $customer = $this->findCustomer($data);
 
-        if (!$customer) {
-            return $this->failure(__("This user does not exist"));
-        }
-         // Check if OTP is null
-        if (!is_null($customer->otp)) {
-            if ($customer->otp_expires_at < now()) {
-                return $this->failure(__("OTP has expired"));
-            }
-            return $this->failure(__("OTP is missing or not verified"));
-        }
-
-        // Validate new password
-        $request->validate([
-            'password' => ['required', 'min:6', new PasswordNumberAndLetter()],
-            'password_confirmation' => 'required_with:password|same:password',
-        ]);
-
-        // Update password
-        $customer->update([
-            'password' => $request->password
-        ]);
-
-        return $this->success("Password changed successfully");
+    if (!$customer) {
+        return $this->failure(__("This user does not exist"));
     }
+
+    // Check if OTP is null
+    if (!is_null($customer->otp)) {
+        if ($customer->otp_expires_at < now()) {
+            return $this->failure(__("OTP has expired"));
+        }
+        return $this->failure(__("OTP is missing or not verified"));
+    }
+
+    // Validate input including old password
+    $request->validate([
+        'old_password' => ['required'],
+        'password' => ['required', 'min:6', new PasswordNumberAndLetter()],
+        'password_confirmation' => 'required_with:password|same:password',
+    ]);
+
+    // Check if old password matches
+    if (!Hash::check($request->old_password, $customer->password)) {
+        return $this->failure(__("The old password is incorrect"));
+    }
+
+    // Update password
+    $customer->update([
+        'password' => bcrypt($request->password)
+    ]);
+
+    return $this->success(__("Password changed successfully"));
+}
 
     private function findCustomer($data)
     {
