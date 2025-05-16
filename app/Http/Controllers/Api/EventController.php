@@ -44,7 +44,7 @@ public function index(Request $request)
     $query->orderBy('events.created_at', 'desc');
 
     // Paginate
-    $events = $query->paginate(10);
+    $events = $query->paginate(5);
 
     // Wrap in resource and return
     return $this->successWithPagination('Events', ApiEventResource::collection($events)->response()->getData(true));
@@ -102,7 +102,7 @@ public function index(Request $request)
             'workshops' => function ($query) use ($id) {
                 $query->where('event_id', $id);
             }
-        ])->paginate(10);
+        ])->paginate(5);
 
         return $this->success(
             'speakers',

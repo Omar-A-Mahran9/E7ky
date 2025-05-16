@@ -19,7 +19,7 @@ class WorkshopsController extends Controller
 public function index(Request $request)
 {
     // Paginate workshops with relationships
-    $workshops = Workshop::with(['customers', 'event'])->paginate(10);
+    $workshops = Workshop::with(['customers', 'event'])->paginate(5);
 
     // Total count without pagination
     $workshopsCount = Workshop::count();

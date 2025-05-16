@@ -30,7 +30,7 @@ class SpeakerController extends Controller
         $query->orderBy('created_at', 'asc');
 
         // Paginate results
-        $speakers = $query->paginate(10);
+        $speakers = $query->paginate(5);
         return $this->success(
             'speakers',
             TalkersResource::collection($speakers)

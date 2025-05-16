@@ -28,7 +28,7 @@ class RoleController extends Controller
         $abilities = Ability::select('id', 'name', 'category', 'action')->get();
 
         if (!$request->ajax())
-            return view('dashboard.settings.roles.show', ['role' => $role, 'abilities' => $abilities, 'modules' => Role::$modules, 'admins' => $role->admins()->paginate(10)]);
+            return view('dashboard.settings.roles.show', ['role' => $role, 'abilities' => $abilities, 'modules' => Role::$modules, 'admins' => $role->admins()->paginate(5)]);
         else
             return response()->json(['name_ar' => $role['name_ar'], 'name_en' => $role['name_en'], 'role_abilities' => $role['abilities']]);
     }

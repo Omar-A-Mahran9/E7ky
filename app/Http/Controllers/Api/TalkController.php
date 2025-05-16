@@ -18,13 +18,17 @@ use function Laravel\Prompts\error;
 
 class TalkController extends Controller
 {
-    public function index()
-    {
-        // Get all talks, possibly paginated
-        $talks = Talk::with(['customers', 'event'])->get();
+public function index(Request $request)
+{
+    // Paginate talks with relationships
+    $talks = Talk::with(['customers', 'event'])->paginate(5);
 
-        return $this->successWithPagination('Talks', ['talks' => TalkResource::collection($talks)]);
-    }
+    // Get resource collection with pagination meta and links
+    $resourceData = TalkResource::collection($talks)->response()->getData(true);
+
+    return $this->successWithPagination('Talks', $resourceData);
+}
+
 
     public function indexauth()
     {
