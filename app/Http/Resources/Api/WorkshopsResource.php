@@ -36,7 +36,7 @@ class WorkshopsResource extends JsonResource
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'description' => $this->description,
-            'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+            'image_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
             'speakers' => CustomerResource::collection($this->customers)
 
 
