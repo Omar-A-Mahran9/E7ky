@@ -63,14 +63,16 @@ public function index(Request $request)
     }
 
 
-    public function WorkshopPerEvent($id)
-    {
-        // Create a new Talk using the validated data from the request
-        $Workshop = Workshop::where("event_id", $id)->get();
-        $Workshop_count = Workshop::where("event_id", $id)->count();
+ public function WorkshopPerEvent($id)
+{
+    // Paginate workshops related to the given event ID
+    $workshops = Workshop::with(['customers', 'event'])
+        ->where("event_id", $id)
+        ->paginate(10); // you can change 10 to any per-page limit
 
-        return $this->success('Workshop', ["Workshop_count" => $Workshop_count,"Workshop" => WorkshopsResource::collection($Workshop)]);
-    }
+    return $this->successWithPagination('Workshop', WorkshopsResource::collection($workshops));
+}
+
 
 
     public function show($id)
