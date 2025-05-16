@@ -111,8 +111,7 @@ public function talksPerEvent(Request $request, $id)
             'ticket_id' => 'required|unique:booking,ticket_id',
         ]);
         $talk = Talk::with(['event'])->findOrFail($id);
-        dd($talk);
-        $customer=Auth::user();
+         $customer=Auth::user();
         if($customer->type=="customer"){
             if ($talk->capacity > 0) {
                 $existingBooking = Book::where('talk_id', $talk->id)
