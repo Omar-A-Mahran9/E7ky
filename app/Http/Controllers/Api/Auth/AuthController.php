@@ -193,11 +193,13 @@ public function Social_register(Request $request)
     // Generate token (using Sanctum or any other)
     $token = $customer->createToken('auth_token')->plainTextToken;
 
-    return $this->success("Registered/Login via " . ucfirst($data['provider']) . " successfully", [
-        'name'  => $customer->first_name . ' ' . $customer->last_name,
-        'email' => $customer->email,
-        'token' => $token,
-    ]);
+  return $this->success("Logged in successfully", [
+    'token' => $token,
+    "user" => new CustomerResource($customer)
+]);
+
+
+
 }
 
 
