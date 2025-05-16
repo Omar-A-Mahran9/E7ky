@@ -328,23 +328,33 @@
 
                         <div class="row mt-3">
                             <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Capacity') }}</label>
-                                <input type="number" name="capacity" class="form-control" min="1">
+                                <label for='capacity_inp' class="fs-6 fw-bold">{{ __('Capacity') }}</label>
+                                <input id='capacity_inp' type="number" name="capacity" class="form-control"
+                                    min="1">
+                                <p class="invalid-feedback" id="capacity"></p>
+
                             </div>
                             <div class="col-md-6 fv-row">
-                                <label class="fs-6 fw-bold">{{ __('Price') }}</label>
-                                <input type="number" name="price" class="form-control" min="0">
+                                <label for='price_inp' class="fs-6 fw-bold">{{ __('Price') }}</label>
+                                <input id='price_inp' type="number" name="price" class="form-control"
+                                    min="0">
+                                <p class="invalid-feedback" id="price"></p>
+
                             </div>
                         </div>
 
                         <div class="fv-row mt-3">
-                            <label class="fs-6 fw-bold">{{ __('Event Link') }}</label>
-                            <input type="url" name="event_link" class="form-control">
+                            <label for='event_link_inp' class="fs-6 fw-bold">{{ __('Event Link') }}</label>
+                            <input id='event_link_inp' type="url" name="event_link" class="form-control">
+                            <p class="invalid-feedback" id="event_link"></p>
+
                         </div>
 
                         <div class="fv-row mt-3">
-                            <label class="fs-6 fw-bold">{{ __('Streaming Link') }}</label>
-                            <input type="url" name="streaming_link" class="form-control">
+                            <label class="fs-6 fw-bold" for='streaming_link_inp'>{{ __('Streaming Link') }}</label>
+                            <input type="url" id='streaming_link_inp' name="streaming_link" class="form-control">
+                            <p class="invalid-feedback" id="streaming_link"></p>
+
                         </div>
                         <div class="fv-row mt-5">
 
@@ -395,7 +405,7 @@
                             <input type="hidden" name="featured" value="0">
                             <input type="checkbox" name="featured" class="form-check-input" id="featured"
                                 value="1">
-                            <label for="featured">{{ __('Featured Event') }}</label>
+                            <label for="featured">{{ __('show in banner') }}</label>
                         </div>
 
                     </div>
@@ -448,7 +458,7 @@
     <script src="{{ asset('assets/dashboard/js/map_create.js') }}"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu4T0sSqqn87uvqXHcUbbWpxt4NVyBW6w
-                                                                                                                                                                                                                                                                                                                                                                                                    &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
     </script>
     <script>
         document.getElementById('is_multi_day').addEventListener('change', function() {

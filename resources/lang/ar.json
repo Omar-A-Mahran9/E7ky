@@ -57,7 +57,7 @@
 
     "Add new category": "إضافة فئة جديدة",
     "Coming Soon": "قريبًا",
- 
+
     "Select customer": "اخنر العملاء",
     "Blogs list": "قائمة المدونات",
     "Add new blog": "اضافة مدونة ",
@@ -75,6 +75,8 @@
     "Contact requests list": "طلبات التواصل",
     "Search for contact requests": "طلبات التواصل البحث",
     "Add package sub category": "اضافة فئة فرعية الباقة",
+    "show in banner": "عرض في البانر",
+    "Edit event": "تعديل الحدث",
 
     "Splashes list": "قائمة الشاشات",
     "Splashes": "شاشات البداية",

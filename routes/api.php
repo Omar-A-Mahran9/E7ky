@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AgendaController as ApiAgendaController;
+use App\Http\Controllers\API\ArticalController;
 use App\Http\Controllers\Api\Auth\ForgetPasswordController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\ProfileController;
@@ -39,6 +40,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('resend-otp/{data}', [ForgetPasswordController::class, 'reSendOtp']);
     Route::post('check-otp/{data}', [ForgetPasswordController::class, 'checkOTP']);
     Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
+    Route::get('articles', [ArticalController::class, 'index']);
 
 
     Route::middleware(['auth:api'])->group(function () {

@@ -174,7 +174,7 @@ public function Social_register(Request $request)
             'image'             => isset($data['avatar_url']) ? uploadFileFromOutside($data['avatar_url'], 'Customers') : null,
             'password'          => Hash::make(Str::random(12)), // Random password
             'verified_at'       => now(),
-            'status'            => 2,
+            'status'            => 'approved',
             'created_by_social' => 1,
         ]);
     }

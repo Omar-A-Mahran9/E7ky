@@ -25,6 +25,7 @@ let translations = {
         "event map": "خريطة الحدث",
         "Add new session": "اضافة جلسة جديدة",
         "Add workshop": "اضافة ورشة جديدة",
+        "Edit event": "تعديل الحدث",
 
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",

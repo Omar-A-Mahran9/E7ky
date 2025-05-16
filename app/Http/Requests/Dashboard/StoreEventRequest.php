@@ -41,11 +41,11 @@ class StoreEventRequest extends FormRequest
             'registration_end_time' => 'nullable||date_format:H:i|after:registration_start_time',
             'lat' => 'nullable|numeric|between:-90,90',
             'lon' => 'nullable|numeric|between:-180,180',
-            'capacity' => 'nullable|integer|min:1',
+            'capacity' => 'required|integer|min:1',
             'status' => 'required|in:scheduled,ongoing,completed,canceled',
-            'price' => 'nullable|numeric|min:0',
-            'event_link' => 'nullable|url',
-            'streaming_link' => 'nullable|url',
+            'price' => 'required|numeric|min:0',
+            'event_link' => 'required|url',
+            'streaming_link' => 'required|url',
         ];
     }
 }

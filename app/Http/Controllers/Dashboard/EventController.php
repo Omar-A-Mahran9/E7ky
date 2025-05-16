@@ -37,8 +37,8 @@ class EventController extends Controller
         $this->authorize('create_event');
 
         $validated_data = $request->validated();
-        $validated_data['lat']=30.0444;
-        $validated_data['lon']=31.2357;
+        $validated_data['lat']= $validated_data['lat']??30.0444;
+        $validated_data['lon']=$validated_data['lat']??31.2357;
         // Handle image upload
         if ($request->hasFile('image')) {
             $validated_data['image'] = uploadImageToDirectory($request->file('image'), "Events");
@@ -109,8 +109,8 @@ class EventController extends Controller
         $validated_data = $request->validated();
 
         // Force lat/lon if needed
-        $validated_data['lat'] = 30.0444;
-        $validated_data['lon'] = 31.2357;
+        $validated_data['lat']= $validated_data['lat']??30.0444;
+        $validated_data['lon']=$validated_data['lat']??31.2357;
 
         // Handle new image upload
         if ($request->hasFile('image')) {
