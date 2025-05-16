@@ -46,7 +46,7 @@ public function index(Request $request)
     // Paginate the results
     $events = $query->paginate(10);
 
-    return $this->success(
+    return $this->successWithPagination(
         'Events',
         ApiEventResource::collection($events)
     );

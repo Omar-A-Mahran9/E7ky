@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,10 @@ class TalkResource extends JsonResource
             'image' => $this->full_image_path,
             'name' => $this->name,
             'event_name' => $this->event->name,
-            'is_book' => Auth::check(),
+            'is_book' => Auth::check() && Book::where('talk_id', $this->id)
+                                                        ->where('customer_id', Auth::id())
+                                                        ->exists(),
+
             'location' => $this->location,
             'start_day' => $this->day->date,
             'capacity_total' => $this->capacity,
@@ -33,8 +37,8 @@ class TalkResource extends JsonResource
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'description' => $this->description,
-            'google_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
-             'speakers' => CustomerResource::collection($this->customers)
+            'image_map_url' => "https://www.google.com/maps?q={$this->lat},{$this->lon}",
+            'speakers' => CustomerResource::collection($this->customers)
         ];
 
         return $data;

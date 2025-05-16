@@ -23,7 +23,7 @@ class TalkController extends Controller
         // Get all talks, possibly paginated
         $talks = Talk::with(['customers', 'event'])->get();
 
-        return $this->success('Talks', ['talks' => TalkResource::collection($talks)]);
+        return $this->successWithPagination('Talks', ['talks' => TalkResource::collection($talks)]);
     }
 
     public function indexauth()

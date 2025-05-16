@@ -23,7 +23,7 @@ class WorkshopsController extends Controller
         $Workshops = Workshop::with(['customers', 'event'])->get();
         $Workshops_count = Workshop::with(['customers', 'event'])->count();
 
-        return $this->success('Talks', ["workshops_count" => $Workshops_count,"workshops" => WorkshopsResource::collection($Workshops)]);
+        return $this->successWithPagination('Talks', ["workshops_count" => $Workshops_count,"workshops" => WorkshopsResource::collection($Workshops)]);
 
     }
     public function store(StoreWorkshopsRequest $request)
