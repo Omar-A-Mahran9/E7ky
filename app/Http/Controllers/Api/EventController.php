@@ -40,6 +40,7 @@ public function index(Request $request)
 
     $query->orderBy('events.created_at', 'desc');
 
+
     $events = $query->paginate(10);
 
     return $this->successWithPagination('Events', $events);
