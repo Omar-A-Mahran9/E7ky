@@ -154,7 +154,7 @@ class ForgetPasswordController extends Controller
 
     // Update password
     $customer->update([
-        'password' => bcrypt($request->password)
+        'password' => $request->password
     ]);
 
     return $this->success(__("Password changed successfully"));
