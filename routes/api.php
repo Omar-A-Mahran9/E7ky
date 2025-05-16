@@ -41,10 +41,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('check-otp/{data}', [ForgetPasswordController::class, 'checkOTP']);
     Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
     Route::get('articles', [ArticalController::class, 'index']);
-    Route::apiResource('workshops', WorkshopsController::class);
+       Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
 
     Route::middleware(['auth:api'])->group(function () {
-       Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
+    Route::apiResource('workshops', WorkshopsController::class);
+    Route::apiResource('talks', ApiTalkController::class);
 
          Route::post('/customers/update-info', [ProfileController::class, 'updateInfo']);
         Route::post('/customers/update-password', 'ProfileController@updatePassword');
@@ -69,7 +70,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('/event/speakers/{id}', 'EventController@Eventspeakers');
     Route::apiResource('speakers', SpeakerController::class);
 
-    Route::apiResource('talks', ApiTalkController::class);
     Route::get('/events/talk/{id}', 'TalkController@talksPerEvent');
 
 
