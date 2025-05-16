@@ -117,7 +117,7 @@ class WorkshopsController extends Controller
              $qrCode = QrCode::format('png')->size(200)->generate($booking->id);
              $qrCodePath = uploadImageToDirectory($qrCode, "qrcodes");
 
-// Update Booking with Relative Path
+            // Update Booking with Relative Path
             $booking->update([
                 'qr' =>  $qrCodePath , // Stores "qrcodes/E7kky_XXXX.png"
             ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api;
 
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,9 @@ class WorkshopsResource extends JsonResource
 
             'location' => $this->location,
             'start_day' => $this->day->date,
-            'is_book' => Auth::check(),
+            'is_book' => Auth::check() && Book::where('workshop_id', $this->id)
+                                            ->where('customer_id', Auth::id())
+                                            ->exists(),
 
             'capacity_total' => $this->capacity,
             'current_capacuty' => $this->capacity,
