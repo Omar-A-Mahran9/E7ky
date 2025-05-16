@@ -46,14 +46,32 @@ public function index(Request $request)
         );
     }
 
-    public function talksPerEvent($id)
-    {
-        // Create a new Talk using the validated data from the request
-        $talks = Talk::where("event_id", $id)->get();
-        $talks_count = Talk::where("event_id", $id)->count();
+public function talksPerEvent(Request $request, $id)
+{
+    $perPage = $request->get('per_page', 10);
 
-        return $this->success('Talks', ["talks_count" => $talks_count,"talks" => TalkResource::collection($talks)]);
-    }
+    $talks = Talk::with(['customers', 'event'])
+        ->where('event_id', $id)
+        ->paginate($perPage);
+
+    return $this->successWithPagination('Talks', [
+        'data' => TalkResource::collection($talks),
+        'links' => [
+            'first' => $talks->url(1),
+            'last' => $talks->url($talks->lastPage()),
+            'prev' => $talks->previousPageUrl(),
+            'next' => $talks->nextPageUrl(),
+        ],
+        'meta' => [
+            'current_page' => $talks->currentPage(),
+            'from' => $talks->firstItem(),
+            'last_page' => $talks->lastPage(),
+            'per_page' => $talks->perPage(),
+            'to' => $talks->lastItem(),
+            'total' => $talks->total(),
+        ],
+    ]);
+}
 
 
     public function store(StoreTalkRequest $request)
