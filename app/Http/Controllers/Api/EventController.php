@@ -13,10 +13,12 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+
 public function index(Request $request)
 {
     $query = Event::query();
 
+    // Search
     if ($request->has('search')) {
         $search = $request->search;
         $query->where(function ($q) use ($search) {
@@ -29,6 +31,7 @@ public function index(Request $request)
         });
     }
 
+    // Status filter
     if ($request->has('status')) {
         $status = $request->status;
         if ($status === 'upcoming') {
@@ -40,11 +43,13 @@ public function index(Request $request)
 
     $query->orderBy('events.created_at', 'desc');
 
-
+    // Paginate
     $events = $query->paginate(10);
 
-    return $this->successWithPagination('Events', $events);
+    // Wrap in resource and return
+    return $this->successWithPagination('Events', ApiEventResource::collection($events)->response()->getData(true));
 }
+
 
 
     public function store(ApiStoreEventRequest $request)
