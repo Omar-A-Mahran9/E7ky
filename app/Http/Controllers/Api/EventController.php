@@ -42,7 +42,7 @@ public function index(Request $request)
 
     $events = $query->paginate(10);
 
-    return $this->successWithPagination('Events', ApiEventResource::collection($events));
+    return $this->successWithPagination('Events', $events);
 }
 
 
