@@ -17,7 +17,6 @@ public function index(Request $request)
 {
     $query = Event::query();
 
-    // Search functionality
     if ($request->has('search')) {
         $search = $request->search;
         $query->where(function ($q) use ($search) {
@@ -30,7 +29,6 @@ public function index(Request $request)
         });
     }
 
-    // Status filter: upcoming or past
     if ($request->has('status')) {
         $status = $request->status;
         if ($status === 'upcoming') {
@@ -40,16 +38,11 @@ public function index(Request $request)
         }
     }
 
-    // Order by creation date
     $query->orderBy('events.created_at', 'desc');
 
-    // Paginate the results
     $events = $query->paginate(10);
 
-    return $this->successWithPagination(
-        'Events',
-        ApiEventResource::collection($events)
-    );
+    return $this->successWithPagination('Events', ApiEventResource::collection($events));
 }
 
 
