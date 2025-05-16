@@ -53,6 +53,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         });
         Route::post('/booking/talk/{id}', 'TalkController@BookTalk');
         Route::post('/booking/workshop/{id}', 'WorkshopsController@Bookworkshop');
+    Route::apiResource('workshops', WorkshopsController::class);
+    Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
 
         Route::get('/booking/talk/{id}', [ApiTalkController::class, 'bookingtalk'])->name('booking.talk');
 
@@ -70,8 +72,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::apiResource('talks', ApiTalkController::class);
     Route::get('/events/talk/{id}', 'TalkController@talksPerEvent');
 
-    Route::apiResource('workshops', WorkshopsController::class);
-    Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
 
     Route::apiResource('agenda', ApiAgendaController::class);
     Route::get('/splashes', 'SplashController@index');
