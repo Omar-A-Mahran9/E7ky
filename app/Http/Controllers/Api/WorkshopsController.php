@@ -63,16 +63,32 @@ public function index(Request $request)
     }
 
 
- public function WorkshopPerEvent($id)
+public function WorkshopPerEvent(Request $request, $id)
 {
-    // Paginate workshops related to the given event ID
+    $perPage = $request->get('per_page', 10);
+
     $workshops = Workshop::with(['customers', 'event'])
-        ->where("event_id", $id)
-        ->paginate(10); // you can change 10 to any per-page limit
+        ->where('event_id', $id)
+        ->paginate($perPage);
 
-    return $this->successWithPagination('Workshop', WorkshopsResource::collection($workshops));
+    return $this->successWithPagination('Workshop', [
+        'data' => WorkshopsResource::collection($workshops),
+        'links' => [
+            'first' => $workshops->url(1),
+            'last' => $workshops->url($workshops->lastPage()),
+            'prev' => $workshops->previousPageUrl(),
+            'next' => $workshops->nextPageUrl(),
+        ],
+        'meta' => [
+            'current_page' => $workshops->currentPage(),
+            'from' => $workshops->firstItem(),
+            'last_page' => $workshops->lastPage(),
+            'per_page' => $workshops->perPage(),
+            'to' => $workshops->lastItem(),
+            'total' => $workshops->total(),
+        ],
+    ]);
 }
-
 
 
     public function show($id)
