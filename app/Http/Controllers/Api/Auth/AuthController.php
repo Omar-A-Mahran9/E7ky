@@ -152,7 +152,7 @@ public function Social_register(Request $request)
         'first_name'    => ['required', 'string', 'max:255', new NotNumbersOnly()],
         'last_name'     => ['required', 'string', 'max:255', new NotNumbersOnly()],
         'phone_code'    => ['nullable', 'string'],
-        'phone'         => ['nullable', 'string', 'regex:/^\+?[1-9][0-9]{7,14}$/', 'unique:customers,phone'],
+        'phone'         => ['nullable', 'string', 'regex:/^\+?[1-9][0-9]{7,14}$/'],
         'birth_date'    => ['nullable', 'date'],
         'gender'        => ['nullable', 'in:male,female,other'],
         'avatar_url'    => ['nullable', 'url'], // Image from provider
