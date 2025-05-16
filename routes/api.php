@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AgendaController as ApiAgendaController;
-use App\Http\Controllers\API\ArticalController;
+use App\Http\Controllers\Api\ArticalController;
 use App\Http\Controllers\Api\Auth\ForgetPasswordController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\ProfileController;
