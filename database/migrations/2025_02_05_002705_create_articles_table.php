@@ -48,7 +48,10 @@ return new class () extends Migration {
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+$table->foreign('category_id')
+      ->references('id')
+      ->on('articles_categories') // ← correct table
+      ->onDelete('cascade');
         });
     }
 

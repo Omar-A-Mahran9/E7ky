@@ -31,15 +31,14 @@ class Role extends Model
         'articles_categories',
         'tags',
         'admins',
-
-         'roles',
-
-
+        'category',
+         'cities',
 
 
 
 
-        'cities',
+
+
 
 
         'newsletter',

@@ -35,7 +35,10 @@ return new class () extends Migration {
             $table->timestamps();
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('articles_categories') // ← correct table
+                ->onDelete('cascade');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
 
         });

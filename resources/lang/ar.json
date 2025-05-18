@@ -77,6 +77,7 @@
     "Add package sub category": "اضافة فئة فرعية الباقة",
     "show in banner": "عرض في البانر",
     "Edit event": "تعديل الحدث",
+    "Mobile Image": "صورة الجوال",
 
     "Splashes list": "قائمة الشاشات",
     "Splashes": "شاشات البداية",
@@ -464,6 +465,8 @@
     "Description in Arabic": "الوصف باللغة العربية",
     "Description in English": "الوصف باللغة الإنجليزية",
     "Active": "نشط",
+    "Inactive": "غير نشط",
+
     "Expired": "منتهي",
     "Edit ad": "تعديل الاعلان",
     "Edit admin": "تعديل بيانات المشرف",

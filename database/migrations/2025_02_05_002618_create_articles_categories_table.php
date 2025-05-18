@@ -12,19 +12,26 @@ return new class () extends Migration {
     {
         Schema::create('articles_categories', function (Blueprint $table) {
             $table->id();
-            $table->text('meta_title')->nullable();
-            $table->text('meta_description')->nullable();
             $table->string('name_ar', 255);
             $table->string('name_en', 255);
+
+            // ✅ Add missing fields
+            $table->string('description_ar', 255)->nullable();
+            $table->string('description_en', 255)->nullable();
+
             $table->integer('status');
             $table->text('image');
-            $table->integer('sort')->default(0);
             $table->string('img_for_mob', 255);
+            $table->string('slug')->nullable();
+            $table->integer('sort')->default(0);
             $table->text('html')->nullable();
-            $table->string('meta_keywords', 255);
+            $table->text('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->string('meta_keywords', 255)->nullable();
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

@@ -135,7 +135,7 @@
                             <!-- Arabic Name -->
                             <div class="col-md-6 fv-row">
                                 <label for="name_ar_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Name in Arabic') }}</label>
+                                    class="form-label required fs-6 fw-bold">{{ __('Name In Arabic') }}</label>
                                 <input type="text" name="name_ar"
                                     class="form-control form-control-lg form-control-solid" id="name_ar_inp"
                                     placeholder="{{ __('Name In Arabic') }}">
@@ -145,7 +145,7 @@
                             <!-- English Name -->
                             <div class="col-md-6 fv-row">
                                 <label for="name_en_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Name in English') }}</label>
+                                    class="form-label required fs-6 fw-bold">{{ __('Name In English') }}</label>
                                 <input type="text" name="name_en"
                                     class="form-control form-control-lg form-control-solid" id="name_en_inp"
                                     placeholder="{{ __('Name In English') }}">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        {{-- <div class="row">
                             <!-- Meta Title -->
                             <div class="col-md-6 fv-row">
                                 <label for="meta_title_inp"
@@ -192,10 +192,10 @@
                                     placeholder="{{ __('Meta Description') }}"></textarea>
                                 <div class="fv-plugins-message-container invalid-feedback" id="meta_description"></div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row">
-                            <!-- Meta Keywords -->
+                            {{-- <!-- Meta Keywords -->
                             <div class="col-md-6 fv-row">
                                 <label for="meta_keywords_inp"
                                     class="form-label fs-6 fw-bold">{{ __('Meta Keywords') }}</label>
@@ -203,10 +203,10 @@
                                     class="form-control form-control-lg form-control-solid" id="meta_keywords_inp"
                                     placeholder="{{ __('Meta Keywords') }}">
                                 <div class="fv-plugins-message-container invalid-feedback" id="meta_keywords"></div>
-                            </div>
+                            </div> --}}
 
                             <!-- Status -->
-                            <div class="col-md-6 fv-row">
+                            <div class="col-md-12 fv-row">
                                 <label for="status_inp"
                                     class="form-label required fs-6 fw-bold">{{ __('Status') }}</label>
                                 <select name="status" id="status_inp"
@@ -218,7 +218,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        {{-- <div class="row">
                             <!-- Sort Order -->
                             <div class="col-md-6 fv-row">
                                 <label for="sort_inp" class="form-label fs-6 fw-bold">{{ __('Sort Order') }}</label>
@@ -235,7 +235,7 @@
                                     placeholder="{{ __('HTML Content') }}"></textarea>
                                 <div class="fv-plugins-message-container invalid-feedback" id="html"></div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="modal-footer">

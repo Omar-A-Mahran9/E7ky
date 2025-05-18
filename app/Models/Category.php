@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $table = 'categories';
+    protected $table = 'articles_categories';
 
     protected $guarded = [];
 
     protected $appends = [
         'name',
+         'description',
         'full_image_path',
         'full_img_for_mob_path',
     ];
@@ -21,11 +23,21 @@ class Category extends Model
         'updated_at' => 'date:Y-m-d',
     ];
 
-    // === Multilingual support ===
+ protected static function booted(): void
+    {
+        static::addGlobalScope('active', function (Builder $builder) {
+            $builder->where('status', 1);
+        });
+    }
 
     public function getNameAttribute()
     {
         return app()->getLocale() === 'ar' ? $this->name_ar : $this->name_en;
+    }
+
+       public function getDescriptionAttribute()
+    {
+        return app()->getLocale() === 'ar' ? $this->description_ar : $this->description_en;
     }
 
     // === Full image paths with fallback ===

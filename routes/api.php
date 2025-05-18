@@ -41,6 +41,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('check-otp/{data}', [ForgetPasswordController::class, 'checkOTP']);
     Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
     Route::get('articles', [ArticalController::class, 'index']);
+        Route::get('category', [ArticalController::class, 'fetchAllCategories']);
+
     Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
 
     Route::middleware(['auth:api'])->group(function () {

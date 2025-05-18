@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
-
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreCategoryRequest as DashboardStoreCategoryRequest;
 use App\Http\Requests\Dashboard\UpdateEventRequest;
@@ -12,6 +12,7 @@ use App\Models\DaysEvent;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Stringable;
 
 class ArticlesCategoriesController extends Controller
 {
