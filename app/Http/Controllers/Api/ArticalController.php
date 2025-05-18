@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\ArticleResource;
+use App\Http\Resources\Api\CategoryResource;
 use App\Models\Article;
 use App\Models\Category;
 
@@ -15,18 +16,19 @@ class ArticalController extends Controller
         $articles = Article::latest()->get();
 
         return $this->success('Articles fetched successfully', [
-            'articles' => ArticleResource::collection($articles),
+            'articles' => CategoryResource::collection($articles),
         ]);
     }
 
-    public function fetchAllCategories()
-    {
-        // Fetch all categories without the 'active' global scope filtering status
-        $allCategories = Category::get();
+  public function fetchAllCategories()
+{
+    // Fetch categories with status = 1 (active)
+    $activeCategories = Category::where('status', 1)->get();
 
-        return $this->success('All categories fetched successfully', [
-            'categories' => $allCategories,
-        ]);
-    }
+    return $this->success('Active categories fetched successfully', [
+        'categories' => CategoryResource::collection($activeCategories),
+    ]);
+}
+
 
 }

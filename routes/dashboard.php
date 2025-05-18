@@ -24,6 +24,7 @@ Route::resource('events', 'EventController')->except(['create', 'edit']);
 Route::resource('articles', 'ArticlesController')->except(['create', 'edit']);
 Route::resource('articles_categories', 'ArticlesCategoriesController')->except(['create', 'edit']);
 Route::resource('tags', 'TagController')->except(['create', 'edit']);
+Route::resource('campaigns', 'CampaignController')->except(['create', 'edit']);
 
 Route::resource('sessions', 'SessionController')->except(['create', 'edit']);
 Route::resource('splashes', 'SplashController')->except(['create', 'edit']);

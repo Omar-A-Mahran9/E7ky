@@ -33,7 +33,7 @@ class Role extends Model
         'admins',
         'category',
          'cities',
-
+        'campaigns',
 
 
 

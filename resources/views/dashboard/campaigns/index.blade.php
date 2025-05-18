@@ -14,7 +14,7 @@
             data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
             <!--begin::Card title-->
             <div class="card-title m-0">
-                <h3 class="fw-bold m-0">{{ __('Category list') }}</h3>
+                <h3 class="fw-bold m-0">{{ __('campaign list') }}</h3>
             </div>
             <!--end::Card title-->
         </div>
@@ -37,7 +37,7 @@
                         </svg>
                     </span>
                     <input type="text" data-kt-docs-table-filter="search"
-                        class="form-control form-control-solid ps-10 w-250px" placeholder="{{ __('Search for category') }}">
+                        class="form-control form-control-solid ps-10 w-250px" placeholder="{{ __('Search for campaign') }}">
                 </div>
                 <!--end::Search-->
 
@@ -54,7 +54,7 @@
                                     fill="currentColor"></rect>
                             </svg>
                         </span>
-                        {{ __('Add Category') }}
+                        {{ __('Add campaign') }}
                     </button>
                 </div>
                 <!--end::Toolbar-->
@@ -83,8 +83,7 @@
 
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Image') }}</th>
-                        <th>{{ __('Description') }}</th>
-                        <th>{{ __('Created at') }}</th>
+                         <th>{{ __('Created at') }}</th>
                         <th class="min-w-100px">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -97,14 +96,14 @@
     </div>
     <!--end::Basic info-->
 
-    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.articles_categories.store') }}" method="post"
+    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.campaigns.store') }}" method="post"
         enctype="multipart/form-data" data-success-callback="onAjaxSuccess" data-error-callback="onAjaxError">
         @csrf
         <div class="modal fade modal-lg" tabindex="-1" id="crud_modal">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="form_title">{{ __('Add new category') }}</h5>
+                        <h5 class="modal-title" id="form_title">{{ __('Add new campaign') }}</h5>
                         <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
                             aria-label="Close">
                             <i class="ki-outline ki-cross fs-1"></i>
@@ -154,25 +153,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <!-- Arabic Description -->
-                            <div class="col-md-6 fv-row">
-                                <label for="description_ar_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Description in Arabic') }}</label>
-                                <textarea name="description_ar" class="form-control" id="description_ar_inp" rows="3"
-                                    placeholder="{{ __('Description In Arabic') }}"></textarea>
-                                <div class="fv-plugins-message-container invalid-feedback" id="description_ar"></div>
-                            </div>
-
-                            <!-- English Description -->
-                            <div class="col-md-6 fv-row">
-                                <label for="description_en_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Description in English') }}</label>
-                                <textarea name="description_en" class="form-control" id="description_en_inp" rows="3"
-                                    placeholder="{{ __('Description In English') }}"></textarea>
-                                <div class="fv-plugins-message-container invalid-feedback" id="description_en"></div>
-                            </div>
-                        </div>
+                   
 
                         {{-- <div class="row">
                             <!-- Meta Title -->
@@ -258,7 +239,7 @@
 @push('scripts')
     <script src="{{ asset('assets/dashboard/js/global/datatable-config.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('assets/dashboard/js/datatables/articles_categories.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/datatables/campaigns.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/global/crud-operations.js') }}"></script>
     <script src="{{ asset('assets/dashboard/plugins/custom/fslightbox/fslightbox.bundle.js') }}"></script>
 
@@ -267,10 +248,10 @@
             $("#add_btn").click(function(e) {
                 e.preventDefault();
 
-                $("#form_title").text('{{ __('Add new category') }}');
+                $("#form_title").text('{{ __('Add new campaign') }}');
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
-                $("#crud_form").attr('action', `/dashboard/articles_categories`);
+                $("#crud_form").attr('action', `/dashboard/campaigns`);
                 $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
             });
         });

@@ -132,7 +132,7 @@
             if (favIconCounter > 0)
                 favicon.badge(favIconCounter);
 
-            KTLayoutSearch.init();
+            // KTLayoutSearch.init();
         });
     </script>
 </body>

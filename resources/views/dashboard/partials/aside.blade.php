@@ -56,12 +56,19 @@
 
                 <!--begin:Menu item-->
                 @can('view_tags')
-                <x-dashboard.aside-item :slug="'tags'" :route="route('dashboard.tags.index')" :title="__('Tags')">
-                    <i class="ki-outline ki-key fs-2"></i>
-                </x-dashboard.aside-item>
+                    <x-dashboard.aside-item :slug="'tags'" :route="route('dashboard.tags.index')" :title="__('Tags')">
+                        <i class="ki-outline ki-key fs-2"></i>
+                    </x-dashboard.aside-item>
                 @endcan
+
+                @can('view_campaigns')
+                    <x-dashboard.aside-item :slug="'campaigns'" :route="route('dashboard.campaigns.index')" :title="__('Campaigns')">
+                        <i class="fa fa-bullhorn fs-2"></i>
+                    </x-dashboard.aside-item>
+                @endcan
+
                 @can('view_articles_categories')
-                    <x-dashboard.aside-item :slug="'articles'" :route="route('dashboard.articles_categories.index')" :title="__('Articles Categories')">
+                    <x-dashboard.aside-item :slug="'articles_categories'" :route="route('dashboard.articles_categories.index')" :title="__('Articles Categories')">
                         <i class="ki-outline ki-category fs-2"></i>
                     </x-dashboard.aside-item>
                 @endcan

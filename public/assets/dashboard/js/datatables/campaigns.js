@@ -3,7 +3,7 @@
 var datatable;
 // Class definition
 var KTDatatablesServerSide = (function () {
-    let dbTable = "articles_categories";
+    let dbTable = "campaigns";
     // Private functions
     var initDatatable = function () {
         datatable = $("#kt_datatable").DataTable({
@@ -25,7 +25,6 @@ var KTDatatablesServerSide = (function () {
                 { data: "id" },
                 { data: "name" },
                 { data: "image" },
-                { data: "description" },
                 { data: "created_at" },
                 { data: null },
             ],
@@ -77,22 +76,9 @@ var KTDatatablesServerSide = (function () {
                         `;
                     },
                 },
+
                 {
                     targets: 3,
-                    render: function (data, type, row) {
-                        return `
-                            <div>
-                                <!--begin::Info-->
-                                <div class="d-flex flex-column justify-content-center">
-                                    <a href="javascript:;" class="mb-1 text-gray-800 text-hover-primary">${row.description}</a>
-                                </div>
-                                <!--end::Info-->
-                            </div>
-                        `;
-                    },
-                },
-                {
-                    targets: 4,
                     render: function (data, type, row) {
                         return `
                             <div>
@@ -178,7 +164,7 @@ var KTDatatablesServerSide = (function () {
                 let currentBtnIndex = $(editButtons).index(d);
                 let data = datatable.row(currentBtnIndex).data();
 
-                $("#form_title").text(__("Edit category"));
+                $("#form_title").text(__("Edit campaign"));
                 $("#image_inp").css(
                     "background-image",
                     `url('${data.full_image_path}')`
@@ -189,8 +175,7 @@ var KTDatatablesServerSide = (function () {
                 );
                 $("#name_ar_inp").val(data.name_ar);
                 $("#name_en_inp").val(data.name_en);
-                $("#description_ar_inp").val(data.description_ar);
-                $("#description_en_inp").val(data.description_en);
+
                 $("#status_inp").val(data.status);
 
                 $("#crud_form").attr(

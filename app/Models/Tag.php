@@ -26,10 +26,11 @@ class Tag extends Model
         static::addGlobalScope(new SortingScope);
     }
 
-    public function products()
-    {
-        return $this->belongsToMany(Product::class);
-    }
+  public function articles()
+{
+    return $this->belongsToMany(Article::class, 'article_tag');
+}
+
 
     public function getNameAttribute()
     {

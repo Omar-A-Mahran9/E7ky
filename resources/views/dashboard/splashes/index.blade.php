@@ -318,29 +318,5 @@
 
 
 
-    <script>
-        let language = locale == 'en' ? 'ltr' : 'rtl';
-        tinymce.init({
-            selector: "#description_ar_inp",
-            height: "480",
-            menubar: false,
-            toolbar: ["styleselect",
-                "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
-                "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
-            ],
-            directionality: language, // Set the initial direction to RTL if needed
-            plugins: "advlist autolink link image lists charmap print preview code directionality"
-        });
-        tinymce.init({
-            selector: "#description_en_inp",
-            height: "480",
-            menubar: false,
-            toolbar: ["styleselect",
-                "undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify",
-                "bullist numlist | outdent indent | ltr rtl | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  code"
-            ],
-            directionality: language, // Set the initial direction to RTL if needed
-            plugins: "advlist autolink link image lists charmap print preview code directionality"
-        });
-    </script>
+  
 @endpush

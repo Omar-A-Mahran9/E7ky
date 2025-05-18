@@ -348,6 +348,8 @@
     "Please wait ...": "برجاء الانتظار ...",
     "Selected items": "عناصر مختارة",
     "Delete": "حذف",
+    "Inactive": "غير نشط",
+
     "Shipping price": "سعر الشحن",
     "Choose the city": "اختر المدينة",
     "City is already exists": "هذه المدينة موجودة من قبل",
@@ -465,7 +467,13 @@
     "Description in Arabic": "الوصف باللغة العربية",
     "Description in English": "الوصف باللغة الإنجليزية",
     "Active": "نشط",
-    "Inactive": "غير نشط",
+    "Articles List": "قائمة المقالات",
+    "Edit category": "تعديل الفئة",
+    "Add Article": "إضافة مقالة",
+    "Add new campaign": "إضافة حملة جديدة ",
+    "campaign list": "قائمة الحملات",
+    "Add campaign": "إضافة حملة",
+    "Search for campaign": "الحملات الاعلانية",
 
     "Expired": "منتهي",
     "Edit ad": "تعديل الاعلان",

@@ -8,6 +8,7 @@ use App\Http\Requests\Dashboard\UpdateEventRequest;
 use App\Http\Requests\StoreArticleRequest;
 use App\Models\Agenda;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Day;
 use App\Models\DaysEvent;
 use App\Models\Event;
@@ -19,18 +20,20 @@ class ArticlesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $this->authorize('view_articles');
-        if ($request->ajax()) {
+  public function index(Request $request)
+{
+    $this->authorize('view_articles');
 
-            $data = getModelData(model: new Article());
-            return response()->json($data);
-
-        } else {
-            return view('dashboard.articles.index');
-        }
+    if ($request->ajax()) {
+        $data = getModelData(model: new Article());
+        return response()->json($data);
+    } else {
+        // Fetch categories to pass to the view
+        $categories = Category::all();
+        return view('dashboard.articles.index', compact('categories'));
     }
+}
+
 
 
 

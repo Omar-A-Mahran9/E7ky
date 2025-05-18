@@ -26,7 +26,8 @@ let translations = {
         "Add new session": "اضافة جلسة جديدة",
         "Add workshop": "اضافة ورشة جديدة",
         "Edit event": "تعديل الحدث",
-
+        "Edit category": "تعديل الفئة",
+        "Edit campaign": "تعديل الحملة",
         "Yes, Delete !": "نعــم, أحذف !",
         "No, Cancel": "لا , ألغي",
         "something went wrong": "حدث خطأ ما",

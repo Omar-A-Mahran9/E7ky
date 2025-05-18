@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Campaign extends Model
 {
-    protected $table = 'articles_categories';
+    protected $table = 'campaigns';
 
     protected $guarded = [];
 
     protected $appends = [
         'name',
-         'description',
-        'full_image_path',
+         'full_image_path',
         'full_img_for_mob_path',
     ];
 
@@ -35,20 +34,17 @@ class Category extends Model
         return app()->getLocale() === 'ar' ? $this->name_ar : $this->name_en;
     }
 
-       public function getDescriptionAttribute()
-    {
-        return app()->getLocale() === 'ar' ? $this->description_ar : $this->description_en;
-    }
+
 
     // === Full image paths with fallback ===
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Categories', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->image, 'Campaigns', 'default.svg'));
     }
 
     public function getFullImgForMobPathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->img_for_mob, 'Categories/mobile', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->img_for_mob, 'Campaigns/mobile', 'default.svg'));
     }
 }

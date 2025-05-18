@@ -171,140 +171,212 @@
 
     {{-- begin::Add Country Modal --}}
     {{-- begin::Add Event Modal --}}
+
     <form id="crud_form" class="ajax-form" action="{{ route('dashboard.articles.store') }}" method="POST"
         enctype="multipart/form-data" data-success-callback="onAjaxSuccess" data-error-callback="onAjaxError">
         @csrf
-        <input type="hidden" name="_method" value="{{ isset($article) ? 'PUT' : 'POST' }}">
-
         <div class="modal fade modal-lg" tabindex="-1" id="crud_modal">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
+
                     <div class="modal-header">
-                        <h5 class="modal-title" id="form_title">
-                            {{ isset($article) ? __('Edit Article') : __('Add New Article') }}</h5>
-                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                            aria-label="Close">
+                        <h5 class="modal-title" id="form_title">{{ __('Add new article') }}</h5>
+                        <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                            data-bs-dismiss="modal" aria-label="Close">
                             <i class="ki-outline ki-cross fs-1"></i>
-                        </div>
+                        </button>
                     </div>
 
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6 fv-row">
-                                <label for="name_ar_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Name (Arabic)') }}</label>
-                                <input type="text" name="name_ar" class="form-control" id="name_ar_inp"
-                                    placeholder="{{ __('Arabic Title') }}"
-                                    value="{{ old('name_ar', $article->name_ar ?? '') }}">
+                        <div class="row g-3">
+                            <!-- Images -->
+                            <div class="col-md-4">
+                                <label class="form-label required">{{ __('Main Image') }}</label>
+                                <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
+                                    placeholder="default.svg" type="editable" />
                             </div>
-
-                            <div class="col-md-6 fv-row">
-                                <label for="name_en_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Name (English)') }}</label>
-                                <input type="text" name="name_en" class="form-control" id="name_en_inp"
-                                    placeholder="{{ __('English Title') }}"
-                                    value="{{ old('name_en', $article->name_en ?? '') }}">
+                            <div class="col-md-4">
+                                <label class="form-label required">{{ __('Slide Image') }}</label>
+                                <x-dashboard.upload-image-inp name="slide_image" :image="null" :directory="null"
+                                    placeholder="default.svg" type="editable" />
                             </div>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="description_ar_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Description (Arabic)') }}</label>
-                            <textarea name="description_ar" class="form-control" id="description_ar_inp" rows="3"
-                                placeholder="{{ __('Description in Arabic') }}">{{ old('description_ar', $article->description_ar ?? '') }}</textarea>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="description_en_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Description (English)') }}</label>
-                            <textarea name="description_en" class="form-control" id="description_en_inp" rows="3"
-                                placeholder="{{ __('Description in English') }}">{{ old('description_en', $article->description_en ?? '') }}</textarea>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="content_ar_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Content (Arabic)') }}</label>
-                            <textarea name="content_ar" class="form-control" id="content_ar_inp" rows="5"
-                                placeholder="{{ __('Content in Arabic') }}">{{ old('content_ar', $article->content_ar ?? '') }}</textarea>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="content_en_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Content (English)') }}</label>
-                            <textarea name="content_en" class="form-control" id="content_en_inp" rows="5"
-                                placeholder="{{ __('Content in English') }}">{{ old('content_en', $article->content_en ?? '') }}</textarea>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 fv-row">
-                                <label for="image_inp" class="form-label fs-6 fw-bold">{{ __('Image') }}</label>
-                                <x-dashboard.upload-image-inp name="image" :image="$article->image ?? null" :directory="null"
+                            <div class="col-md-4">
+                                <label class="form-label required">{{ __('Internal Image') }}</label>
+                                <x-dashboard.upload-image-inp name="internal_image" :image="null" :directory="null"
                                     placeholder="default.svg" type="editable" />
                             </div>
 
-                            <div class="col-md-6 fv-row">
-                                <label for="slide_image_inp"
-                                    class="form-label fs-6 fw-bold">{{ __('Slide Image') }}</label>
-                                <x-dashboard.upload-image-inp name="slide_image" :image="$article->slide_image ?? null" :directory="null"
-                                    placeholder="slide-default.svg" type="editable" />
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 fv-row">
-                                <label for="internal_image_inp"
-                                    class="form-label fs-6 fw-bold">{{ __('Internal Image') }}</label>
-                                <x-dashboard.upload-image-inp name="internal_image" :image="$article->internal_image ?? null" :directory="null"
-                                    placeholder="internal-default.svg" type="editable" />
+                            <!-- Video URL -->
+                            <div class="col-md-6">
+                                <label for="video_inp" class="form-label">{{ __('Video URL') }}</label>
+                                <input type="text" name="video" id="video_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Video URL') }}">
                             </div>
 
-                            <div class="col-md-6 fv-row">
-                                <label for="video_inp" class="form-label fs-6 fw-bold">{{ __('Video URL') }}</label>
-                                <input type="url" name="video" class="form-control" id="video_inp"
-                                    value="{{ old('video', $article->video ?? '') }}">
+                            <!-- Status -->
+                            <div class="col-md-6">
+                                <label for="status_inp" class="form-label required">{{ __('Status') }}</label>
+                                <select name="status" id="status_inp"
+                                    class="form-select form-select-lg form-select-solid">
+                                    <option value="inactive">{{ __('Inactive') }}</option>
+                                    <option value="active">{{ __('Active') }}</option>
+                                </select>
                             </div>
-                        </div>
 
-                        <div class="fv-row mb-3">
-                            <label for="status_inp" class="form-label fs-6 fw-bold">{{ __('Status') }}</label>
-                            <select name="status" class="form-control" id="status_inp">
-                                <option value="draft"
-                                    {{ old('status', $article->status ?? '') == 'draft' ? 'selected' : '' }}>
-                                    {{ __('Draft') }}</option>
-                                <option value="published"
-                                    {{ old('status', $article->status ?? '') == 'published' ? 'selected' : '' }}>
-                                    {{ __('Published') }}</option>
-                                <option value="archived"
-                                    {{ old('status', $article->status ?? '') == 'archived' ? 'selected' : '' }}>
-                                    {{ __('Archived') }}</option>
-                            </select>
-                        </div>
+                            <!-- Category -->
+                            <div class="col-md-6">
+                                <label for="category_id_inp" class="form-label required">{{ __('Category') }}</label>
+                                <select name="category_id" id="category_id_inp"
+                                    class="form-select form-select-lg form-select-solid" required>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name_en }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <div class="fv-row mb-3">
-                            <label for="category_id_inp" class="form-label fs-6 fw-bold">{{ __('Category') }}</label>
-                            <select name="category_id" class="form-control" id="category_id_inp">
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category_id', $article->category_id ?? '') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <!-- Admin (hidden or select, depending on your setup) -->
+                            <input type="hidden" name="admin_id" value="{{ auth()->user()->id }}" />
 
-                        <div class="fv-row mb-3">
-                            <label for="schedule_inp" class="form-label fs-6 fw-bold">{{ __('Schedule Date') }}</label>
-                            <input type="date" name="schedule" class="form-control" id="schedule_inp"
-                                value="{{ old('schedule', $article->schedule ?? '') }}">
-                        </div>
+                            <!-- Campaign -->
+                            <div class="col-md-6">
+                                <label for="campaign_id_inp" class="form-label">{{ __('Campaign') }}</label>
+                                <select name="campaign_id" id="campaign_id_inp"
+                                    class="form-select form-select-lg form-select-solid">
+                                    <option value="">{{ __('No campaign') }}</option>
+                                    @foreach ($campaigns as $campaign)
+                                        <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <div class="fv-row mt-5 form-check">
-                            <input type="hidden" name="is_slide_show" value="0">
-                            <input type="checkbox" name="is_slide_show" class="form-check-input" id="is_slide_show"
-                                value="1"
-                                {{ old('is_slide_show', $article->is_slide_show ?? 0) == 1 ? 'checked' : '' }}>
-                            <label for="is_slide_show">{{ __('Feature in Slideshow') }}</label>
-                        </div>
+                            <!-- Tag -->
+                            <div class="col-md-6">
+                                <label for="tag_id_inp" class="form-label">{{ __('Tag') }}</label>
+                                <select name="tag_id" id="tag_id_inp"
+                                    class="form-select form-select-lg form-select-solid">
+                                    <option value="">{{ __('No tag') }}</option>
+                                    @foreach ($tags as $tag)
+                                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
+                            <!-- Meta fields -->
+                            <div class="col-md-4">
+                                <label for="meta_title_inp" class="form-label">{{ __('Meta Title') }}</label>
+                                <input type="text" name="meta_title" id="meta_title_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Meta Title') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="meta_description_inp" class="form-label">{{ __('Meta Description') }}</label>
+                                <textarea name="meta_description" id="meta_description_inp" rows="2" class="form-control"
+                                    placeholder="{{ __('Meta Description') }}"></textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="meta_keywords_inp" class="form-label">{{ __('Meta Keywords') }}</label>
+                                <input type="text" name="meta_keywords" id="meta_keywords_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Meta Keywords') }}">
+                            </div>
+
+                            <!-- HTML Tags -->
+                            <div class="col-12">
+                                <label for="html_tags_inp" class="form-label">{{ __('HTML Content') }}</label>
+                                <textarea name="html_tags" id="html_tags_inp" rows="3" class="form-control"
+                                    placeholder="{{ __('HTML Content') }}"></textarea>
+                            </div>
+
+                            <!-- Flags & integers -->
+                            <div class="col-md-3">
+                                <label for="img_or_vid_inp"
+                                    class="form-label">{{ __('Image or Video (img_or_vid)') }}</label>
+                                <input type="number" name="img_or_vid" id="img_or_vid_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('img_or_vid') }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="is_slide_show_inp"
+                                    class="form-label required">{{ __('Is Slide Show') }}</label>
+                                <select name="is_slide_show" id="is_slide_show_inp"
+                                    class="form-select form-select-lg form-select-solid" required>
+                                    <option value="0">{{ __('No') }}</option>
+                                    <option value="1">{{ __('Yes') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="is_latest_inp" class="form-label">{{ __('Is Latest') }}</label>
+                                <select name="is_latest" id="is_latest_inp"
+                                    class="form-select form-select-lg form-select-solid">
+                                    <option value="0">{{ __('No') }}</option>
+                                    <option value="1">{{ __('Yes') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="views_inp" class="form-label">{{ __('Views') }}</label>
+                                <input type="number" name="views" id="views_inp"
+                                    class="form-control form-control-lg form-control-solid" value="0" min="0"
+                                    placeholder="{{ __('Views') }}">
+                            </div>
+
+                            <!-- Schedule -->
+                            <div class="col-md-6">
+                                <label for="schedule_inp" class="form-label">{{ __('Schedule Date') }}</label>
+                                <input type="date" name="schedule" id="schedule_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Schedule Date') }}">
+                            </div>
+
+                            <!-- Slug -->
+                            <div class="col-md-6">
+                                <label for="slug_inp" class="form-label required">{{ __('Slug') }}</label>
+                                <input type="text" name="slug" id="slug_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Slug') }}" required>
+                            </div>
+
+                            <!-- Names -->
+                            <div class="col-md-6">
+                                <label for="name_ar_inp" class="form-label required">{{ __('Name In Arabic') }}</label>
+                                <input type="text" name="name_ar" id="name_ar_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Name In Arabic') }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name_en_inp" class="form-label required">{{ __('Name In English') }}</label>
+                                <input type="text" name="name_en" id="name_en_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Name In English') }}" required>
+                            </div>
+
+                            <!-- Descriptions -->
+                            <div class="col-md-6">
+                                <label for="description_ar_inp"
+                                    class="form-label required">{{ __('Description in Arabic') }}</label>
+                                <textarea name="description_ar" id="description_ar_inp" rows="3" class="form-control"
+                                    placeholder="{{ __('Description In Arabic') }}" required></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="description_en_inp"
+                                    class="form-label required">{{ __('Description in English') }}</label>
+                                <textarea name="description_en" id="description_en_inp" rows="3" class="form-control"
+                                    placeholder="{{ __('Description In English') }}" required></textarea>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="col-md-6">
+                                <label for="content_ar_inp" class="form-label">{{ __('Content in Arabic') }}</label>
+                                <textarea name="content_ar" id="content_ar_inp" rows="5" class="form-control"
+                                    placeholder="{{ __('Content In Arabic') }}"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="content_en_inp" class="form-label">{{ __('Content in English') }}</label>
+                                <textarea name="content_en" id="content_en_inp" rows="5" class="form-control"
+                                    placeholder="{{ __('Content In English') }}"></textarea>
+                            </div>
+
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -312,159 +384,13 @@
                             data-bs-dismiss="modal">{{ __('Close') }}</button>
                         <button type="submit" class="btn btn-primary">
                             <span class="indicator-label">{{ __('Save') }}</span>
-                            <span class="indicator-progress">{{ __('Please wait...') }} <span
-                                    class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                            <span class="indicator-progress">
+                                {{ __('Please wait...') }} <span
+                                    class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
                         </button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    <form id="crud_form" class="ajax-form" action="{{ route('dashboard.articles.store') }}" method="POST"
-        enctype="multipart/form-data" data-success-callback="onAjaxSuccess" data-error-callback="onAjaxError">
-        @csrf
-        <input type="hidden" name="_method" value="{{ isset($article) ? 'PUT' : 'POST' }}">
 
-        <div class="modal fade modal-lg" tabindex="-1" id="crud_modal">
-            <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="form_title">
-                            {{ isset($article) ? __('Edit Article') : __('Add New Article') }}</h5>
-                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
-                            aria-label="Close">
-                            <i class="ki-outline ki-cross fs-1"></i>
-                        </div>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6 fv-row">
-                                <label for="name_ar_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Name (Arabic)') }}</label>
-                                <input type="text" name="name_ar" class="form-control" id="name_ar_inp"
-                                    placeholder="{{ __('Arabic Title') }}"
-                                    value="{{ old('name_ar', $article->name_ar ?? '') }}">
-                            </div>
-
-                            <div class="col-md-6 fv-row">
-                                <label for="name_en_inp"
-                                    class="form-label required fs-6 fw-bold">{{ __('Name (English)') }}</label>
-                                <input type="text" name="name_en" class="form-control" id="name_en_inp"
-                                    placeholder="{{ __('English Title') }}"
-                                    value="{{ old('name_en', $article->name_en ?? '') }}">
-                            </div>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="description_ar_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Description (Arabic)') }}</label>
-                            <textarea name="description_ar" class="form-control" id="description_ar_inp" rows="3"
-                                placeholder="{{ __('Description in Arabic') }}">{{ old('description_ar', $article->description_ar ?? '') }}</textarea>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="description_en_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Description (English)') }}</label>
-                            <textarea name="description_en" class="form-control" id="description_en_inp" rows="3"
-                                placeholder="{{ __('Description in English') }}">{{ old('description_en', $article->description_en ?? '') }}</textarea>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="content_ar_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Content (Arabic)') }}</label>
-                            <textarea name="content_ar" class="form-control" id="content_ar_inp" rows="5"
-                                placeholder="{{ __('Content in Arabic') }}">{{ old('content_ar', $article->content_ar ?? '') }}</textarea>
-                        </div>
-
-                        <div class="fv-row mb-4">
-                            <label for="content_en_inp"
-                                class="form-label required fs-6 fw-bold">{{ __('Content (English)') }}</label>
-                            <textarea name="content_en" class="form-control" id="content_en_inp" rows="5"
-                                placeholder="{{ __('Content in English') }}">{{ old('content_en', $article->content_en ?? '') }}</textarea>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 fv-row">
-                                <label for="image_inp" class="form-label fs-6 fw-bold">{{ __('Image') }}</label>
-                                <x-dashboard.upload-image-inp name="image" :image="$article->image ?? null" :directory="null"
-                                    placeholder="default.svg" type="editable" />
-                            </div>
-
-                            <div class="col-md-6 fv-row">
-                                <label for="slide_image_inp"
-                                    class="form-label fs-6 fw-bold">{{ __('Slide Image') }}</label>
-                                <x-dashboard.upload-image-inp name="slide_image" :image="$article->slide_image ?? null" :directory="null"
-                                    placeholder="slide-default.svg" type="editable" />
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 fv-row">
-                                <label for="internal_image_inp"
-                                    class="form-label fs-6 fw-bold">{{ __('Internal Image') }}</label>
-                                <x-dashboard.upload-image-inp name="internal_image" :image="$article->internal_image ?? null" :directory="null"
-                                    placeholder="internal-default.svg" type="editable" />
-                            </div>
-
-                            <div class="col-md-6 fv-row">
-                                <label for="video_inp" class="form-label fs-6 fw-bold">{{ __('Video URL') }}</label>
-                                <input type="url" name="video" class="form-control" id="video_inp"
-                                    value="{{ old('video', $article->video ?? '') }}">
-                            </div>
-                        </div>
-
-                        <div class="fv-row mb-3">
-                            <label for="status_inp" class="form-label fs-6 fw-bold">{{ __('Status') }}</label>
-                            <select name="status" class="form-control" id="status_inp">
-                                <option value="draft"
-                                    {{ old('status', $article->status ?? '') == 'draft' ? 'selected' : '' }}>
-                                    {{ __('Draft') }}</option>
-                                <option value="published"
-                                    {{ old('status', $article->status ?? '') == 'published' ? 'selected' : '' }}>
-                                    {{ __('Published') }}</option>
-                                <option value="archived"
-                                    {{ old('status', $article->status ?? '') == 'archived' ? 'selected' : '' }}>
-                                    {{ __('Archived') }}</option>
-                            </select>
-                        </div>
-
-                        <div class="fv-row mb-3">
-                            <label for="category_id_inp" class="form-label fs-6 fw-bold">{{ __('Category') }}</label>
-                            <select name="category_id" class="form-control" id="category_id_inp">
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category_id', $article->category_id ?? '') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="fv-row mb-3">
-                            <label for="schedule_inp" class="form-label fs-6 fw-bold">{{ __('Schedule Date') }}</label>
-                            <input type="date" name="schedule" class="form-control" id="schedule_inp"
-                                value="{{ old('schedule', $article->schedule ?? '') }}">
-                        </div>
-
-                        <div class="fv-row mt-5 form-check">
-                            <input type="hidden" name="is_slide_show" value="0">
-                            <input type="checkbox" name="is_slide_show" class="form-check-input" id="is_slide_show"
-                                value="1"
-                                {{ old('is_slide_show', $article->is_slide_show ?? 0) == 1 ? 'checked' : '' }}>
-                            <label for="is_slide_show">{{ __('Feature in Slideshow') }}</label>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light"
-                            data-bs-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">{{ __('Save') }}</span>
-                            <span class="indicator-progress">{{ __('Please wait...') }} <span
-                                    class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
