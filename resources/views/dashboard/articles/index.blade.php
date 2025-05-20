@@ -169,9 +169,6 @@
     <!--end::Basic info-->
 
 
-    {{-- begin::Add Country Modal --}}
-    {{-- begin::Add Event Modal --}}
-
     <form id="crud_form" class="ajax-form" action="{{ route('dashboard.articles.store') }}" method="POST"
         enctype="multipart/form-data" data-success-callback="onAjaxSuccess" data-error-callback="onAjaxError">
         @csrf
@@ -185,82 +182,155 @@
                             data-bs-dismiss="modal" aria-label="Close">
                             <i class="ki-outline ki-cross fs-1"></i>
                         </button>
+
+                        {{-- <div class="form-check form-switch ms-4">
+                            <input class="form-check-input" type="checkbox" id="status_inp" name="status"
+                                value="active">
+                            <label class="form-check-label" for="status_inp">
+                                {{ __('Active') }}
+                            </label>
+                        </div> --}}
                     </div>
 
+
                     <div class="modal-body">
-                        <div class="row g-3">
-                            <!-- Images -->
-                            <div class="col-md-4">
-                                <label class="form-label required">{{ __('Main Image') }}</label>
+                        <div class=" d-flex flex-row justify-content-center gap-20 mb-5">
+
+
+                            <div class="d-flex flex-column justify-content-center">
+                                <label for="image_inp"
+                                    class="form-label required text-center fs-6 fw-bold mb-3">{{ __('Image') }}</label>
                                 <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable" />
+                                    placeholder="default.svg" type="editable"></x-dashboard.upload-image-inp>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label required">{{ __('Slide Image') }}</label>
-                                <x-dashboard.upload-image-inp name="slide_image" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable" />
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label required">{{ __('Internal Image') }}</label>
+
+                            <div class="d-flex flex-column justify-content-center">
+                                <label for="cover_picture_inp"
+                                    class="form-label required text-center fs-6 fw-bold mb-3">{{ __('Cover') }}</label>
                                 <x-dashboard.upload-image-inp name="internal_image" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable" />
+                                    placeholder="default.svg" type="editable"></x-dashboard.upload-image-inp>
                             </div>
 
-                            <!-- Video URL -->
-                            <div class="col-md-6">
-                                <label for="video_inp" class="form-label">{{ __('Video URL') }}</label>
-                                <input type="text" name="video" id="video_inp"
-                                    class="form-control form-control-lg form-control-solid"
-                                    placeholder="{{ __('Video URL') }}">
-                            </div>
+                            <input type="hidden" name="admin_id" value="{{ auth()->user()->id }}" />
+                        </div>
 
-                            <!-- Status -->
-                            <div class="col-md-6">
-                                <label for="status_inp" class="form-label required">{{ __('Status') }}</label>
-                                <select name="status" id="status_inp"
-                                    class="form-select form-select-lg form-select-solid">
-                                    <option value="inactive">{{ __('Inactive') }}</option>
-                                    <option value="active">{{ __('Active') }}</option>
-                                </select>
-                            </div>
 
+                        <div class="row">
                             <!-- Category -->
-                            <div class="col-md-6">
-                                <label for="category_id_inp" class="form-label required">{{ __('Category') }}</label>
-                                <select name="category_id" id="category_id_inp"
-                                    class="form-select form-select-lg form-select-solid" required>
+                            <div class="col-md-4">
+                                <label for="category_id_inp" class="form-label ">{{ __('Category') }}</label>
+                                <select name="category_id" id="category_id_inp" class="form-select form-select-solid"
+                                    data-control="select2" data-placeholder="{{ __('Select category') }}"
+                                    data-dir="{{ getDirection() }}" data-allow-clear="true">
+                                    <option value=""></option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name_en }}</option>
                                     @endforeach
                                 </select>
+                                <div class="fv-plugins-message-container invalid-feedback" id="category_id"></div>
+
                             </div>
 
-                            <!-- Admin (hidden or select, depending on your setup) -->
-                            <input type="hidden" name="admin_id" value="{{ auth()->user()->id }}" />
-
                             <!-- Campaign -->
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="campaign_id_inp" class="form-label">{{ __('Campaign') }}</label>
-                                <select name="campaign_id" id="campaign_id_inp"
-                                    class="form-select form-select-lg form-select-solid">
-                                    <option value="">{{ __('No campaign') }}</option>
+                                <select name="campaign_id[]" id="campaign_id_inp" class="form-select form-select-solid"
+                                    data-control="select2" data-placeholder="{{ __('Select campaign') }}"
+                                    data-dir="{{ getDirection() }}" data-allow-clear="true" multiple>
                                     @foreach ($campaigns as $campaign)
                                         <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                                <div class="fv-plugins-message-container invalid-feedback" id="campaign_id"></div>
 
-                            <!-- Tag -->
-                            <div class="col-md-6">
-                                <label for="tag_id_inp" class="form-label">{{ __('Tag') }}</label>
-                                <select name="tag_id" id="tag_id_inp"
-                                    class="form-select form-select-lg form-select-solid">
-                                    <option value="">{{ __('No tag') }}</option>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tag_id_inp" class="form-label">{{ __('Tags') }}</label>
+                                <select name="tag_id[]" id="tag_id_inp" class="form-select form-select-solid"
+                                    data-control="select2" data-placeholder="{{ __('Select tags') }}"
+                                    data-dir="{{ getDirection() }}" multiple>
                                     @foreach ($tags as $tag)
                                         <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                     @endforeach
                                 </select>
+                                <div class="fv-plugins-message-container invalid-feedback" id="tag_id"></div>
+
                             </div>
+
+                        </div>
+                        <div class="row mt-10">
+                            <!-- Names -->
+                            <div class="col-md-6">
+                                <label for="name_ar_inp" class="form-label required">{{ __('Name In Arabic') }}</label>
+                                <input type="text" name="name_ar" id="name_ar_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Name In Arabic') }}">
+                                <div class="fv-plugins-message-container invalid-feedback" id="name_ar"></div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name_en_inp" class="form-label required">{{ __('Name In English') }}</label>
+                                <input type="text" name="name_en" id="name_en_inp"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="{{ __('Name In English') }}">
+                                <div class="fv-plugins-message-container invalid-feedback" id="name_en"></div>
+
+                            </div>
+                        </div>
+
+                        <div class="row mt-10">
+                            <!-- Descriptions -->
+                            <div class="col-md-6">
+                                <label for="description_ar_inp"
+                                    class="form-label required">{{ __('Description in Arabic') }}</label>
+                                <textarea name="description_ar" id="description_ar_inp" rows="3" class="form-control"
+                                    placeholder="{{ __('Description In Arabic') }}"></textarea>
+                                <div class="fv-plugins-message-container invalid-feedback" id="description_ar"></div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="description_en_inp"
+                                    class="form-label required">{{ __('Description in English') }}</label>
+                                <textarea name="description_en" id="description_en_inp" rows="3" class="form-control"
+                                    placeholder="{{ __('Description In English') }}"></textarea>
+                                <div class="fv-plugins-message-container invalid-feedback" id="description_en"></div>
+
+                            </div>
+                        </div>
+
+                        <div class="row mt-10">
+                            <!-- Content -->
+                            <div class="col-md-12">
+                                <label for="content_ar_inp" class="form-label">{{ __('Content in Arabic') }}</label>
+                                <textarea name="content_ar" id="content_ar_inp" rows="5" class="form-control  tinymce-editor tinymce"
+                                    placeholder="{{ __('Content in Arabic') }}"></textarea>
+                                <div class="fv-plugins-message-container invalid-feedback" id="content_ar"></div>
+
+                            </div>
+                            <div class="col-md-12 mt-10">
+                                <label for="content_en_inp" class="form-label">{{ __('Content in English') }}</label>
+                                <textarea name="content_en" id="content_en_inp" rows="5" class="form-control  tinymce-editor tinymce"
+                                    placeholder="{{ __('Content in English') }}"></textarea>
+                                <div class="fv-plugins-message-container invalid-feedback" id="content_en"></div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div>
+                            <select class="form-select" name="status" required>
+                                <option value="published">{{ __('Published') }}</option>
+                                <option value="draft">{{ __('Draft') }}</option>
+                                <option value="archived">{{ __('Archived') }}</option>
+                            </select>
+
+                        </div>
+
+
+
+                        {{-- <!-- Tags (multiple) -->
+
 
                             <!-- Meta fields -->
                             <div class="col-md-4">
@@ -300,7 +370,7 @@
                                 <label for="is_slide_show_inp"
                                     class="form-label required">{{ __('Is Slide Show') }}</label>
                                 <select name="is_slide_show" id="is_slide_show_inp"
-                                    class="form-select form-select-lg form-select-solid" required>
+                                    class="form-select form-select-lg form-select-solid">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
@@ -333,50 +403,13 @@
                                 <label for="slug_inp" class="form-label required">{{ __('Slug') }}</label>
                                 <input type="text" name="slug" id="slug_inp"
                                     class="form-control form-control-lg form-control-solid"
-                                    placeholder="{{ __('Slug') }}" required>
-                            </div>
+                                    placeholder="{{ __('Slug') }}">
+                            </div> --}}
 
-                            <!-- Names -->
-                            <div class="col-md-6">
-                                <label for="name_ar_inp" class="form-label required">{{ __('Name In Arabic') }}</label>
-                                <input type="text" name="name_ar" id="name_ar_inp"
-                                    class="form-control form-control-lg form-control-solid"
-                                    placeholder="{{ __('Name In Arabic') }}" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="name_en_inp" class="form-label required">{{ __('Name In English') }}</label>
-                                <input type="text" name="name_en" id="name_en_inp"
-                                    class="form-control form-control-lg form-control-solid"
-                                    placeholder="{{ __('Name In English') }}" required>
-                            </div>
 
-                            <!-- Descriptions -->
-                            <div class="col-md-6">
-                                <label for="description_ar_inp"
-                                    class="form-label required">{{ __('Description in Arabic') }}</label>
-                                <textarea name="description_ar" id="description_ar_inp" rows="3" class="form-control"
-                                    placeholder="{{ __('Description In Arabic') }}" required></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="description_en_inp"
-                                    class="form-label required">{{ __('Description in English') }}</label>
-                                <textarea name="description_en" id="description_en_inp" rows="3" class="form-control"
-                                    placeholder="{{ __('Description In English') }}" required></textarea>
-                            </div>
 
-                            <!-- Content -->
-                            <div class="col-md-6">
-                                <label for="content_ar_inp" class="form-label">{{ __('Content in Arabic') }}</label>
-                                <textarea name="content_ar" id="content_ar_inp" rows="5" class="form-control"
-                                    placeholder="{{ __('Content In Arabic') }}"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="content_en_inp" class="form-label">{{ __('Content in English') }}</label>
-                                <textarea name="content_en" id="content_en_inp" rows="5" class="form-control"
-                                    placeholder="{{ __('Content In English') }}"></textarea>
-                            </div>
 
-                        </div>
+
                     </div>
 
                     <div class="modal-footer">
@@ -397,6 +430,12 @@
     </form>
 @endsection
 @push('scripts')
+    <script src="{{ asset('assets/dashboard/plugins/custom/tinymce/tinymce.bundle.js') }}"></script>
+    <script>
+        $(document).ready(() => {
+            initTinyMc();
+        })
+    </script>
     <script src="{{ asset('assets/dashboard/js/global/datatable-config.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('assets/dashboard/js/datatables/articles.js') }}"></script>
@@ -411,11 +450,59 @@
                 $("#form_title").text(__('Add new event'));
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
-                $("#crud_form").attr('action', `/dashboard/events`);
+                $("#crud_form").attr('action', `/dashboard/articles`);
                 $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
             });
 
 
+        });
+    </script>
+
+
+
+    <script>
+        let language = locale == 'en' ? 'ltr' : 'rtl';
+
+        tinymce.init({
+            selector: "#content_ar_inp",
+            height: 480,
+            menubar: false,
+            toolbar: [
+                'undo redo | cut copy paste | styleselect fontselect fontsizeselect',
+                'bold italic underline strikethrough subscript superscript | forecolor backcolor',
+                'alignleft aligncenter alignright alignjustify | outdent indent | ltr rtl',
+                'bullist numlist | blockquote hr removeformat',
+                'link image media table charmap emoticons anchor',
+                'searchreplace code fullscreen preview print'
+            ]
+
+            directionality: language === 'rtl' ? 'rtl' : 'ltr',
+            plugins: [
+                'advlist autolink link image lists charmap print preview hr anchor',
+                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'table emoticons paste help directionality'
+            ],
+        });
+
+        tinymce.init({
+            selector: "#content_en_inp",
+            height: 480,
+            menubar: false,
+            toolbar: [
+                'undo redo | cut copy paste | styleselect fontselect fontsizeselect',
+                'bold italic underline strikethrough subscript superscript | forecolor backcolor',
+                'alignleft aligncenter alignright alignjustify | outdent indent | ltr rtl',
+                'bullist numlist | blockquote hr removeformat',
+                'link image media table charmap emoticons anchor',
+                'searchreplace code fullscreen preview print'
+            ]
+
+            directionality: language === 'rtl' ? 'rtl' : 'ltr',
+            plugins: [
+                'advlist autolink link image lists charmap print preview hr anchor',
+                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'table emoticons paste help directionality'
+            ],
         });
     </script>
 @endpush

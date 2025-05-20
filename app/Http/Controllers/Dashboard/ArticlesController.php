@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\StoreArticleRequest as DashboardStoreArticleRequest;
 use App\Http\Requests\Dashboard\StoreEventRequest;
 use App\Http\Requests\Dashboard\UpdateEventRequest;
 use App\Http\Requests\StoreArticleRequest;
 use App\Models\Agenda;
 use App\Models\Article;
+use App\Models\Campaign;
 use App\Models\Category;
 use App\Models\Day;
 use App\Models\DaysEvent;
 use App\Models\Event;
+use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -20,7 +23,8 @@ class ArticlesController extends Controller
     /**
      * Display a listing of the resource.
      */
-  public function index(Request $request)
+
+public function index(Request $request)
 {
     $this->authorize('view_articles');
 
@@ -28,16 +32,20 @@ class ArticlesController extends Controller
         $data = getModelData(model: new Article());
         return response()->json($data);
     } else {
-        // Fetch categories to pass to the view
         $categories = Category::all();
-        return view('dashboard.articles.index', compact('categories'));
+        $campaigns = Campaign::all();
+        $tags = Tag::all();  // <-- add this line
+
+        return view('dashboard.articles.index', compact('categories', 'campaigns', 'tags'));
     }
 }
 
 
 
 
-    public function store(StoreArticleRequest $request)
+
+
+    public function store(DashboardStoreArticleRequest $request)
     {
         $this->authorize('create_article'); // Ensure the user is authorized to create an article
 

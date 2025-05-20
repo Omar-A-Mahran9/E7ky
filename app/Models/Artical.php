@@ -58,9 +58,15 @@ class Article extends Model
         return asset(getImagePathFromDirectory($this->internal_image, 'Articles/internal', 'default.svg'));
     }
 
-    public function tags()
-{
-    return $this->belongsToMany(Tag::class, 'article_tag');
-}
+        public function tags()
+        {
+            return $this->belongsToMany(Tag::class);
+        }
+
+        public function campaigns()
+        {
+            return $this->belongsToMany(Campaign::class);
+        }
+
 
 }

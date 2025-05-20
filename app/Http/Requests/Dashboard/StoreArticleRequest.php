@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests;
+namespace App\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,15 +19,18 @@ class StoreArticleRequest extends FormRequest
             'description_en' => 'required|string',
             'content_ar' => 'required|string',
             'content_en' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'internal_image' => 'required|image|mimes:jpeg,png,jpg,gif',
             'slide_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'internal_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'video' => 'nullable|url',
             'status' => 'required|string|in:published,draft,archived',
             'category_id' => 'required|exists:categories,id',
             'schedule' => 'nullable|date',
             'is_slide_show' => 'nullable|boolean',
-            'tag_id' => 'nullable|exists:tags,id',
+            'tag_id' => 'required|array',
+            'tag_id.*' => 'exists:tags,id',
+            'campaign_id' => 'required|array',
+            'campaign_id.*' => 'exists:campaigns,id',
         ];
     }
 }
