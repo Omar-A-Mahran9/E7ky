@@ -45,18 +45,20 @@ class Article extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Articles', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->image, '', 'default.svg'));
     }
 
     public function getFullSlideImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->slide_image, 'Articles/slides', 'default.svg'));
+                return asset(getImagePathFromDirectory($this->slide_image, 'uploads', 'default.svg'));
+
+        // return asset(getImagePathFromDirectory($this->slide_image, 'Articles/slides', 'default.svg'));
     }
 
     public function getFullInternalImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->internal_image, 'Articles/internal', 'default.svg'));
-    }
+        return asset(getImagePathFromDirectory($this->internal_image, '', 'default.svg'));
+    }// public/uploads/1482049942.jpg
 
         public function tags()
         {

@@ -9,6 +9,7 @@ class ArticleResource extends JsonResource
 {
   public function toArray($request)
     {
+
         return [
             'id'                 => $this->id,
             'name_ar'            => $this->name_ar,
@@ -17,7 +18,7 @@ class ArticleResource extends JsonResource
             'description_en'     => $this->description_en,
             'content_ar'         => $this->content_ar,
             'content_en'         => $this->content_en,
-            'image'              => $this->image_url, // Optional accessor
+            'image'              => $this->full_image_path, // Optional accessor
             'slide_image'        => $this->slide_image,
             'internal_image'     => $this->internal_image,
             'video'              => $this->video,
