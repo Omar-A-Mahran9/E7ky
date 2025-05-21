@@ -16,7 +16,7 @@ class ArticalController extends Controller
         $articles = Article::latest()->get();
 
         return $this->success('Articles fetched successfully', [
-            'articles' => CategoryResource::collection($articles),
+            'articles' => ArticleResource::collection($articles),
         ]);
     }
 

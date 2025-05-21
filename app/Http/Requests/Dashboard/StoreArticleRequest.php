@@ -24,7 +24,7 @@ class StoreArticleRequest extends FormRequest
             'slide_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'video' => 'nullable|url',
             'status' => 'required|string|in:published,draft,archived',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:articles_categories,id',
             'schedule' => 'nullable|date',
             'is_slide_show' => 'nullable|boolean',
             'tag_id' => 'required|array',

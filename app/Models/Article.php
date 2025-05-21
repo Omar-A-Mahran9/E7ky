@@ -67,6 +67,14 @@ class Article extends Model
         {
             return $this->belongsToMany(Campaign::class);
         }
+         public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 
 }

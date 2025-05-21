@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreArticleRequest as DashboardStoreArticleRequest;
-use App\Http\Requests\Dashboard\StoreEventRequest;
-use App\Http\Requests\Dashboard\UpdateEventRequest;
-use App\Http\Requests\StoreArticleRequest;
-use App\Models\Agenda;
+use Illuminate\Support\Str;
+  use App\Models\Agenda;
 use App\Models\Article;
 use App\Models\Campaign;
 use App\Models\Category;
@@ -45,50 +43,30 @@ public function index(Request $request)
 
 
 
-    public function store(DashboardStoreArticleRequest $request)
-    {
-        $this->authorize('create_article'); // Ensure the user is authorized to create an article
+   public function store(DashboardStoreArticleRequest $request)
+{
+    $this->authorize('create_articles');
 
-        $validated_data = $request->validated();
+    $data = $request->validated();
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $validated_data['image'] = uploadImageToDirectory($request->file('image'), 'Articles');
-        }
+    $data['image'] = uploadImageToDirectory($request->file('image'), 'Articles');
+    $data['internal_image'] = uploadImageToDirectory($request->file('internal_image'), 'Articles/Internal');
 
-        // Handle slide image upload
-        if ($request->hasFile('slide_image')) {
-            $validated_data['slide_image'] = uploadImageToDirectory($request->file('slide_image'), 'Articles/Slides');
-        }
+    $data['slide_image'] = $request->hasFile('slide_image')
+        ? uploadImageToDirectory($request->file('slide_image'), 'Articles/Slides')
+        : null;
 
-        // Handle internal image upload
-        if ($request->hasFile('internal_image')) {
-            $validated_data['internal_image'] = uploadImageToDirectory($request->file('internal_image'), 'Articles/Internal');
-        }
+    $data['slug'] = Str::slug($data['name_en']);
+    $data['admin_id'] = auth()->id();
+        unset($data['tag_id']);  // remove tag_id from $data array if exists
+    unset($data['campaign_id']);  // also remove campaign_id if present in $data
+    $article = Article::create($data);
 
-        // Handle video URL
-        if ($request->has('video')) {
-            $validated_data['video'] = $request->input('video');
-        }
+    $article->tags()->attach($request->tag_id);
+    $article->campaigns()->attach($request->campaign_id);
 
-        // Set the slug for the article (e.g., based on the title)
-        $validated_data['slug'] = Str::slug($validated_data['name_en']);
 
-        // Create the article
-        $article = Article::create($validated_data);
-
-        // Optionally handle article tagging, campaign, and other related models if needed.
-        if ($request->has('tag_id')) {
-            $article->tags()->attach($request->tag_id); // Assuming a many-to-many relationship
-        }
-
-        // Return a success response with the created article
-        return response()->json([
-            'message' => 'Article created successfully!',
-            'article' => $article,
-        ], 201);
-    }
-
+}
 
 
     public function update(UpdateEventRequest $request,Event $event)
