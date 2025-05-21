@@ -131,7 +131,7 @@ if (!function_exists('getImagePathFromDirectory')) {
         $directory = Str::plural($directory);
         $directory = Str::ucfirst($directory);
 
-        $imagePath         = "/storage/Images/$directory/$imageName";
+        $imagePath         = "/storage/Images/$imageName";
         $callbackImagePath = "placeholder_images/$directory/$defaultImage";
 
         if ($imageName && $directory && file_exists(public_path($imagePath))) {
