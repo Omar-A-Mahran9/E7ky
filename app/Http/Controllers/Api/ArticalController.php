@@ -11,14 +11,13 @@ use App\Models\Category;
 class ArticalController extends Controller
 {
 
-    public function index()
-    {
-        $articles = Article::latest()->get();
+ public function index()
+{
+    $articles = Article::latest()->paginate(10);
 
-        return $this->success('Articles fetched successfully', [
-            'articles' => ArticleResource::collection($articles),
-        ]);
-    }
+    return $this->successWithPagination('Articles fetched successfully', ArticleResource::collection($articles)->response()->getData(true));
+}
+
 
   public function fetchAllCategories()
 {
