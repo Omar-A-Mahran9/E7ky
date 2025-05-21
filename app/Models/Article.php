@@ -45,7 +45,7 @@ class Article extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, '/', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->image, null, 'default.svg'));
     }
 
     public function getFullSlideImagePathAttribute()
