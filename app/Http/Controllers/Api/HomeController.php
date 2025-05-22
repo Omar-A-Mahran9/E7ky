@@ -38,9 +38,7 @@ public function index()
 
     return $this->success('Data fetched successfully', data: [
         'banners' => EventResource::collection($banners),
-        'cycle_tracking' => $cycle_tracking,
-        'articles' => ArticleResource::collection($articles),
-        'invite_friend' => $invite_friend,
-    ]);
+         'articles' => ArticleResource::collection($articles),
+     ]);
 }
 }
