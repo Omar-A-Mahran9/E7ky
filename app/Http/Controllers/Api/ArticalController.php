@@ -33,6 +33,22 @@ public function index(Request $request)
         ArticleResource::collection($articles)->response()->getData(true)
     );
 }
+public function show($id)
+{
+    $article = Article::find($id);
+
+    if (!$article) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Article not found',
+        ], 404);
+    }
+
+    return $this->success(
+        'Article fetched successfully',
+        new ArticleResource($article)
+    );
+}
 
 
 public function fetchAllCategories()

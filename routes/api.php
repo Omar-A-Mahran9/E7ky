@@ -41,6 +41,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('check-otp/{data}', [ForgetPasswordController::class, 'checkOTP']);
     Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
     Route::get('articles', [ArticalController::class, 'index']);
+    Route::get('articles/{id}', [ArticalController::class, 'show']);
     Route::get('category', [ArticalController::class, 'fetchAllCategories']);
     Route::get('authors', [ArticalController::class, 'fetchAllAuthors']);
 
