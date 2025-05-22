@@ -16,10 +16,11 @@ class ArticleResource extends JsonResource
             'description'     => $this->description,
             'content'         => $this->content,
             'author' => [
+                'id'=>$this->admin ? $this->admin->id : null,
             'name'  => $this->admin ? $this->admin->name : null,
             'image' => $this->admin && $this->admin->image ? asset($this->admin->image) : null,
             ],
-                      'image'              => $this->full_image_path, // Optional accessor
+            'image'              => $this->full_image_path, // Optional accessor
             'slide_image'        => $this->slide_image,
             'internal_image'     => $this->internal_image,
             'video'              => $this->video,
