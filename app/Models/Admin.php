@@ -46,7 +46,7 @@ class Admin extends Authenticatable
     }
     public function articles()
 {
-    return $this->hasMany(Article::class, 'author_id'); // Adjust foreign key if different
+    return $this->hasMany(Article::class, 'admin_id'); // Adjust foreign key if different
 }
 
 }
