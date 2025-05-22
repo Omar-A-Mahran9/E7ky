@@ -229,7 +229,7 @@
                                     {{ __('Image') }}
                                 </label>
                                 <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable">
+                                    placeholder="default.png" type="editable">
                                 </x-dashboard.upload-image-inp>
                             </div>
 
@@ -309,14 +309,10 @@
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
                 $("#crud_form").attr('action', `/dashboard/splashes`);
-                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
+                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.png')`);
             });
 
 
         });
     </script>
-
-
-
-  
 @endpush

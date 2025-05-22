@@ -120,7 +120,7 @@
                                     {{ __('Image') }}
                                 </label>
                                 <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable">
+                                    placeholder="default.png" type="editable">
                                 </x-dashboard.upload-image-inp>
                             </div>
 
@@ -301,7 +301,7 @@
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
                 $("#crud_form").attr('action', `/dashboard/sessions`);
-                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
+                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.png')`);
             });
 
 
@@ -317,7 +317,7 @@
     <script src="{{ asset('assets/dashboard/js/map_create.js') }}"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu4T0sSqqn87uvqXHcUbbWpxt4NVyBW6w
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    &loading=async&libraries=places,drawing&callback=myMap&language=ar&region=EG">
     </script>
     <script>
         $(document).ready(function() {

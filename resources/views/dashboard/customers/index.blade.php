@@ -128,14 +128,14 @@
                                 <label for="image_inp"
                                     class="form-label required text-center fs-6 fw-bold mb-3">{{ __('Image') }}</label>
                                 <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable"></x-dashboard.upload-image-inp>
+                                    placeholder="default.png" type="editable"></x-dashboard.upload-image-inp>
                             </div>
 
                             <div class="d-flex flex-column justify-content-center">
                                 <label for="cover_picture_inp"
                                     class="form-label required text-center fs-6 fw-bold mb-3">{{ __('Cover') }}</label>
                                 <x-dashboard.upload-icon-inp name="cover_picture" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable"></x-dashboard.upload-icon-inp>
+                                    placeholder="default.png" type="editable"></x-dashboard.upload-icon-inp>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -360,7 +360,7 @@
                 $("#crud_form").trigger('reset');
                 $("#crud_form").attr('action', `/dashboard/customers`);
                 $("[for*='password']").addClass('required');
-                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
+                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.png')`);
             });
 
 

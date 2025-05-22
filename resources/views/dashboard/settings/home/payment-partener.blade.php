@@ -121,7 +121,7 @@
                             <label for="image_inp"
                                 class="form-label required text-center fs-6 fw-bold mb-3">{{ __('Image') }}</label>
                             <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
-                                placeholder="default.svg" type="editable"></x-dashboard.upload-image-inp>
+                                placeholder="default.png" type="editable"></x-dashboard.upload-image-inp>
                         </div>
                         <div class="fv-row mb-0 fv-plugins-icon-container">
                             <label for="name_ar_inp"

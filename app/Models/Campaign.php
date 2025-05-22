@@ -40,11 +40,11 @@ class Campaign extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Campaigns', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->image, 'Campaigns', 'default.png'));
     }
 
     public function getFullImgForMobPathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->img_for_mob, 'Campaigns/mobile', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->img_for_mob, 'Campaigns/mobile', 'default.png'));
     }
 }

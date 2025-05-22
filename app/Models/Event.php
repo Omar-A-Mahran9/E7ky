@@ -29,13 +29,13 @@ class Event extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Events', "default.svg"));
+        return asset(getImagePathFromDirectory($this->image, 'Events', "default.png"));
     }
 
 
     public function getFullEventMapAttribute()
     {
-        return asset(getImagePathFromDirectory($this->event_map, 'Events', "default.svg"));
+        return asset(getImagePathFromDirectory($this->event_map, 'Events', "default.png"));
     }
     public function getNameAttribute()
     {

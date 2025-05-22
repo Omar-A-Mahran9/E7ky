@@ -44,11 +44,11 @@ class Category extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Categories', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->image, 'Categories', 'default.png'));
     }
 
     public function getFullImgForMobPathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->img_for_mob, 'Categories/mobile', 'default.svg'));
+        return asset(getImagePathFromDirectory($this->img_for_mob, 'Categories/mobile', 'default.png'));
     }
 }

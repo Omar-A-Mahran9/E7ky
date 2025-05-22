@@ -18,7 +18,7 @@ class Talk extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Events', "default.svg"));
+        return asset(getImagePathFromDirectory($this->image, 'Events', "default.png"));
     }
 
     public function event()

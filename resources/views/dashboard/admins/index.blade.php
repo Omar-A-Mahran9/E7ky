@@ -231,7 +231,7 @@
                 $("#crud_form").trigger('reset');
                 $("#crud_form").attr('action', `/dashboard/admins`);
                 $("[for*='password']").addClass('required')
-                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
+                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.png')`);
             });
 
 

@@ -17,7 +17,7 @@ class Agenda extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Customers', "default.svg"));
+        return asset(getImagePathFromDirectory($this->image, 'Customers', "default.png"));
     }
     public function getNameAttribute()
     {

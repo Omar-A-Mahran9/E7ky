@@ -56,7 +56,7 @@ class Customer extends Authenticatable
     }
 
 
-  
+
 
     public function booking(): HasMany
     {
@@ -73,7 +73,7 @@ class Customer extends Authenticatable
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Customers', "default.svg"));
+        return asset(getImagePathFromDirectory($this->image, 'Customers', "default.png"));
     }
 
     public function getFullCoverPictureAttribute()
@@ -82,10 +82,10 @@ class Customer extends Authenticatable
         $coverPicture = $this->attributes['cover_picture'] ?? null;
 
         if (!$coverPicture) {
-            return asset('placeholder_images/default.svg');
+            return asset('placeholder_images/default.png');
         }
 
-        return asset(getImagePathFromDirectory($coverPicture, 'Customers/Covers', "default.svg"));
+        return asset(getImagePathFromDirectory($coverPicture, 'Customers/Covers', "default.png"));
     }
 
     public function providers()

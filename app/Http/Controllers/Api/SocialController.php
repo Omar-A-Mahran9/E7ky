@@ -85,7 +85,7 @@ class SocialController extends Controller
                 'id' => $userCreated->id,
                 'name' => $userCreated->first_name .' ' .$userCreated->last_name,
                 'email' => $userCreated->email,
-                'image' => asset(getImagePathFromDirectory($userCreated->image, 'Splash', "default.svg")) ,
+                'image' => asset(getImagePathFromDirectory($userCreated->image, 'Splash', "default.png")) ,
             ]
         ]);
 

@@ -83,7 +83,7 @@
 
                         <th>{{ __('Title') }}</th>
                         <th>{{ __('Image') }}</th>
-                         <th>{{ __('Created at') }}</th>
+                        <th>{{ __('Created at') }}</th>
                         <th class="min-w-100px">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -118,7 +118,7 @@
                                     {{ __('Image') }}
                                 </label>
                                 <x-dashboard.upload-image-inp name="image" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable" />
+                                    placeholder="default.png" type="editable" />
                             </div>
 
                             <!-- Mobile Image -->
@@ -127,7 +127,7 @@
                                     {{ __('Mobile Image') }}
                                 </label>
                                 <x-dashboard.upload-mob-inp name="img_for_mob" :image="null" :directory="null"
-                                    placeholder="default.svg" type="editable" />
+                                    placeholder="default.png" type="editable" />
                             </div>
                         </div>
 
@@ -153,7 +153,7 @@
                             </div>
                         </div>
 
-                   
+
 
                         {{-- <div class="row">
                             <!-- Meta Title -->
@@ -252,7 +252,7 @@
                 $("[name='_method']").remove();
                 $("#crud_form").trigger('reset');
                 $("#crud_form").attr('action', `/dashboard/campaigns`);
-                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.svg')`);
+                $('.image-input-wrapper').css('background-image', `url('/placeholder_images/default.png')`);
             });
         });
     </script>

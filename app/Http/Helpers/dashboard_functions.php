@@ -126,7 +126,7 @@ if (!function_exists('deleteImageFromDirectory')) {
 
 if (!function_exists('getImagePathFromDirectory')) {
 
-    function getImagePathFromDirectory($imageName = null, $directory = null, $defaultImage = 'default.svg')
+    function getImagePathFromDirectory($imageName = null, $directory = null, $defaultImage = 'default.png')
     {
         $directory = Str::plural($directory);
         $directory = Str::ucfirst($directory);

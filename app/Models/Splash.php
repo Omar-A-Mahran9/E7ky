@@ -18,7 +18,7 @@ class Splash extends Model
 
     public function getFullImagePathAttribute()
     {
-        return asset(getImagePathFromDirectory($this->image, 'Splash', "default.svg"));
+        return asset(getImagePathFromDirectory($this->image, 'Splash', "default.png"));
     }
     public function getNameAttribute()
     {
