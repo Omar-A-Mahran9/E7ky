@@ -53,11 +53,10 @@ class HomeController extends Controller
             'articles' => $articles,
             'invite_friend' => $invite_friend
         ];
-        return $this->success([
-            'banners' => EventResource::collection($banners),
-            'cycle_tracking' => $cycle_tracking,
-            'articles' => $articles,
-            'invite_friend' => $invite_friend
-        ]);
+ return $this->success('test',data: [
+    'banners' => EventResource::collection($banners),
+     'articles' => $articles,
+ ]);
+
     }
 }
