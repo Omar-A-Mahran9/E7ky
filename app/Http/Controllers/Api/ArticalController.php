@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\AdminResource;
 use App\Http\Resources\Api\ArticleResource;
 use App\Http\Resources\Api\CategoryResource;
+use App\Models\Admin;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -40,6 +42,16 @@ public function fetchAllCategories()
     return $this->successWithPagination(
         'Active categories fetched successfully',
         CategoryResource::collection($activeCategories)->response()->getData(true)
+    );
+}
+public function fetchAllAuthors()
+{
+    $authors = Admin::whereHas('articles') // Only fetch admins who have articles
+                    ->paginate(10);        // Adjust the per-page number as needed
+
+    return $this->successWithPagination(
+        'Authors fetched successfully',
+        AdminResource::collection($authors)->response()->getData(true)
     );
 }
 

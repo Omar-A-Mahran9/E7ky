@@ -44,4 +44,9 @@ class Admin extends Authenticatable
     {
         return $this->roles->map->abilities->flatten()->pluck('name')->unique();
     }
+    public function articles()
+{
+    return $this->hasMany(Article::class, 'author_id'); // Adjust foreign key if different
+}
+
 }

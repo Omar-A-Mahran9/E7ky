@@ -42,6 +42,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
     Route::get('articles', [ArticalController::class, 'index']);
     Route::get('category', [ArticalController::class, 'fetchAllCategories']);
+    Route::get('authors', [ArticalController::class, 'fetchAllAuthors']);
 
     Route::get('/events/workshop/{id}', 'WorkshopsController@WorkshopPerEvent');
 
