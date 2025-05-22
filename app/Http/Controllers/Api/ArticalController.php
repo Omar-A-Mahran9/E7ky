@@ -23,7 +23,18 @@ public function index(Request $request)
     }
 
     if ($request->has('author_id')) {
-        $query->where('admin_id', $request->author_id); // assuming admin_id stores author
+        $query->where('admin_id', $request->author_id);
+    }
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+
+        $query->where(function ($q) use ($search) {
+            $q->where('name_ar', 'like', "%$search%")
+              ->orWhere('name_en', 'like', "%$search%")
+              ->orWhere('description_ar', 'like', "%$search%")
+              ->orWhere('description_en', 'like', "%$search%");
+        });
     }
 
     $articles = $query->latest()->paginate(10);
@@ -33,6 +44,7 @@ public function index(Request $request)
         ArticleResource::collection($articles)->response()->getData(true)
     );
 }
+
 public function show($id)
 {
     $article = Article::find($id);
