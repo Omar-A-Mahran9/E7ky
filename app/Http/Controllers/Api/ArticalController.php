@@ -33,15 +33,16 @@ public function index(Request $request)
 }
 
 
-  public function fetchAllCategories()
+public function fetchAllCategories()
 {
-    // Fetch categories with status = 1 (active)
-    $activeCategories = Category::where('status', 1)->get();
+    $activeCategories = Category::where('status', 1)->paginate(10); // Adjust per-page as needed
 
-    return $this->success('Active categories fetched successfully', [
-        'categories' => CategoryResource::collection($activeCategories),
-    ]);
+    return $this->successWithPagination(
+        'Active categories fetched successfully',
+        CategoryResource::collection($activeCategories)->response()->getData(true)
+    );
 }
+
 
 
 }
