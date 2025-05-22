@@ -12,13 +12,14 @@ class ArticleResource extends JsonResource
 
         return [
             'id'                 => $this->id,
-            'name_ar'            => $this->name_ar,
-            'name_en'            => $this->name_en,
-            'description_ar'     => $this->description_ar,
-            'description_en'     => $this->description_en,
-            'content_ar'         => $this->content_ar,
-            'content_en'         => $this->content_en,
-            'image'              => $this->full_image_path, // Optional accessor
+            'name'            => $this->name,
+            'description'     => $this->description,
+            'content'         => $this->content,
+            'author' => [
+            'name'  => $this->admin ? $this->admin->name : null,
+            'image' => $this->admin && $this->admin->image ? asset($this->admin->image) : null,
+            ],
+                      'image'              => $this->full_image_path, // Optional accessor
             'slide_image'        => $this->slide_image,
             'internal_image'     => $this->internal_image,
             'video'              => $this->video,
