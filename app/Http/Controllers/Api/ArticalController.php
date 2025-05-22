@@ -11,11 +11,24 @@ use App\Models\Category;
 class ArticalController extends Controller
 {
 
- public function index()
+public function index(Request $request)
 {
-    $articles = Article::latest()->paginate(10);
+    $query = Article::query();
 
-    return $this->successWithPagination('Articles fetched successfully', ArticleResource::collection($articles)->response()->getData(true));
+    if ($request->has('category_id')) {
+        $query->where('category_id', $request->category_id);
+    }
+
+    if ($request->has('author_id')) {
+        $query->where('admin_id', $request->author_id); // assuming admin_id stores author
+    }
+
+    $articles = $query->latest()->paginate(10);
+
+    return $this->successWithPagination(
+        'Articles fetched successfully',
+        ArticleResource::collection($articles)->response()->getData(true)
+    );
 }
 
 
