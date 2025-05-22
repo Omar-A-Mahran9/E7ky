@@ -7,6 +7,7 @@ use App\Http\Resources\Api\ArticleResource;
 use App\Http\Resources\Api\CategoryResource;
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class ArticalController extends Controller
 {
