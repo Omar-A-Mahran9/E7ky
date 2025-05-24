@@ -39,7 +39,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('send-otp/{data}', [ForgetPasswordController::class, 'sendOtp']);
     Route::get('resend-otp/{data}', [ForgetPasswordController::class, 'reSendOtp']);
     Route::post('check-otp/{data}', [ForgetPasswordController::class, 'checkOTP']);
-    Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
     Route::get('articles', [ArticalController::class, 'index']);
     Route::get('articles/{id}', [ArticalController::class, 'show']);
     Route::get('category', [ArticalController::class, 'fetchAllCategories']);
@@ -54,6 +53,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
          Route::post('/customers/update-info', [ProfileController::class, 'updateInfo']);
         Route::post('/customers/update-password', 'ProfileController@updatePassword');
         Route::get('/customers/profile-info', [ProfileController::class, 'profileInfo'])->name('profile-info');
+    Route::post('change-password/{data}', [ForgetPasswordController::class, 'changePassword']);
 
         Route::get('/current', function (Request $request) {
             return auth()->user();
