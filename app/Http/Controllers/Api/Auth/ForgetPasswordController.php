@@ -162,6 +162,40 @@ public function changePassword(Request $request, $data)
     return $this->success(__("Password changed successfully"));
 }
 
+public function changePasswordByEmail(Request $request, $data)
+{
+    $customer = $this->findCustomer($data);
+
+    if (!$customer) {
+        return $this->failure(__("This user does not exist"));
+    }
+
+    // ✅ Check that both otp and otp_expires_at are set
+    if (is_null($customer->otp) || is_null($customer->otp_expires_at)) {
+        return $this->failure(__("OTP is missing or not verified"));
+    }
+
+    if ($customer->otp_expires_at < now()) {
+        return $this->failure(__("OTP has expired"));
+    }
+
+    // ✅ Validate new password and confirmation
+    $request->validate([
+        'password' => ['required', 'min:6', new PasswordNumberAndLetter()],
+        'password_confirmation' => 'required_with:password|same:password',
+    ]);
+
+    // ✅ Update password
+    $customer->update([
+        'password' => $request->password,
+        'otp' => null,
+        'otp_expires_at' => null,
+    ]);
+
+    return $this->success(__("Password changed successfully"));
+}
+
+
 
     private function findCustomer($data)
     {
